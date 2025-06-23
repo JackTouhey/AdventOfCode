@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Scanner;
 
@@ -20,8 +21,14 @@ public class DayOne2024 {
                 odd = true;
             }
         }
-        System.out.println("Printing list one");
-        System.out.println(listOne);
+        // System.out.println(listOne);
+        // System.out.println(listTwo);
+        Collections.sort(listOne, new IntegerComparator());
+        Collections.sort(listTwo, new IntegerComparator());
+        // System.out.println("List One:");
+        // System.out.println(listOne);
+        Integer distance = getDistance(listOne, listTwo);
+        System.out.println("Distance: " + distance);
     }
     private static ArrayList<Integer> getInput(){
         ArrayList<Integer> numbers = new ArrayList<>();
@@ -34,9 +41,18 @@ public class DayOne2024 {
         sc.close();
         return numbers;
     }
+    private static Integer getDistance(ArrayList<Integer> listOne, ArrayList<Integer> listTwo){
+        Integer distance = 0;
+        for(int i =0; i < listOne.size(); i++){
+            Integer difference = listTwo.get(i) - listOne.get(i);
+            difference = Math.abs(difference);
+            distance += difference;
+            System.out.println("Distance between " + listOne.get(i) + " and " + listTwo.get(i) + " : " + difference);
+        }
+        return distance;
+    }
 }
 class IntegerComparator implements Comparator<Integer> {
-
     @Override
     public int compare(Integer o1, Integer o2) {
         return o1 - o2;
