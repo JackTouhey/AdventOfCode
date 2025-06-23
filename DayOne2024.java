@@ -2,6 +2,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class DayOne2024 {
@@ -21,14 +22,12 @@ public class DayOne2024 {
                 odd = true;
             }
         }
-        // System.out.println(listOne);
-        // System.out.println(listTwo);
+
         Collections.sort(listOne, new IntegerComparator());
         Collections.sort(listTwo, new IntegerComparator());
-        // System.out.println("List One:");
-        // System.out.println(listOne);
-        Integer distance = getDistance(listOne, listTwo);
-        System.out.println("Distance: " + distance);
+        // Integer Distance = getDistance(listOne, listTwo);
+        // System.out.println("Distance: " + Distance);
+        getSimilarity(listOne, listTwo);
     }
     private static ArrayList<Integer> getInput(){
         ArrayList<Integer> numbers = new ArrayList<>();
@@ -50,6 +49,24 @@ public class DayOne2024 {
             System.out.println("Distance between " + listOne.get(i) + " and " + listTwo.get(i) + " : " + difference);
         }
         return distance;
+    }
+    private static void getSimilarity(ArrayList<Integer> listOne, ArrayList<Integer> listTwo){
+        HashMap<Integer, Integer> mapOfListTwo = new HashMap<>();
+        for(Integer i : listTwo){
+            if(!mapOfListTwo.containsKey(i)){
+                mapOfListTwo.put(i, 1);
+            }
+            else{
+                mapOfListTwo.put(i, mapOfListTwo.get(i) + 1);
+            }
+        }
+        Integer similarity = 0;
+        for(Integer i : listOne){
+            if(mapOfListTwo.containsKey(i)){
+                similarity += mapOfListTwo.get(i) * i;
+            }
+        }
+        System.out.println("Similarity: " + similarity);
     }
 }
 class IntegerComparator implements Comparator<Integer> {
