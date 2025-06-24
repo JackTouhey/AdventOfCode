@@ -6,12 +6,6 @@ import java.util.Scanner;
 public class DayTwo2024{
     public static void main(String[] args) {
         ArrayList<Report> reports = loadData();
-        // Report firstReport = reports.get(0);
-        // ArrayList<Report> subReports = firstReport.getSubReports();
-        // System.out.println(firstReport.getLevels());
-        // for(Report r : subReports){
-        //     System.out.println(r.getLevels());
-        // }
         Integer count = 0;
         for(Report r : reports){
             if(r.isSafe()){
@@ -35,7 +29,6 @@ public class DayTwo2024{
                 }
                 sc2.close();
                 Report nextReport = new Report(levels);
-                // System.out.println(nextReport.getLevels());
                 reports.add(nextReport);
             }
             sc.close();
