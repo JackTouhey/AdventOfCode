@@ -47,6 +47,18 @@ public class DayThree2024 {
                                                             validMul = true;
                                                         }
                                                     }
+                                                    else if (")".equals(sc.next())){
+                                                        validMul = true;
+                                                    }
+                                                    else{
+                                                        System.out.println("Moving past: " +  sc.next());
+                                                    }
+                                                }
+                                                else if(")".equals(sc.next())){
+                                                    validMul = true;
+                                                }
+                                                else{
+                                                    System.out.println("Moving past: " +  sc.next());
                                                 }
                                             }
                                             else{
@@ -55,19 +67,103 @@ public class DayThree2024 {
                                         }
                                     }
                                     else if(sc.hasNext(",")){
-
+                                        if(sc.hasNextInt()){
+                                            numTwo += sc.nextInt();
+                                            if(sc.hasNextInt()){
+                                                numTwo += sc.nextInt();
+                                                if(sc.hasNextInt()){
+                                                    numTwo += sc.nextInt();
+                                                    if(")".equals(sc.next())){
+                                                        validMul = true;
+                                                    }
+                                                    else{
+                                                        System.out.println("Moving past: " +  sc.next());
+                                                    }
+                                                }
+                                                else if (")".equals(sc.next())){
+                                                    validMul = true;
+                                                }
+                                                else{
+                                                    System.out.println("Moving past: " +  sc.next());
+                                                }
+                                            }
+                                            else if (")".equals(sc.next())){
+                                                validMul = true;
+                                            }
+                                            else{
+                                                System.out.println("Moving past: " +  sc.next());
+                                            }
+                                        }
                                     }
                                     else{
                                         System.out.println("Moving past: " +  sc.next());
                                     }
                                 }
                                 else if(sc.hasNext(",")){
-
-                                }
-                                else{
-                                    System.out.println("Moving past: " +  sc.next());
-                                }                            
+                                        if(sc.hasNextInt()){
+                                            numTwo += sc.nextInt();
+                                            if(sc.hasNextInt()){
+                                                numTwo += sc.nextInt();
+                                                if(sc.hasNextInt()){
+                                                    numTwo += sc.nextInt();
+                                                    if(")".equals(sc.next())){
+                                                        validMul = true;
+                                                    }
+                                                    else{
+                                                        System.out.println("Moving past: " +  sc.next());
+                                                    }
+                                                }
+                                                else if (")".equals(sc.next())){
+                                                    validMul = true;
+                                                }
+                                                else{
+                                                    System.out.println("Moving past: " +  sc.next());
+                                                }
+                                            }
+                                            else if (")".equals(sc.next())){
+                                                validMul = true;
+                                            }
+                                            else{
+                                                System.out.println("Moving past: " +  sc.next());
+                                            }
+                                        }
+                                    }
+                                    else{
+                                        System.out.println("Moving past: " +  sc.next());
+                                    }                            
                             }
+                            else if(sc.hasNext(",")){
+                                        if(sc.hasNextInt()){
+                                            numTwo += sc.nextInt();
+                                            if(sc.hasNextInt()){
+                                                numTwo += sc.nextInt();
+                                                if(sc.hasNextInt()){
+                                                    numTwo += sc.nextInt();
+                                                    if(")".equals(sc.next())){
+                                                        validMul = true;
+                                                    }
+                                                    else{
+                                                        System.out.println("Moving past: " +  sc.next());
+                                                    }
+                                                }
+                                                else if (")".equals(sc.next())){
+                                                    validMul = true;
+                                                }
+                                                else{
+                                                    System.out.println("Moving past: " +  sc.next());
+                                                }
+                                            }
+                                            else if (")".equals(sc.next())){
+                                                validMul = true;
+                                            }
+                                            else{
+                                                System.out.println("Moving past: " +  sc.next());
+                                            }
+                                        }
+                                    }
+                                    else{
+                                        System.out.println("Moving past: " +  sc.next());
+                                    }
                         }
                         else{
                             System.out.println("Moving past: " +  sc.next());
