@@ -6,6 +6,12 @@ import java.util.Scanner;
 public class DayTwo2024{
     public static void main(String[] args) {
         ArrayList<Report> reports = loadData();
+        // Report firstReport = reports.get(0);
+        // ArrayList<Report> subReports = firstReport.getSubReports();
+        // System.out.println(firstReport.getLevels());
+        // for(Report r : subReports){
+        //     System.out.println(r.getLevels());
+        // }
         Integer count = 0;
         for(Report r : reports){
             if(r.isSafe()){
@@ -29,6 +35,7 @@ public class DayTwo2024{
                 }
                 sc2.close();
                 Report nextReport = new Report(levels);
+                // System.out.println(nextReport.getLevels());
                 reports.add(nextReport);
             }
             sc.close();
@@ -89,19 +96,26 @@ class Report {
         }
         return isGradual;
     }
-
+    public ArrayList<Integer> getLevels(){
+        return this.levels;
+    }
+    public ArrayList<Report> getSubReports(){
+        ArrayList<Report> subReports = new ArrayList<>();
+        for(int i = 0; i < levels.size(); i++){
+            ArrayList<Integer> subLevels = (ArrayList<Integer>) this.levels.clone();
+            subLevels.remove(i);
+            Report subReport = new Report(subLevels);
+            subReports.add(subReport);
+        }
+        return subReports;
+    }
     public Boolean isSafe(){
         Boolean isSafe = true;
         if(!isLinear() || !isGradual()){
-            ArrayList<Report> subReports = new ArrayList<>();
-            for(int i = 0; i < levels.size(); i++){
-                ArrayList<Integer> subLevels = levels;
-                subLevels.remove(i);
-                Report subReport = new Report(subLevels);
-                subReports.add(subReport);
-            }
             Boolean safeSubreport = false;
+            ArrayList<Report> subReports = getSubReports();
             for(Report r : subReports){
+                System.out.println("Report: " + levels + " : Subreport: " + r.getLevels());
                 if(r.isLinear() && r.isGradual()){
                     safeSubreport = true;
                 }
