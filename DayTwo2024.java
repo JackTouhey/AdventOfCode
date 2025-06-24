@@ -1,5 +1,6 @@
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
 
 public class DayTwo2024{
@@ -39,11 +40,12 @@ public class DayTwo2024{
 }
 class Report {
     ArrayList<Integer> levels = new ArrayList<>();
+    HashSet<Integer> problemIndexes = new HashSet<>();
     public Report(ArrayList<Integer> levels){
         this.levels = levels;
     }
     public void printLevels(){
-        System.out.println(this.levels + " : " + isSafe());
+        System.out.println(this.levels + " : " + isSafe() + ". Problem indexes = " + problemIndexes.size());
     }
     private Boolean isAscending(){
         Boolean isAscending;
@@ -58,16 +60,18 @@ class Report {
     private Boolean isLinear(){
         Boolean isLinear = true;
         if(isAscending()){
-            for(int i = 2; i < levels.size(); i++){
+            for(int i = 1; i < levels.size(); i++){
                 if(levels.get(i) <= levels.get(i-1)){
                     isLinear = false;
+                    problemIndexes.add(i);
                 }
             }
         }
         else{
-            for(int i = 2; i < levels.size(); i++){
+            for(int i = 1; i < levels.size(); i++){
                 if(levels.get(i) >= levels.get(i-1)){
                     isLinear = false;
+                    problemIndexes.add(i);
                 }
             }
         }
@@ -80,6 +84,7 @@ class Report {
             difference = Math.abs(difference);
             if(difference < 1 || difference > 3){
                 isGradual = false;
+                problemIndexes.add(i);
             }
         }
         return isGradual;
