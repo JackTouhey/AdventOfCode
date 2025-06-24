@@ -17,7 +17,7 @@ public class DayTwo2024{
     private static ArrayList<Report> loadData(){
         ArrayList<Report> reports = new ArrayList<>();
         try {
-            File dataFile = new File("DayTwoData.txt");
+            File dataFile = new File("DataFiles\\DayTwoData.txt");
             Scanner sc = new Scanner(dataFile);
             while(sc.hasNext()){
                 String line = sc.nextLine();
