@@ -39,7 +39,7 @@ class Report {
         this.levels = levels;
     }
     public void printLevels(){
-        System.out.println(this.levels + " : " + isAscending());
+        System.out.println(this.levels + " : " + isLinear());
     }
     private Boolean isAscending(){
         Boolean isAscending;
@@ -50,5 +50,23 @@ class Report {
             isAscending = false;
         }
         return isAscending;
+    }
+    private Boolean isLinear(){
+        Boolean isLinear = true;
+        if(isAscending()){
+            for(int i = 2; i < levels.size(); i++){
+                if(levels.get(i) <= levels.get(i-1)){
+                    isLinear = false;
+                }
+            }
+        }
+        else{
+            for(int i = 2; i < levels.size(); i++){
+                if(levels.get(i) >= levels.get(i-1)){
+                    isLinear = false;
+                }
+            }
+        }
+        return isLinear;
     }
 }
