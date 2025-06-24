@@ -5,9 +5,13 @@ import java.util.Scanner;
 public class DayTwo2024{
     public static void main(String[] args) {
         ArrayList<Report> reports = loadData();
+        Integer count = 0;
         for(Report r : reports){
-            r.printLevels();
+            if(r.isSafe()){
+                count ++;
+            }
         }
+        System.out.println("Number of safe reports: " + count);
     }
     private static ArrayList<Report> loadData(){
         ArrayList<Report> reports = new ArrayList<>();
@@ -39,7 +43,7 @@ class Report {
         this.levels = levels;
     }
     public void printLevels(){
-        System.out.println(this.levels + " : " + isGradual());
+        System.out.println(this.levels + " : " + isSafe());
     }
     private Boolean isAscending(){
         Boolean isAscending;
@@ -79,5 +83,12 @@ class Report {
             }
         }
         return isGradual;
+    }
+    public Boolean isSafe(){
+        Boolean isSafe = true;
+        if(!isLinear() || !isGradual()){
+            isSafe = false;
+        }
+        return isSafe;
     }
 }
