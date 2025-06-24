@@ -20,7 +20,7 @@ public class DayTwo2024{
                 ArrayList<Integer> levels = new ArrayList<>();
                 while(sc2.hasNext()){
                     String nextLevel = sc2.next();
-                    levels.add(Integer.parseInt(nextLevel));
+                    levels.add(Integer.valueOf(nextLevel));
                 }
                 sc2.close();
                 Report nextReport = new Report(levels);
@@ -39,6 +39,16 @@ class Report {
         this.levels = levels;
     }
     public void printLevels(){
-        System.out.println(this.levels);
+        System.out.println(this.levels + " : " + isAscending());
+    }
+    private Boolean isAscending(){
+        Boolean isAscending;
+        if(levels.get(0) < levels.get(1)){
+            isAscending = true;
+        }
+        else{
+            isAscending = false;
+        }
+        return isAscending;
     }
 }
