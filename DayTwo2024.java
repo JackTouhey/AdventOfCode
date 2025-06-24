@@ -89,10 +89,24 @@ class Report {
         }
         return isGradual;
     }
+
     public Boolean isSafe(){
         Boolean isSafe = true;
         if(!isLinear() || !isGradual()){
-            isSafe = false;
+            ArrayList<Report> subReports = new ArrayList<>();
+            for(int i = 0; i < levels.size(); i++){
+                ArrayList<Integer> subLevels = levels;
+                subLevels.remove(i);
+                Report subReport = new Report(subLevels);
+                subReports.add(subReport);
+            }
+            Boolean safeSubreport = false;
+            for(Report r : subReports){
+                if(r.isLinear() && r.isGradual()){
+                    safeSubreport = true;
+                }
+            }
+            isSafe = safeSubreport;
         }
         return isSafe;
     }
