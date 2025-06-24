@@ -39,7 +39,7 @@ class Report {
         this.levels = levels;
     }
     public void printLevels(){
-        System.out.println(this.levels + " : " + isLinear());
+        System.out.println(this.levels + " : " + isGradual());
     }
     private Boolean isAscending(){
         Boolean isAscending;
@@ -68,5 +68,16 @@ class Report {
             }
         }
         return isLinear;
+    }
+    private Boolean isGradual(){
+        Boolean isGradual = true;
+        for(int i = 1; i < levels.size(); i++){
+            Integer difference = levels.get(i-1) - levels.get(i);
+            difference = Math.abs(difference);
+            if(difference < 1 || difference > 3){
+                isGradual = false;
+            }
+        }
+        return isGradual;
     }
 }
