@@ -45,28 +45,28 @@ public class DayThree2024 {
                                         }
                                     }
                                     else{
-                                        sc.next();
+                                        System.out.println("Moving past: " + sc.next());
                                     }
                                 }
                                 else{
-                                    sc.next();
+                                    System.out.println("Moving past: " + sc.next());
                                 }
                             }
                             else{
-                                sc.next();
+                                System.out.println("Moving past: " + sc.next());
                             }
                         }
                         else{
-                            sc.next();
+                            System.out.println("Moving past: " + sc.next());
                         }
                     }
                 }
                 else{
-                    sc.next();
+                    System.out.println("Moving past: " + sc.next());
                 }
             }
             else{
-                sc.next();
+                System.out.println("Moving past: " + sc.next());
             }
             if(validMul){
                 System.out.println("Creating Mul " + numOne + " * " + numTwo);
@@ -77,10 +77,11 @@ public class DayThree2024 {
     }
     public static Boolean checkMul(Scanner sc){
         if(sc.hasNext("m")){
-            sc.next();
+            System.out.println("Check Mul Moving past: " + sc.next());
             if(sc.hasNext("u")){
-                sc.next();
+                System.out.println("Check Mul Moving past: " + sc.next());
                 if(sc.hasNext("l")){
+                    sc.next();
                     return true;
                 }
                 else{
