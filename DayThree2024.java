@@ -30,140 +30,20 @@ public class DayThree2024 {
                         System.out.println("In tree: " +  sc.next());
                         if("(".equals(sc.next())){
                             if(sc.hasNextInt()){
-                                numOne += sc.nextInt();
-                                if(sc.hasNextInt()){
-                                    numOne += sc.nextInt();
+                                numOne = getNumbers(sc);
+                                if(sc.hasNext(",")){
+                                    System.out.println("Moving past: " +  sc.next());
                                     if(sc.hasNextInt()){
-                                        numOne += sc.nextInt();
-                                        if(sc.hasNext(",")){
-                                            System.out.println("Moving past: " +  sc.next());
-                                            if(sc.hasNextInt()){
-                                                numTwo += sc.nextInt();
-                                                if(sc.hasNextInt()){
-                                                    numTwo += sc.nextInt();
-                                                    if(sc.hasNextInt()){
-                                                        numTwo += sc.nextInt();
-                                                        if(")".equals(sc.next())){
-                                                            validMul = true;
-                                                        }
-                                                    }
-                                                    else if (")".equals(sc.next())){
-                                                        validMul = true;
-                                                    }
-                                                    else{
-                                                        System.out.println("Moving past: " +  sc.next());
-                                                    }
-                                                }
-                                                else if(")".equals(sc.next())){
-                                                    validMul = true;
-                                                }
-                                                else{
-                                                    System.out.println("Moving past: " +  sc.next());
-                                                }
-                                            }
-                                            else{
-                                                System.out.println("Moving past: " +  sc.next());
-                                            }
-                                        }
-                                    }
-                                    else if(sc.hasNext(",")){
-                                        if(sc.hasNextInt()){
-                                            numTwo += sc.nextInt();
-                                            if(sc.hasNextInt()){
-                                                numTwo += sc.nextInt();
-                                                if(sc.hasNextInt()){
-                                                    numTwo += sc.nextInt();
-                                                    if(")".equals(sc.next())){
-                                                        validMul = true;
-                                                    }
-                                                    else{
-                                                        System.out.println("Moving past: " +  sc.next());
-                                                    }
-                                                }
-                                                else if (")".equals(sc.next())){
-                                                    validMul = true;
-                                                }
-                                                else{
-                                                    System.out.println("Moving past: " +  sc.next());
-                                                }
-                                            }
-                                            else if (")".equals(sc.next())){
-                                                validMul = true;
-                                            }
-                                            else{
-                                                System.out.println("Moving past: " +  sc.next());
-                                            }
-                                        }
+                                        numTwo = getNumbers(sc);
                                     }
                                     else{
                                         System.out.println("Moving past: " +  sc.next());
                                     }
                                 }
-                                else if(sc.hasNext(",")){
-                                        if(sc.hasNextInt()){
-                                            numTwo += sc.nextInt();
-                                            if(sc.hasNextInt()){
-                                                numTwo += sc.nextInt();
-                                                if(sc.hasNextInt()){
-                                                    numTwo += sc.nextInt();
-                                                    if(")".equals(sc.next())){
-                                                        validMul = true;
-                                                    }
-                                                    else{
-                                                        System.out.println("Moving past: " +  sc.next());
-                                                    }
-                                                }
-                                                else if (")".equals(sc.next())){
-                                                    validMul = true;
-                                                }
-                                                else{
-                                                    System.out.println("Moving past: " +  sc.next());
-                                                }
-                                            }
-                                            else if (")".equals(sc.next())){
-                                                validMul = true;
-                                            }
-                                            else{
-                                                System.out.println("Moving past: " +  sc.next());
-                                            }
-                                        }
-                                    }
-                                    else{
-                                        System.out.println("Moving past: " +  sc.next());
-                                    }                            
                             }
-                            else if(sc.hasNext(",")){
-                                        if(sc.hasNextInt()){
-                                            numTwo += sc.nextInt();
-                                            if(sc.hasNextInt()){
-                                                numTwo += sc.nextInt();
-                                                if(sc.hasNextInt()){
-                                                    numTwo += sc.nextInt();
-                                                    if(")".equals(sc.next())){
-                                                        validMul = true;
-                                                    }
-                                                    else{
-                                                        System.out.println("Moving past: " +  sc.next());
-                                                    }
-                                                }
-                                                else if (")".equals(sc.next())){
-                                                    validMul = true;
-                                                }
-                                                else{
-                                                    System.out.println("Moving past: " +  sc.next());
-                                                }
-                                            }
-                                            else if (")".equals(sc.next())){
-                                                validMul = true;
-                                            }
-                                            else{
-                                                System.out.println("Moving past: " +  sc.next());
-                                            }
-                                        }
-                                    }
-                                    else{
-                                        System.out.println("Moving past: " +  sc.next());
-                                    }
+                            else{
+                                System.out.println("Moving past: " +  sc.next());
+                            }
                         }
                         else{
                             System.out.println("Moving past: " +  sc.next());
@@ -185,6 +65,16 @@ public class DayThree2024 {
             }
             
         }
+    }
+    public static String getNumbers(Scanner sc){
+        String num = "";
+        for(int i = 0; i < 3; i++){
+            if(sc.hasNextInt()){
+                num += sc.nextInt();
+            }
+        }
+        System.out.println("Returning number: " + num);
+        return num;
     }
 }
 class Mul{
