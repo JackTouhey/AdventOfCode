@@ -5,68 +5,94 @@ import java.util.Scanner;
 public class DayThree2024 {
     ArrayList<Mul> validMuls = new ArrayList<>();
     public static void main(String[] args) {
-        loadData();
+        ArrayList<Mul> muls = loadData();
+        Integer count = 0;
+        for(Mul m : muls){
+            count += m.getSum();
+        }
+        System.out.println("Total count: " + count);
     }
-    public static void loadData(){
+    public static ArrayList<Mul> loadData(){
+        ArrayList<Mul> muls = new ArrayList<>();
         try {
             File dataFile = new File("DataFiles\\DayThreeData.txt");
             Scanner sc = new Scanner(dataFile);
             sc.useDelimiter("");
-            processData(sc);
+            muls = processData(sc);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return muls;
     }
-    public static void processData(Scanner sc){
+    public static ArrayList<Mul> processData(Scanner sc){
+        ArrayList<Mul> muls = new ArrayList<>();
         while(sc.hasNext()){
             String numOne = "";
             String numTwo = "";
             Boolean validMul = false;
-            if(sc.hasNext("m")){
-                System.out.println("In tree: " +  sc.next());
-                if(sc.hasNext("u")){
-                    System.out.println("In tree: " +  sc.next());
-                    if(sc.hasNext("l")){
-                        System.out.println("In tree: " +  sc.next());
-                        if("(".equals(sc.next())){
-                            if(sc.hasNextInt()){
-                                numOne = getNumbers(sc);
-                                if(sc.hasNext(",")){
-                                    System.out.println("Moving past: " +  sc.next());
-                                    if(sc.hasNextInt()){
-                                        numTwo = getNumbers(sc);
+            if(checkMul(sc)){
+                if(!checkMul(sc)){
+                    if("(".equals(sc.next())){
+                        if(sc.hasNextInt()){
+                            numOne = getNumbers(sc);
+                            if(sc.hasNext(",")){
+                                sc.next();
+                                if(sc.hasNextInt()){
+                                    numTwo = getNumbers(sc);
+                                    if(!checkMul(sc)){
                                         if(")".equals(sc.next())){
                                             validMul = true;
                                         }
                                     }
                                     else{
-                                        System.out.println("Moving past: " +  sc.next());
+                                        sc.next();
                                     }
+                                }
+                                else{
+                                    sc.next();
                                 }
                             }
                             else{
-                                System.out.println("Moving past: " +  sc.next());
+                                sc.next();
                             }
                         }
                         else{
-                            System.out.println("Moving past: " +  sc.next());
+                            sc.next();
                         }
-                    }
-                    else{
-                        System.out.println("Moving past: " +  sc.next());
                     }
                 }
                 else{
-                    System.out.println("Moving past: " +  sc.next());
+                    sc.next();
                 }
             }
             else{
-                System.out.println("Moving past: " +  sc.next());
+                sc.next();
             }
             if(validMul){
-                System.out.println("NumOne: " + numOne + " numTwo: " + numTwo);
+                System.out.println("Creating Mul " + numOne + " * " + numTwo);
+                muls.add(new Mul(Integer.valueOf(numOne), Integer.valueOf(numTwo)));
             }
-            
+        }
+        return muls;
+    }
+    public static Boolean checkMul(Scanner sc){
+        if(sc.hasNext("m")){
+            sc.next();
+            if(sc.hasNext("u")){
+                sc.next();
+                if(sc.hasNext("l")){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            return false;
         }
     }
     public static String getNumbers(Scanner sc){
@@ -76,7 +102,7 @@ public class DayThree2024 {
                 num += sc.nextInt();
             }
         }
-        System.out.println("Returning number: " + num);
+        // System.out.println("Returning number: " + num);
         return num;
     }
 }
@@ -86,5 +112,10 @@ class Mul{
     public Mul(Integer i1, Integer i2){
         this.one = i1;
         this.two = i2;
+    }
+    public Integer getSum(){
+        Integer mul = one * two;
+        // System.out.println("Mul of " + one + " * " + two + " = " + mul);
+        return mul;
     }
 }
