@@ -35,6 +35,9 @@ public class DayThree2024 {
                                     System.out.println("Moving past: " +  sc.next());
                                     if(sc.hasNextInt()){
                                         numTwo = getNumbers(sc);
+                                        if(")".equals(sc.next())){
+                                            validMul = true;
+                                        }
                                     }
                                     else{
                                         System.out.println("Moving past: " +  sc.next());
