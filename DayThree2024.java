@@ -27,10 +27,20 @@ public class DayThree2024 {
     }
     public static ArrayList<Mul> processData(Scanner sc){
         ArrayList<Mul> muls = new ArrayList<>();
+        Boolean currentDo = true;
         while(sc.hasNext()){
             String numOne = "";
             String numTwo = "";
             Boolean validMul = false;
+            HashMap<Boolean, Boolean> doPresent = checkDo(sc);
+            if(doPresent.containsKey(true)){
+                if(doPresent.get(true)){
+                    currentDo = true;
+                }
+                else{
+                    currentDo = false;
+                }
+            }
             if(checkMul(sc)){
                 if(!checkMul(sc)){
                     if("(".equals(sc.next())){
@@ -69,7 +79,7 @@ public class DayThree2024 {
             else{
                 System.out.println("Moving past: " + sc.next());
             }
-            if(validMul){
+            if(validMul && currentDo){
                 System.out.println("Creating Mul " + numOne + " * " + numTwo);
                 muls.add(new Mul(Integer.valueOf(numOne), Integer.valueOf(numTwo)));
             }
@@ -79,14 +89,16 @@ public class DayThree2024 {
     public static HashMap<Boolean, Boolean> checkDo(Scanner sc){
         HashMap<Boolean, Boolean> doPresent = new HashMap<>();
         if(sc.hasNext("d")){
-            sc.next();
+            System.out.println("In checkDo moving past: " + sc.next());
             if(sc.hasNext("o")){
-                sc.next();
+                System.out.println("In checkDo moving past: " + sc.next());
                 if(!checkMul(sc)){
                     String next = sc.next();
+                    System.out.println("Checking do. next: " + next);
                     if(next.equals("(")){
                         if(!checkMul(sc)){
                             if(")".equals(sc.next())){
+                                System.out.println("do() detected");
                                 doPresent.put(true, true);
                             }
                             else{
@@ -98,11 +110,14 @@ public class DayThree2024 {
                         }
                     }
                     else if(next.equals("n")){
+                        System.out.println("In checkDo moving past: " + sc.next());
                         if(sc.hasNext("t")){
+                            System.out.println("In checkDo moving past: " + sc.next());
                             if(!checkMul(sc)){
                                 if("(".equals(sc.next())){
                                     if(!checkMul(sc)){
                                         if(")".equals(sc.next())){
+                                            System.out.println("dont() detected");
                                             doPresent.put(true, false);
                                         }
                                         else{
