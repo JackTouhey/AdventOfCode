@@ -45,6 +45,50 @@ public class DayFour2024 {
         }
         return grid;
     }
+    public static Integer checkX(Integer y, Integer x, String[][] grid){
+        Integer count = 0;
+        if(x < grid[0].length -3){
+            if(checkRight(y, x, grid)){
+                count++;
+            }
+        }
+        if(x > 3){
+            if(checkLeft(y, x, grid)){
+                count++;
+            }
+        }
+        if(y > 3){
+            if(checkUp(y, x, grid)){
+                count++;
+            }
+        }
+        if(y < grid.length -3){
+            if(checkDown(y, x, grid)){
+                count++;
+            }
+        }
+        if(x < grid[0].length && y > 3){
+            if(checkNE(y, x, grid)){
+                count++;
+            }
+        }
+        if(x < grid[0].length -3 && y < grid.length - 3){
+            if(checkSE(y, x, grid)){
+                count++;
+            }
+        }
+        if(x > 3 && y < grid.length -3){
+            if(checkSW(y, x, grid)){
+                count++;
+            }
+        }
+        if(x > 3 && y > 3){
+            if(checkNW(y, x, grid)){
+                count++;
+            }
+        }
+        return count;
+    }
     public static Boolean checkRight(Integer y, Integer x, String[][] grid){
         if(grid[y][x+1].equals("M") && grid[y][x+2].equals("A") && grid[y][x+3].equals("S")){
             return true;
