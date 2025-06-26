@@ -1,5 +1,6 @@
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class DayThree2024 {
@@ -74,6 +75,72 @@ public class DayThree2024 {
             }
         }
         return muls;
+    }
+    public static HashMap<Boolean, Boolean> checkDo(Scanner sc){
+        HashMap<Boolean, Boolean> doPresent = new HashMap<>();
+        if(sc.hasNext("d")){
+            sc.next();
+            if(sc.hasNext("o")){
+                sc.next();
+                if(!checkMul(sc)){
+                    String next = sc.next();
+                    if(next.equals("(")){
+                        if(!checkMul(sc)){
+                            if(")".equals(sc.next())){
+                                doPresent.put(true, true);
+                            }
+                            else{
+                                doPresent.put(false, false);
+                            }
+                        }
+                        else{
+                            doPresent.put(false, false);
+                        }
+                    }
+                    else if(next.equals("n")){
+                        if(sc.hasNext("t")){
+                            if(!checkMul(sc)){
+                                if("(".equals(sc.next())){
+                                    if(!checkMul(sc)){
+                                        if(")".equals(sc.next())){
+                                            doPresent.put(true, false);
+                                        }
+                                        else{
+                                            doPresent.put(false, false);
+                                        }
+                                    }
+                                    else{
+                                        doPresent.put(false, false);
+                                    }
+                                }
+                                else{
+                                    doPresent.put(false, false);
+                                }
+                            }
+                            else{
+                                doPresent.put(false, false);
+                            }
+                        }
+                        else{
+                            doPresent.put(false, false);
+                        }
+                    }
+                    else{
+                        doPresent.put(false, false);
+                    }
+                }
+                else{
+                    doPresent.put(false, false);
+                }
+            }
+            else{
+                doPresent.put(false, false);
+            }
+        }
+        else{
+            doPresent.put(false, false);
+        }
+        return doPresent;
     }
     public static Boolean checkMul(Scanner sc){
         if(sc.hasNext("m")){
