@@ -45,4 +45,68 @@ public class DayFour2024 {
         }
         return grid;
     }
+    public static Boolean checkRight(Integer y, Integer x, String[][] grid){
+        if(grid[y][x+1].equals("M") && grid[y][x+2].equals("A") && grid[y][x+3].equals("S")){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    public static Boolean checkLeft(Integer y, Integer x, String[][] grid){
+        if(grid[y][x-1].equals("M") && grid[y][x-2].equals("A") && grid[y][x-3].equals("S")){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    public static Boolean checkDown(Integer y, Integer x, String[][] grid){
+        if(grid[y+1][x].equals("M") && grid[y+2][x].equals("A") && grid[y+3][x].equals("S")){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    public static Boolean checkUp(Integer y, Integer x, String[][] grid){
+        if(grid[y-1][x].equals("M") && grid[y-2][x].equals("A") && grid[y-3][x].equals("S")){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    public static Boolean checkNE(Integer y, Integer x, String[][] grid){
+        if(grid[y-1][x+1].equals("M") && grid[y-2][x+2].equals("A") && grid[y-3][x+3].equals("S")){
+            return true;
+        }
+        else{
+            return false;
+        } 
+    }
+    public static Boolean checkSE(Integer y, Integer x, String[][] grid){
+        if(grid[y+1][x+1].equals("M") && grid[y+2][x+2].equals("A") && grid[y+3][x+3].equals("S")){
+            return true;
+        }
+        else{
+            return false;
+        } 
+    }
+    public static Boolean checkSW(Integer y, Integer x, String[][] grid){
+        if(grid[y+1][x-1].equals("M") && grid[y+2][x-2].equals("A") && grid[y+3][x-3].equals("S")){
+            return true;
+        }
+        else{
+            return false;
+        } 
+    }
+    public static Boolean checkNW(Integer y, Integer x, String[][] grid){
+        if(grid[y-1][x-1].equals("M") && grid[y-2][x-2].equals("A") && grid[y-3][x-3].equals("S")){
+            return true;
+        }
+        else{
+            return false;
+        } 
+    }
 }
