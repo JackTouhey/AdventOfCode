@@ -5,14 +5,23 @@ public class DayFour2024 {
     public static void main(String[] args) {
         String[][] grid = loadData();
         Integer count = 0;
+        // for(int y = 0; y < grid.length; y++){
+        //     for(int x = 0; x < grid[0].length; x++){
+        //         if(grid[y][x].equals("X")){
+        //             count += checkX(y, x, grid);
+        //         }
+        //     }
+        // }
         for(int y = 0; y < grid.length; y++){
             for(int x = 0; x < grid[0].length; x++){
-                if(grid[y][x].equals("X")){
-                    count += checkX(y, x, grid);
+                if(grid[y][x].equals("A")){
+                    if(checkA(y, x, grid)){
+                        count++;
+                    }
                 }
             }
         }
-        System.out.println("XMAS detected : " + count);
+        System.out.println("X-MAS detected : " + count);
     }
     public static String[][] loadData(){
         String[][] returnGrid = new String[0][0];
