@@ -53,6 +53,19 @@ public class DayFour2024 {
         }
         return grid;
     }
+    public static Boolean checkA(Integer y, Integer x, String[][] grid){
+        if(y > 0 && y < grid.length - 1 && x > 0 && x < grid[y].length -1){
+            if(checkLeftToRight(y, x, grid) && checkRightToLeft(x, y, grid)){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
+    }
     public static Integer checkX(Integer y, Integer x, String[][] grid){
         Integer count = 0;
         if(x < grid[y].length - 3){
