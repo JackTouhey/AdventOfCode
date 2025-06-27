@@ -1,0 +1,18 @@
+SE y: 0 x: 4
+Right y: 0 x: 5
+Left y: 1 x: 4
+Down y: 3 x: 9
+SW y: 3 x: 9
+Right y: 4 x: 0
+Left y: 4 x: 6
+Up y: 4 x: 6
+NE y: 5 x: 0
+NW y: 5 x: 6
+NE y: 9 x: 1
+NW y: 9 x: 3 MISSED
+NE y: 9 x: 3
+NW y: 9 x: 5
+NE y: 9 x: 5
+Right y: 9 x: 5
+NW y: 9 x: 9
+Up y: 9 x: 9

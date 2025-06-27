@@ -4,7 +4,15 @@ import java.util.Scanner;
 public class DayFour2024 {
     public static void main(String[] args) {
         String[][] grid = loadData();
-        System.out.println(grid);
+        Integer count = 0;
+        for(int y = 0; y < grid.length; y++){
+            for(int x = 0; x < grid[0].length; x++){
+                if(grid[y][x].equals("X")){
+                    count += checkX(y, x, grid);
+                }
+            }
+        }
+        System.out.println("XMAS detected : " + count);
     }
     public static String[][] loadData(){
         String[][] returnGrid = new String[0][0];
@@ -47,17 +55,17 @@ public class DayFour2024 {
     }
     public static Integer checkX(Integer y, Integer x, String[][] grid){
         Integer count = 0;
-        if(x < grid[0].length -3){
+        if(x < grid[0].length - 3){
             if(checkRight(y, x, grid)){
                 count++;
             }
         }
-        if(x > 3){
+        if(x >= 3){
             if(checkLeft(y, x, grid)){
                 count++;
             }
         }
-        if(y > 3){
+        if(y >= 3){
             if(checkUp(y, x, grid)){
                 count++;
             }
@@ -67,7 +75,7 @@ public class DayFour2024 {
                 count++;
             }
         }
-        if(x < grid[0].length && y > 3){
+        if(x < grid[0].length -3 && y >= 3){
             if(checkNE(y, x, grid)){
                 count++;
             }
@@ -77,12 +85,12 @@ public class DayFour2024 {
                 count++;
             }
         }
-        if(x > 3 && y < grid.length -3){
+        if(x >= 3 && y < grid.length -3){
             if(checkSW(y, x, grid)){
                 count++;
             }
         }
-        if(x > 3 && y > 3){
+        if(x >= 3 && y >= 3){
             if(checkNW(y, x, grid)){
                 count++;
             }
@@ -91,6 +99,7 @@ public class DayFour2024 {
     }
     public static Boolean checkRight(Integer y, Integer x, String[][] grid){
         if(grid[y][x+1].equals("M") && grid[y][x+2].equals("A") && grid[y][x+3].equals("S")){
+            System.out.println("Right XMAS detected at y: " + y + " x: " + x);
             return true;
         }
         else{
@@ -99,6 +108,7 @@ public class DayFour2024 {
     }
     public static Boolean checkLeft(Integer y, Integer x, String[][] grid){
         if(grid[y][x-1].equals("M") && grid[y][x-2].equals("A") && grid[y][x-3].equals("S")){
+            System.out.println("Left XMAS detected at y: " + y + " x: " + x);
             return true;
         }
         else{
@@ -107,6 +117,7 @@ public class DayFour2024 {
     }
     public static Boolean checkDown(Integer y, Integer x, String[][] grid){
         if(grid[y+1][x].equals("M") && grid[y+2][x].equals("A") && grid[y+3][x].equals("S")){
+            System.out.println("Down XMAS detected at y: " + y + " x: " + x);
             return true;
         }
         else{
@@ -115,6 +126,7 @@ public class DayFour2024 {
     }
     public static Boolean checkUp(Integer y, Integer x, String[][] grid){
         if(grid[y-1][x].equals("M") && grid[y-2][x].equals("A") && grid[y-3][x].equals("S")){
+            System.out.println("Up XMAS detected at y: " + y + " x: " + x);
             return true;
         }
         else{
@@ -123,6 +135,7 @@ public class DayFour2024 {
     }
     public static Boolean checkNE(Integer y, Integer x, String[][] grid){
         if(grid[y-1][x+1].equals("M") && grid[y-2][x+2].equals("A") && grid[y-3][x+3].equals("S")){
+            System.out.println("NE XMAS detected at y: " + y + " x: " + x);
             return true;
         }
         else{
@@ -131,6 +144,7 @@ public class DayFour2024 {
     }
     public static Boolean checkSE(Integer y, Integer x, String[][] grid){
         if(grid[y+1][x+1].equals("M") && grid[y+2][x+2].equals("A") && grid[y+3][x+3].equals("S")){
+            System.out.println("SE XMAS detected at y: " + y + " x: " + x);
             return true;
         }
         else{
@@ -139,6 +153,7 @@ public class DayFour2024 {
     }
     public static Boolean checkSW(Integer y, Integer x, String[][] grid){
         if(grid[y+1][x-1].equals("M") && grid[y+2][x-2].equals("A") && grid[y+3][x-3].equals("S")){
+            System.out.println("SW XMAS detected at y: " + y + " x: " + x);
             return true;
         }
         else{
@@ -147,6 +162,7 @@ public class DayFour2024 {
     }
     public static Boolean checkNW(Integer y, Integer x, String[][] grid){
         if(grid[y-1][x-1].equals("M") && grid[y-2][x-2].equals("A") && grid[y-3][x-3].equals("S")){
+            System.out.println("NW XMAS detected at y: " + y + " x: " + x);
             return true;
         }
         else{
