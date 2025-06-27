@@ -4,24 +4,8 @@ import java.util.Scanner;
 public class DayFour2024 {
     public static void main(String[] args) {
         String[][] grid = loadData();
-        Integer count = 0;
-        // for(int y = 0; y < grid.length; y++){
-        //     for(int x = 0; x < grid[0].length; x++){
-        //         if(grid[y][x].equals("X")){
-        //             count += checkX(y, x, grid);
-        //         }
-        //     }
-        // }
-        for(int y = 0; y < grid.length; y++){
-            for(int x = 0; x < grid[0].length; x++){
-                if(grid[y][x].equals("A")){
-                    if(checkA(y, x, grid)){
-                        count++;
-                    }
-                }
-            }
-        }
-        System.out.println("X-MAS detected : " + count);
+        // checkXMAS(grid);
+        checkMAS(grid);
     }
     public static String[][] loadData(){
         String[][] returnGrid = new String[0][0];
@@ -56,11 +40,35 @@ public class DayFour2024 {
             for(int ii = 0; ii < grid[0].length; ii++){
                 sc2.useDelimiter("");
                 String next = sc2.next();
-                System.out.println("Column: " + i +" Row: " + ii + " Adding: " + next);
+                // System.out.println("Column: " + i +" Row: " + ii + " Adding: " + next);
                 grid[i][ii] = next;
             }
         }
         return grid;
+    }
+    public static void checkXMAS(String[][] grid){
+        Integer count = 0;
+        for(int y = 0; y < grid.length; y++){
+            for(int x = 0; x < grid[0].length; x++){
+                if(grid[y][x].equals("X")){
+                    count += checkX(y, x, grid);
+                }
+            }
+        }
+        System.out.println("XMAS detected " + count + " times");
+    }
+    public static void checkMAS(String[][] grid){
+        Integer count = 0;
+        for(int y = 0; y < grid.length; y++){
+            for(int x = 0; x < grid[0].length; x++){
+                if(grid[y][x].equals("A")){
+                    if(checkA(y, x, grid)){
+                        count++;
+                    }
+                }
+            }
+        }
+        System.out.println("X-MAS detected " + count + " times");
     }
     public static Boolean checkA(Integer y, Integer x, String[][] grid){
         if(y > 0 && y < grid.length - 1 && x > 0 && x < grid[y].length -1){
