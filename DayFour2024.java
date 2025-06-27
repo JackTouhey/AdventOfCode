@@ -55,7 +55,7 @@ public class DayFour2024 {
     }
     public static Integer checkX(Integer y, Integer x, String[][] grid){
         Integer count = 0;
-        if(x < grid[0].length - 3){
+        if(x < grid[y].length - 3){
             if(checkRight(y, x, grid)){
                 count++;
             }
@@ -75,12 +75,12 @@ public class DayFour2024 {
                 count++;
             }
         }
-        if(x < grid[0].length -3 && y >= 3){
+        if(x < grid[y].length -3 && y >= 3){
             if(checkNE(y, x, grid)){
                 count++;
             }
         }
-        if(x < grid[0].length -3 && y < grid.length - 3){
+        if(x < grid[y].length -3 && y < grid.length - 3){
             if(checkSE(y, x, grid)){
                 count++;
             }
@@ -168,5 +168,21 @@ public class DayFour2024 {
         else{
             return false;
         } 
+    }
+    public static Boolean checkLeftToRight(Integer y, Integer x, String[][] grid){
+        if((grid[y-1][x-1].equals("M") && grid[y+1][x+1].equals("S")) || (grid[y-1][x-1].equals("S") && grid[y+1][x+1].equals("M"))){
+            return true;
+        } 
+        else{
+            return false;
+        }
+    }
+    public static Boolean checkRightToLeft(Integer x, Integer y, String[][] grid){
+        if((grid[y-1][x+1].equals("M") && grid[y+1][x-1].equals("S")) || (grid[y-1][x+1].equals("S") && grid[y+1][x-1].equals("M"))){
+            return true;
+        } 
+        else{
+            return false;
+        }
     }
 }
