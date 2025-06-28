@@ -11,6 +11,9 @@ class Update{
     public Boolean checkIfRuleApplies(Rule rule){
         return values.contains(rule.getFirst()) && values.contains(rule.getLast());
     }
+    public Boolean checkIfRuleFollowed(Rule rule){
+        return values.indexOf(rule.getFirst()) < values.indexOf(rule.getLast());
+    }
 }
 class Rule{
     Integer first;
