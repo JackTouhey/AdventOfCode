@@ -8,8 +8,8 @@ class Update{
     public Update(ArrayList<Integer> values){
         this.values = values;
     }
-    public Boolean checkIfRulePresent(Rule rule){
-        
+    public Boolean checkIfRuleApplies(Rule rule){
+        return values.contains(rule.getFirst()) && values.contains(rule.getLast());
     }
 }
 class Rule{
