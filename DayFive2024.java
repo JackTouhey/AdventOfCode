@@ -1,5 +1,16 @@
+import java.util.ArrayList;
+
 public class DayFive2024 {
     
+}
+class Update{
+    ArrayList<Integer> values = new ArrayList<>();
+    public Update(ArrayList<Integer> values){
+        this.values = values;
+    }
+    public Boolean checkIfRulePresent(Rule rule){
+        
+    }
 }
 class Rule{
     Integer first;
