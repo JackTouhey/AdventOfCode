@@ -1,17 +1,13 @@
 import java.util.ArrayList;
 
 public class DayFive2024 {
+    public static ArrayList<Update> updates = new ArrayList<>();
+    public static ArrayList<Rule> rules = new ArrayList<>();
     public static void main(String[] args) {
-        ArrayList<Integer> values = new ArrayList<>();
-        values.add(5);
-        values.add(5);
-        values.add(5);
-        values.add(5);
-        values.add(5);
-        values.add(5);
-        values.add(5);
-        Update update = new Update(values);
-        update.getMedian();
+        loadData();
+    }
+    public static void loadData(){
+
     }
 }
 class Update{
