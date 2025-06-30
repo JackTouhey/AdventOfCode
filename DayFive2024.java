@@ -7,6 +7,12 @@ public class DayFive2024 {
     public static ArrayList<Update> updates = new ArrayList<>();
     public static void main(String[] args) {
         loadData();
+        ArrayList<Update> correctUpdates = findCorrectUpdates();
+    }
+    public static ArrayList<Update> findCorrectUpdates(){
+        ArrayList<Update> correctUpdates = new ArrayList<>();
+        
+        return correctUpdates;
     }
     public static void loadData(){
         try {
