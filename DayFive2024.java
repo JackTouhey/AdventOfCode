@@ -18,13 +18,31 @@ public class DayFive2024 {
             correctCount += median;
         }
         ArrayList<Update> newlyOrderedUpdates = orderIncorrectUpdates(incorrectUpdates);
+        Integer reorderedCount = 0;
+        for(Update u : newlyOrderedUpdates){
+            reorderedCount += u.getMedian();
+        }
         System.out.println("Correct count: " + correctCount);
+        System.out.println("Reordered count: " + reorderedCount); 
     }
-    public static ArrayList<Update> orderIncorrectUpdates(ArrayList<Update> incorrectUpdates){
+    private static ArrayList<Update> orderIncorrectUpdates(ArrayList<Update> incorrectUpdates){
         ArrayList<Update> orderedUpdates = new ArrayList<>();
+        for(Update u : incorrectUpdates){
+            orderedUpdates.add(orderUpdate(u));
+        }
         return orderedUpdates;
     }
-    public static HashMap<Boolean, ArrayList<Update>> sortUpdates(){
+    private static Update orderUpdate(Update update){
+        for(Rule r : rules){
+            if(update.checkIfRuleApplies(r)){
+                if(!update.checkIfRuleFollowed(r)){
+                    update.switchValues(r.getFirst(), r.getLast());
+                }
+            }
+        }
+        return update;
+    }
+    private static HashMap<Boolean, ArrayList<Update>> sortUpdates(){
         HashMap<Boolean, ArrayList<Update>> sortedUpdates = new HashMap<>();
         ArrayList<Update> correctUpdates = new ArrayList<>();
         ArrayList<Update> incorrectUpdates = new ArrayList<>();
@@ -96,6 +114,14 @@ class Update{
     ArrayList<Integer> values = new ArrayList<>();
     public Update(ArrayList<Integer> values){
         this.values = values;
+    }
+    public void switchValues(Integer first, Integer last){
+        Integer indexOne = values.indexOf(first);
+        Integer indexTwo = values.indexOf(last);
+        values.remove(indexOne);
+        values.remove(indexTwo);
+        values.add(indexOne, last);
+        values.add(indexTwo, first);
     }
     public Boolean checkIfRuleApplies(Rule rule){
         Boolean ruleApplies = true;
