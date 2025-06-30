@@ -1,5 +1,6 @@
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class DayFive2024 {
@@ -7,7 +8,9 @@ public class DayFive2024 {
     public static ArrayList<Update> updates = new ArrayList<>();
     public static void main(String[] args) {
         loadData();
-        ArrayList<Update> correctUpdates = findCorrectUpdates();
+        HashMap<Boolean, ArrayList<Update>> sortedUpdates = sortUpdates();
+        ArrayList<Update> correctUpdates = sortedUpdates.get(true);
+        ArrayList<Update> incorrectUpdates = sortedUpdates.get(false);
         Integer count = 0;
         for(Update u : correctUpdates){
             u.printSelf();
@@ -17,8 +20,10 @@ public class DayFive2024 {
         }
         System.out.println("Count: " + count);
     }
-    public static ArrayList<Update> findCorrectUpdates(){
+    public static HashMap<Boolean, ArrayList<Update>> sortUpdates(){
+        HashMap<Boolean, ArrayList<Update>> sortedUpdates = new HashMap<>();
         ArrayList<Update> correctUpdates = new ArrayList<>();
+        ArrayList<Update> incorrectUpdates = new ArrayList<>();
         for(Update u : updates){    
             Boolean followsRules = true;
             for(Rule r : rules){
@@ -31,8 +36,13 @@ public class DayFive2024 {
             if(followsRules){
                 correctUpdates.add(u);
             }
+            else{
+                incorrectUpdates.add(u);
+            }
         }
-        return correctUpdates;
+        sortedUpdates.put(true, correctUpdates);
+        sortedUpdates.put(false, incorrectUpdates);
+        return sortedUpdates;
     }
     public static void loadData(){
         try {
