@@ -8,10 +8,28 @@ public class DayFive2024 {
     public static void main(String[] args) {
         loadData();
         ArrayList<Update> correctUpdates = findCorrectUpdates();
+        Integer count = 0;
+        for(Update u : correctUpdates){
+            u.printSelf();
+            count += u.getMedian();
+        }
+        System.out.println("Count: " + count);
     }
     public static ArrayList<Update> findCorrectUpdates(){
         ArrayList<Update> correctUpdates = new ArrayList<>();
-        
+        for(Update u : updates){    
+            Boolean followsRules = true;
+            for(Rule r : rules){
+                if(u.checkIfRuleApplies(r)){
+                    if(!(u.checkIfRuleFollowed(r))){
+                        followsRules = false;
+                    }
+                }
+            }
+            if(followsRules){
+                correctUpdates.add(u);
+            }
+        }
         return correctUpdates;
     }
     public static void loadData(){
@@ -26,9 +44,18 @@ public class DayFive2024 {
                         loadingRules = false;
                     }
                     else{
-                        lineScanner.useDelimiter("|");
-                        Integer firstInt = lineScanner.nextInt();
-                        rules.add(new Rule(firstInt, lineScanner.nextInt()));
+                        lineScanner.useDelimiter("");
+                        String firstInt = "";
+                        String secondInt = "";
+                        while(!lineScanner.hasNext("\\|")){
+                            firstInt += lineScanner.next();
+                            System.out.println("firstInt: " + firstInt);
+                        }
+                        lineScanner.next();
+                        while(lineScanner.hasNext()){
+                            secondInt += lineScanner.next();
+                        }
+                        rules.add(new Rule(Integer.valueOf(firstInt), Integer.valueOf(secondInt)));
                         lineScanner.close();
                     }
                 }
@@ -55,7 +82,12 @@ class Update{
         this.values = values;
     }
     public Boolean checkIfRuleApplies(Rule rule){
-        return values.contains(rule.getFirst()) && values.contains(rule.getLast());
+        Boolean ruleApplies = true;
+        if(!(values.contains(rule.getFirst()) && values.contains(rule.getLast()))){
+            ruleApplies = false;
+        }
+        System.out.println("Checking update: " + values + " Against rule: " + rule.getFirst() + "|"  + rule.getLast() + " ruleApplies: " + ruleApplies);
+        return ruleApplies;
     }
     public Boolean checkIfRuleFollowed(Rule rule){
         return values.indexOf(rule.getFirst()) < values.indexOf(rule.getLast());
@@ -70,6 +102,9 @@ class Update{
             median = values.size() / 2;
         }
         return values.get(median);
+    }
+    public void printSelf(){
+        System.out.println("Update: " + values);
     }
 }
 class Rule{
