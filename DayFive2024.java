@@ -36,7 +36,7 @@ public class DayFive2024 {
     }
     public static void loadData(){
         try {
-            Scanner sc = new Scanner(new File("DataFiles\\DayFiveTestData.txt"));
+            Scanner sc = new Scanner(new File("DataFiles\\DayFiveData.txt"));
             Boolean loadingRules = true;
             while(sc.hasNext()){
                 String line = sc.nextLine();
