@@ -17,8 +17,12 @@ public class DayFive2024 {
             System.out.println("Adding median: " + median);
             correctCount += median;
         }
-        
+        ArrayList<Update> newlyOrderedUpdates = orderIncorrectUpdates(incorrectUpdates);
         System.out.println("Correct count: " + correctCount);
+    }
+    public static ArrayList<Update> orderIncorrectUpdates(ArrayList<Update> incorrectUpdates){
+        ArrayList<Update> orderedUpdates = new ArrayList<>();
+        return orderedUpdates;
     }
     public static HashMap<Boolean, ArrayList<Update>> sortUpdates(){
         HashMap<Boolean, ArrayList<Update>> sortedUpdates = new HashMap<>();
