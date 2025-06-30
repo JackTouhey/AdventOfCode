@@ -3,8 +3,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DayFive2024 {
-    public static ArrayList<Update> updates = new ArrayList<>();
     public static ArrayList<Rule> rules = new ArrayList<>();
+    public static ArrayList<Update> updates = new ArrayList<>();
     public static void main(String[] args) {
         loadData();
     }
@@ -13,15 +13,13 @@ public class DayFive2024 {
             Scanner sc = new Scanner(new File("DataFiles\\DayFiveTestData.txt"));
             Boolean loadingRules = true;
             while(sc.hasNext()){
+                String line = sc.nextLine();
+                Scanner lineScanner = new Scanner(line);
                 if(loadingRules){
-                    String line = sc.nextLine();
                     if(line.equals("")){
-                        System.out.println("Switching loading Rules");
                         loadingRules = false;
                     }
                     else{
-                        System.out.println("Loading rule: " + line);
-                        Scanner lineScanner = new Scanner(line);
                         lineScanner.useDelimiter("|");
                         Integer firstInt = lineScanner.nextInt();
                         rules.add(new Rule(firstInt, lineScanner.nextInt()));
@@ -29,13 +27,20 @@ public class DayFive2024 {
                     }
                 }
                 else{
-                    sc.nextLine();
+                    ArrayList<Integer> values = new ArrayList<>();
+                    lineScanner.useDelimiter(",");
+                    while(lineScanner.hasNextInt()){
+                        values.add(lineScanner.nextInt());
+                    }
+                    updates.add(new Update(values));
                 }
             }
+            sc.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
         System.out.println("Loaded " + rules.size() + " rules");
+        System.out.println("Loaded " + updates.size() + " updates");
     }
 }
 class Update{
