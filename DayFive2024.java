@@ -1,5 +1,6 @@
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -12,11 +13,11 @@ public class DayFive2024 {
         ArrayList<Update> correctUpdates = sortedUpdates.get(true);
         ArrayList<Update> incorrectUpdates = sortedUpdates.get(false);
         Integer correctCount = 0;
-        for(Update u : correctUpdates){
-            Integer median = u.getMedian();
-            System.out.println("Adding median: " + median);
-            correctCount += median;
-        }
+        // for(Update u : correctUpdates){
+        //     Integer median = u.getMedian();
+        //     System.out.println("Adding median: " + median);
+        //     correctCount += median;
+        // }
         ArrayList<Update> newlyOrderedUpdates = orderIncorrectUpdates(incorrectUpdates);
         Integer reorderedCount = 0;
         for(Update u : newlyOrderedUpdates){
@@ -68,7 +69,7 @@ public class DayFive2024 {
     }
     public static void loadData(){
         try {
-            Scanner sc = new Scanner(new File("DataFiles\\DayFiveData.txt"));
+            Scanner sc = new Scanner(new File("DataFiles\\DayFiveTestData.txt"));
             Boolean loadingRules = true;
             while(sc.hasNext()){
                 String line = sc.nextLine();
@@ -116,12 +117,13 @@ class Update{
         this.values = values;
     }
     public void switchValues(Integer first, Integer last){
+        System.out.println("Values before switching " + first + " and " + last + ": " + values);
         Integer indexOne = values.indexOf(first);
         Integer indexTwo = values.indexOf(last);
-        values.remove(indexOne);
-        values.remove(indexTwo);
-        values.add(indexOne, last);
-        values.add(indexTwo, first);
+        System.out.println("indexOne: " + indexOne);
+        System.out.println("indexTwo: " + indexTwo);
+        Collections.swap(values, indexOne, indexTwo);
+        System.out.println("Values after switching " + first + " and " + last + ": " + values);
     }
     public Boolean checkIfRuleApplies(Rule rule){
         Boolean ruleApplies = true;
