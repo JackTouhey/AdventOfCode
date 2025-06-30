@@ -1,4 +1,6 @@
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class DayFive2024 {
     public static ArrayList<Update> updates = new ArrayList<>();
@@ -7,7 +9,33 @@ public class DayFive2024 {
         loadData();
     }
     public static void loadData(){
-
+        try {
+            Scanner sc = new Scanner(new File("DataFiles\\DayFiveTestData.txt"));
+            Boolean loadingRules = true;
+            while(sc.hasNext()){
+                if(loadingRules){
+                    String line = sc.nextLine();
+                    if(line.equals("")){
+                        System.out.println("Switching loading Rules");
+                        loadingRules = false;
+                    }
+                    else{
+                        System.out.println("Loading rule: " + line);
+                        Scanner lineScanner = new Scanner(line);
+                        lineScanner.useDelimiter("|");
+                        Integer firstInt = lineScanner.nextInt();
+                        rules.add(new Rule(firstInt, lineScanner.nextInt()));
+                        lineScanner.close();
+                    }
+                }
+                else{
+                    sc.nextLine();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("Loaded " + rules.size() + " rules");
     }
 }
 class Update{
