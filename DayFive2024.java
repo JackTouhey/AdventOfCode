@@ -11,7 +11,9 @@ public class DayFive2024 {
         Integer count = 0;
         for(Update u : correctUpdates){
             u.printSelf();
-            count += u.getMedian();
+            Integer median = u.getMedian();
+            System.out.println("Adding median: " + median);
+            count += median;
         }
         System.out.println("Count: " + count);
     }
@@ -95,7 +97,7 @@ class Update{
     public Integer getMedian(){
         Integer median;
         if(!(values.size() % 2 == 0)){
-            Double middle = (double) (values.size()/2) + 1;
+            Double middle = (double) (values.size()/2);
             median = middle.intValue();
         }
         else{
