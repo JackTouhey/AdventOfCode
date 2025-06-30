@@ -11,14 +11,14 @@ public class DayFive2024 {
         HashMap<Boolean, ArrayList<Update>> sortedUpdates = sortUpdates();
         ArrayList<Update> correctUpdates = sortedUpdates.get(true);
         ArrayList<Update> incorrectUpdates = sortedUpdates.get(false);
-        Integer count = 0;
+        Integer correctCount = 0;
         for(Update u : correctUpdates){
-            u.printSelf();
             Integer median = u.getMedian();
             System.out.println("Adding median: " + median);
-            count += median;
+            correctCount += median;
         }
-        System.out.println("Count: " + count);
+        
+        System.out.println("Correct count: " + correctCount);
     }
     public static HashMap<Boolean, ArrayList<Update>> sortUpdates(){
         HashMap<Boolean, ArrayList<Update>> sortedUpdates = new HashMap<>();
@@ -102,7 +102,12 @@ class Update{
         return ruleApplies;
     }
     public Boolean checkIfRuleFollowed(Rule rule){
-        return values.indexOf(rule.getFirst()) < values.indexOf(rule.getLast());
+        Boolean ruleFollowed = true;
+        if(!(values.indexOf(rule.getFirst()) < values.indexOf(rule.getLast()))){
+            ruleFollowed = false;
+        }
+        System.out.println("Checking if update: " + values + " follows rule: " + rule.getFirst() + "|" + rule.getLast() + " ruleFollowed: " + ruleFollowed);
+        return ruleFollowed; 
     }
     public Integer getMedian(){
         Integer median;
