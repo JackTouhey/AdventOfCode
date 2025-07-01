@@ -1,6 +1,5 @@
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -10,33 +9,30 @@ public class DayFive2024 {
     public static ArrayList<Rule> rules = new ArrayList<>();
     public static ArrayList<Update> updates = new ArrayList<>();
     public static void main(String[] args) {
-        ArrayList<Integer> newArray = new ArrayList<>();
-        newArray.add(1);
-        newArray.add(2);
-        newArray.add(3);
-        Update newUpdate = new Update(newArray);
-        int[][] permutations = newUpdate.getPermutations();
-        for (int[] perm : permutations) {
-            System.out.println(Arrays.toString(perm));
-        }
+        // ArrayList<Integer> newArray = new ArrayList<>();
+        // Update newUpdate = new Update(newArray);
+        // int[][] permutations = newUpdate.getPermutations();
+        // for (int[] perm : permutations) {
+        //     System.out.println(Arrays.toString(perm));
+        // }
         
-        // loadData();
-        // HashMap<Boolean, ArrayList<Update>> sortedUpdates = sortUpdates();
-        // ArrayList<Update> correctUpdates = sortedUpdates.get(true);
-        // ArrayList<Update> incorrectUpdates = sortedUpdates.get(false);
+        loadData();
+        HashMap<Boolean, ArrayList<Update>> sortedUpdates = sortUpdates();
+        ArrayList<Update> correctUpdates = sortedUpdates.get(true);
+        ArrayList<Update> incorrectUpdates = sortedUpdates.get(false);
         // Integer correctCount = 0;
         // for(Update u : correctUpdates){
         //     Integer median = u.getMedian();
         //     System.out.println("Adding median: " + median);
         //     correctCount += median;
         // }
-        // ArrayList<Update> newlyOrderedUpdates = orderIncorrectUpdates(incorrectUpdates);
-        // Integer reorderedCount = 0;
-        // for(Update u : newlyOrderedUpdates){
-        //     reorderedCount += u.getMedian();
-        // }
+        ArrayList<Update> newlyOrderedUpdates = orderIncorrectUpdates(incorrectUpdates);
+        Integer reorderedCount = 0;
+        for(Update u : newlyOrderedUpdates){
+            reorderedCount += u.getMedian();
+        }
         // System.out.println("Correct count: " + correctCount);
-        // System.out.println("Reordered count: " + reorderedCount); 
+        System.out.println("Reordered count: " + reorderedCount); 
     }
     private static ArrayList<Update> orderIncorrectUpdates(ArrayList<Update> incorrectUpdates){
         ArrayList<Update> orderedUpdates = new ArrayList<>();
@@ -145,6 +141,22 @@ class Update{
         System.out.println("Checking update: " + values + " Against rule: " + rule.getFirst() + "|"  + rule.getLast() + " ruleApplies: " + ruleApplies);
         return ruleApplies;
     }
+    public Boolean checkIfRuleApplies(Rule rule, ArrayList<Integer> newValues){
+        Boolean ruleApplies = true;
+        if(!(newValues.contains(rule.getFirst()) && newValues.contains(rule.getLast()))){
+            ruleApplies = false;
+        }
+        System.out.println("Checking update: " + values + " Against rule: " + rule.getFirst() + "|"  + rule.getLast() + " ruleApplies: " + ruleApplies);
+        return ruleApplies;
+    }
+    public Boolean checkIfRuleFollowed(Rule rule, ArrayList<Integer> newValues){
+        Boolean ruleFollowed = true;
+        if(!(newValues.indexOf(rule.getFirst()) < newValues.indexOf(rule.getLast()))){
+            ruleFollowed = false;
+        }
+        System.out.println("Checking if update: " + values + " follows rule: " + rule.getFirst() + "|" + rule.getLast() + " ruleFollowed: " + ruleFollowed);
+        return ruleFollowed; 
+    }
     public Boolean checkIfRuleFollowed(Rule rule){
         Boolean ruleFollowed = true;
         if(!(values.indexOf(rule.getFirst()) < values.indexOf(rule.getLast()))){
@@ -166,6 +178,9 @@ class Update{
     }
     public void printSelf(){
         System.out.println("Update: " + values);
+    }
+    public static findCorrectOrder(ArrayList<Rule> rules){
+
     }
     public static int[][] getPermutations() {
         ArrayList<Integer> input = values;
