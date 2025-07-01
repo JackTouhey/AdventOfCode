@@ -1,5 +1,6 @@
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +38,8 @@ public class DayFive2024 {
     private static ArrayList<Update> orderIncorrectUpdates(ArrayList<Update> incorrectUpdates){
         ArrayList<Update> orderedUpdates = new ArrayList<>();
         for(Update u : incorrectUpdates){
-            orderedUpdates.add(orderUpdate(u));
+            u.correctlyOrder(rules);
+            orderedUpdates.add(u);
         }
         return orderedUpdates;
     }
@@ -133,7 +135,25 @@ class Update{
         Collections.swap(values, indexOne, indexTwo);
         System.out.println("Values after switching " + first + " and " + last + ": " + values);
     }
-    public Boolean checkIfRuleApplies(Rule rule){
+    public static void correctlyOrder(ArrayList<Rule> rules){
+        Integer[][] permutations = getPermutations();
+        for(Integer[] permutation : permutations){
+            Boolean followsAllRules = true;
+            ArrayList<Integer> permutationAsArrayList = new ArrayList<>(Arrays.asList(permutation));
+            for(Rule rule : rules){
+                if(checkIfRuleApplies(rule, permutationAsArrayList)){
+                    if(!(checkIfRuleFollowed(rule, permutationAsArrayList))){
+                        followsAllRules = false;
+                    }
+                }
+            }
+            if(followsAllRules){
+                System.out.println("Changing " + values + " to " + permutationAsArrayList);
+                values = permutationAsArrayList;
+            }
+        }
+    }
+    public static Boolean checkIfRuleApplies(Rule rule){
         Boolean ruleApplies = true;
         if(!(values.contains(rule.getFirst()) && values.contains(rule.getLast()))){
             ruleApplies = false;
@@ -141,23 +161,23 @@ class Update{
         System.out.println("Checking update: " + values + " Against rule: " + rule.getFirst() + "|"  + rule.getLast() + " ruleApplies: " + ruleApplies);
         return ruleApplies;
     }
-    public Boolean checkIfRuleApplies(Rule rule, ArrayList<Integer> newValues){
+    public static Boolean checkIfRuleApplies(Rule rule, ArrayList<Integer> newValues){
         Boolean ruleApplies = true;
         if(!(newValues.contains(rule.getFirst()) && newValues.contains(rule.getLast()))){
             ruleApplies = false;
         }
-        System.out.println("Checking update: " + values + " Against rule: " + rule.getFirst() + "|"  + rule.getLast() + " ruleApplies: " + ruleApplies);
+        // System.out.println("Checking update: " + newValues + " Against rule: " + rule.getFirst() + "|"  + rule.getLast() + " ruleApplies: " + ruleApplies);
         return ruleApplies;
     }
-    public Boolean checkIfRuleFollowed(Rule rule, ArrayList<Integer> newValues){
+    public static Boolean checkIfRuleFollowed(Rule rule, ArrayList<Integer> newValues){
         Boolean ruleFollowed = true;
         if(!(newValues.indexOf(rule.getFirst()) < newValues.indexOf(rule.getLast()))){
             ruleFollowed = false;
         }
-        System.out.println("Checking if update: " + values + " follows rule: " + rule.getFirst() + "|" + rule.getLast() + " ruleFollowed: " + ruleFollowed);
+        // System.out.println("Checking if update: " + newValues + " follows rule: " + rule.getFirst() + "|" + rule.getLast() + " ruleFollowed: " + ruleFollowed);
         return ruleFollowed; 
     }
-    public Boolean checkIfRuleFollowed(Rule rule){
+    public static Boolean checkIfRuleFollowed(Rule rule){
         Boolean ruleFollowed = true;
         if(!(values.indexOf(rule.getFirst()) < values.indexOf(rule.getLast()))){
             ruleFollowed = false;
@@ -179,20 +199,17 @@ class Update{
     public void printSelf(){
         System.out.println("Update: " + values);
     }
-    public static findCorrectOrder(ArrayList<Rule> rules){
-
-    }
-    public static int[][] getPermutations() {
+    public static Integer[][] getPermutations() {
         ArrayList<Integer> input = values;
         if (input == null || input.isEmpty()) {
-            return new int[0][0];
+            return new Integer[0][0];
         }
         
         List<List<Integer>> permutations = new ArrayList<>();
         generatePermutations(input, new ArrayList<>(), new boolean[input.size()], permutations);
         
         // Convert List<List<Integer>> to 2D array
-        int[][] result = new int[permutations.size()][input.size()];
+        Integer[][] result = new Integer[permutations.size()][input.size()];
         for (int i = 0; i < permutations.size(); i++) {
             for (int j = 0; j < input.size(); j++) {
                 result[i][j] = permutations.get(i).get(j);
