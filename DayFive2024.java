@@ -1,30 +1,42 @@
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 public class DayFive2024 {
     public static ArrayList<Rule> rules = new ArrayList<>();
     public static ArrayList<Update> updates = new ArrayList<>();
     public static void main(String[] args) {
-        loadData();
-        HashMap<Boolean, ArrayList<Update>> sortedUpdates = sortUpdates();
-        ArrayList<Update> correctUpdates = sortedUpdates.get(true);
-        ArrayList<Update> incorrectUpdates = sortedUpdates.get(false);
-        Integer correctCount = 0;
+        ArrayList<Integer> newArray = new ArrayList<>();
+        newArray.add(1);
+        newArray.add(2);
+        newArray.add(3);
+        Update newUpdate = new Update(newArray);
+        int[][] permutations = newUpdate.getPermutations();
+        for (int[] perm : permutations) {
+            System.out.println(Arrays.toString(perm));
+        }
+        
+        // loadData();
+        // HashMap<Boolean, ArrayList<Update>> sortedUpdates = sortUpdates();
+        // ArrayList<Update> correctUpdates = sortedUpdates.get(true);
+        // ArrayList<Update> incorrectUpdates = sortedUpdates.get(false);
+        // Integer correctCount = 0;
         // for(Update u : correctUpdates){
         //     Integer median = u.getMedian();
         //     System.out.println("Adding median: " + median);
         //     correctCount += median;
         // }
-        ArrayList<Update> newlyOrderedUpdates = orderIncorrectUpdates(incorrectUpdates);
-        Integer reorderedCount = 0;
-        for(Update u : newlyOrderedUpdates){
-            reorderedCount += u.getMedian();
-        }
-        System.out.println("Correct count: " + correctCount);
-        System.out.println("Reordered count: " + reorderedCount); 
+        // ArrayList<Update> newlyOrderedUpdates = orderIncorrectUpdates(incorrectUpdates);
+        // Integer reorderedCount = 0;
+        // for(Update u : newlyOrderedUpdates){
+        //     reorderedCount += u.getMedian();
+        // }
+        // System.out.println("Correct count: " + correctCount);
+        // System.out.println("Reordered count: " + reorderedCount); 
     }
     private static ArrayList<Update> orderIncorrectUpdates(ArrayList<Update> incorrectUpdates){
         ArrayList<Update> orderedUpdates = new ArrayList<>();
@@ -112,7 +124,7 @@ public class DayFive2024 {
     }
 }
 class Update{
-    ArrayList<Integer> values = new ArrayList<>();
+    private static ArrayList<Integer> values = new ArrayList<>();
     public Update(ArrayList<Integer> values){
         this.values = values;
     }
@@ -154,6 +166,50 @@ class Update{
     }
     public void printSelf(){
         System.out.println("Update: " + values);
+    }
+    public static int[][] getPermutations() {
+        ArrayList<Integer> input = values;
+        if (input == null || input.isEmpty()) {
+            return new int[0][0];
+        }
+        
+        List<List<Integer>> permutations = new ArrayList<>();
+        generatePermutations(input, new ArrayList<>(), new boolean[input.size()], permutations);
+        
+        // Convert List<List<Integer>> to 2D array
+        int[][] result = new int[permutations.size()][input.size()];
+        for (int i = 0; i < permutations.size(); i++) {
+            for (int j = 0; j < input.size(); j++) {
+                result[i][j] = permutations.get(i).get(j);
+            }
+        }
+        
+        return result;
+    }
+    private static void generatePermutations(ArrayList<Integer> input, 
+                                           List<Integer> current, 
+                                           boolean[] used, 
+                                           List<List<Integer>> result) {
+        // Base case: if current permutation is complete
+        if (current.size() == input.size()) {
+            result.add(new ArrayList<>(current)); // Add copy of current permutation
+            return;
+        }
+        
+        // Try adding each unused element to the current permutation
+        for (int i = 0; i < input.size(); i++) {
+            if (!used[i]) {
+                used[i] = true;
+                current.add(input.get(i));
+                
+                // Recursively generate remaining permutations
+                generatePermutations(input, current, used, result);
+                
+                // Backtrack
+                current.remove(current.size() - 1);
+                used[i] = false;
+            }
+        }
     }
 }
 class Rule{
