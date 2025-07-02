@@ -1,9 +1,7 @@
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Scanner;
 
 public class DayFive2024 {
@@ -134,25 +132,65 @@ class Update{
         Collections.swap(values, indexOne, indexTwo);
         System.out.println("Values after switching " + first + " and " + last + ": " + values);
     }
-    public void correctlyOrder(ArrayList<Rule> rules){
-        Integer[][] permutations = getPermutations();
-        for(Integer[] permutation : permutations){
-            Boolean followsAllRules = true;
-            ArrayList<Integer> permutationAsArrayList = new ArrayList<>(Arrays.asList(permutation));
-            for(Rule rule : rules){
-                System.out.println("Checking permutation: " + permutationAsArrayList + " against rule: " + rule.getFirst() + "|" + rule.getLast());
-                if(checkIfRuleApplies(rule, permutationAsArrayList)){
-                    if(!(checkIfRuleFollowed(rule, permutationAsArrayList))){
-                        followsAllRules = false;
-                    }
-
-                }
+    public void correctlyOrder(ArrayList<Rule> rules) {
+        ArrayList<Integer> validPermutation = getValidPermutation(rules);
+        if (validPermutation != null) {
+            System.out.println("Changing " + this.values + " to " + validPermutation);
+            this.values = validPermutation;
+        } else {
+            System.out.println("No valid permutation found for " + this.values);
+        }
+    }
+    public ArrayList<Integer> getValidPermutation(ArrayList<Rule> rules) {
+        ArrayList<Integer> input = values;
+        if (input == null || input.isEmpty()) {
+            return null;
+        }
+        
+        return generatePermutations(input, new ArrayList<>(), new boolean[input.size()], rules);
+    }
+    private ArrayList<Integer> generatePermutations(ArrayList<Integer> input, 
+                                              ArrayList<Integer> current, 
+                                              boolean[] used, 
+                                              ArrayList<Rule> rules) {
+        // Base case: if current permutation is complete
+        if (current.size() == input.size()) {
+            if (isValidPermutation(current, rules)) {
+                return new ArrayList<>(current); // Return copy of valid permutation
             }
-            if(followsAllRules){
-                System.out.println("Changing " + this.values + " to " + permutationAsArrayList);
-                this.values = permutationAsArrayList;
+            return null; // This permutation didn't work
+        }
+        
+        // Try adding each unused element to the current permutation
+        for (int i = 0; i < input.size(); i++) {
+            if (!used[i]) {
+                used[i] = true;
+                current.add(input.get(i));
+                
+                // Recursively generate remaining permutations
+                ArrayList<Integer> validPermutation = generatePermutations(input, current, used, rules);
+                if (validPermutation != null) {
+                    return validPermutation; // Found valid permutation, return it
+                }
+                
+                // Backtrack
+                current.remove(current.size() - 1);
+                used[i] = false;
             }
         }
+        
+        return null; // No valid permutation found in this branch
+    }
+    private boolean isValidPermutation(ArrayList<Integer> permutation, ArrayList<Rule> rules) {
+        for (Rule rule : rules) {
+            System.out.println("Checking permutation: " + permutation + " against rule " + rule.getFirst() + "|" + rule.getLast());
+            if (checkIfRuleApplies(rule, permutation)) {
+                if (!(checkIfRuleFollowed(rule, permutation))) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
     public Boolean checkIfRuleApplies(Rule rule){
         Boolean ruleApplies = true;
@@ -200,49 +238,7 @@ class Update{
     public void printSelf(){
         System.out.println("Update: " + values);
     }
-    public Integer[][] getPermutations() {
-        ArrayList<Integer> input = values;
-        if (input == null || input.isEmpty()) {
-            return new Integer[0][0];
-        }
-        
-        List<List<Integer>> permutations = new ArrayList<>();
-        generatePermutations(input, new ArrayList<>(), new boolean[input.size()], permutations);
-        
-        // Convert List<List<Integer>> to 2D array
-        Integer[][] result = new Integer[permutations.size()][input.size()];
-        for (int i = 0; i < permutations.size(); i++) {
-            for (int j = 0; j < input.size(); j++) {
-                result[i][j] = permutations.get(i).get(j);
-            }
-        }
-        
-        return result;
-    }
-    private static void generatePermutations(ArrayList<Integer> input, 
-                                           List<Integer> current, 
-                                           boolean[] used, 
-                                           List<List<Integer>> result) {
-        // Base case: if current permutation is complete
-        if (current.size() == input.size()) {
-            result.add(new ArrayList<>(current)); // Add copy of current permutation
-            return;
-        }
-        // Try adding each unused element to the current permutation
-        for (int i = 0; i < input.size(); i++) {
-            if (!used[i]) {
-                used[i] = true;
-                current.add(input.get(i));
-                
-                // Recursively generate remaining permutations
-                generatePermutations(input, current, used, result);
-                
-                // Backtrack
-                current.remove(current.size() - 1);
-                used[i] = false;
-            }
-        }
-    }
+    
 }
 class Rule{
     Integer first;
