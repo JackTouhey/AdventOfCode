@@ -10,30 +10,28 @@ public class DayFive2024 {
     public static ArrayList<Rule> rules = new ArrayList<>();
     public static ArrayList<Update> updates = new ArrayList<>();
     public static void main(String[] args) {
-        // ArrayList<Integer> newArray = new ArrayList<>();
-        // Update newUpdate = new Update(newArray);
-        // int[][] permutations = newUpdate.getPermutations();
-        // for (int[] perm : permutations) {
-        //     System.out.println(Arrays.toString(perm));
-        // }
-        
         loadData();
-        HashMap<Boolean, ArrayList<Update>> sortedUpdates = sortUpdates();
-        ArrayList<Update> correctUpdates = sortedUpdates.get(true);
-        ArrayList<Update> incorrectUpdates = sortedUpdates.get(false);
+        // HashMap<Boolean, ArrayList<Update>> sortedUpdates = sortUpdates(updates);
+        // ArrayList<Update> correctUpdates = sortedUpdates.get(true);
+        // ArrayList<Update> incorrectUpdates = sortedUpdates.get(false);
+        // System.out.println("Incorrect updates:");
+        // for(Update u : incorrectUpdates){
+        //     u.printSelf();
+        // }
         // Integer correctCount = 0;
         // for(Update u : correctUpdates){
         //     Integer median = u.getMedian();
         //     System.out.println("Adding median: " + median);
         //     correctCount += median;
         // }
-        ArrayList<Update> newlyOrderedUpdates = orderIncorrectUpdates(incorrectUpdates);
-        Integer reorderedCount = 0;
-        for(Update u : newlyOrderedUpdates){
-            reorderedCount += u.getMedian();
-        }
+        // ArrayList<Update> newlyOrderedUpdates = orderIncorrectUpdates(incorrectUpdates);
+        // Integer reorderedCount = 0;
+        // for(Update u : newlyOrderedUpdates){
+        //     u.printSelf();
+        //     reorderedCount += u.getMedian();
+        // }
         // System.out.println("Correct count: " + correctCount);
-        System.out.println("Reordered count: " + reorderedCount); 
+        // System.out.println("Reordered count: " + reorderedCount); 
     }
     private static ArrayList<Update> orderIncorrectUpdates(ArrayList<Update> incorrectUpdates){
         ArrayList<Update> orderedUpdates = new ArrayList<>();
@@ -43,21 +41,11 @@ public class DayFive2024 {
         }
         return orderedUpdates;
     }
-    private static Update orderUpdate(Update update){
-        for(Rule r : rules){
-            if(update.checkIfRuleApplies(r)){
-                if(!update.checkIfRuleFollowed(r)){
-                    update.switchValues(r.getFirst(), r.getLast());
-                }
-            }
-        }
-        return update;
-    }
-    private static HashMap<Boolean, ArrayList<Update>> sortUpdates(){
+    private static HashMap<Boolean, ArrayList<Update>> sortUpdates(ArrayList<Update> updatesToBeSorted){
         HashMap<Boolean, ArrayList<Update>> sortedUpdates = new HashMap<>();
         ArrayList<Update> correctUpdates = new ArrayList<>();
         ArrayList<Update> incorrectUpdates = new ArrayList<>();
-        for(Update u : updates){    
+        for(Update u : updatesToBeSorted){    
             Boolean followsRules = true;
             for(Rule r : rules){
                 if(u.checkIfRuleApplies(r)){
@@ -67,9 +55,13 @@ public class DayFive2024 {
                 }
             }
             if(followsRules){
+                System.out.println("Adding update to correct updates: ");
+                u.printSelf();
                 correctUpdates.add(u);
             }
             else{
+                System.out.println("Adding update to incorrect updates: ");
+                u.printSelf();
                 incorrectUpdates.add(u);
             }
         }
@@ -94,7 +86,7 @@ public class DayFive2024 {
                         String secondInt = "";
                         while(!lineScanner.hasNext("\\|")){
                             firstInt += lineScanner.next();
-                            System.out.println("firstInt: " + firstInt);
+                            // System.out.println("firstInt: " + firstInt);
                         }
                         lineScanner.next();
                         while(lineScanner.hasNext()){
@@ -110,7 +102,14 @@ public class DayFive2024 {
                     while(lineScanner.hasNextInt()){
                         values.add(lineScanner.nextInt());
                     }
-                    updates.add(new Update(values));
+                    Update newUpadate = new Update(values);
+                    System.out.println("Creating new update: ");
+                    newUpadate.printSelf();
+                    updates.add(newUpadate);
+                    System.out.println("Current updates loaded: ");
+                    for(Update u : updates){
+                        u.printSelf();
+                    }
                 }
             }
             sc.close();
@@ -122,9 +121,9 @@ public class DayFive2024 {
     }
 }
 class Update{
-    private static ArrayList<Integer> values = new ArrayList<>();
+    private ArrayList<Integer> values;
     public Update(ArrayList<Integer> values){
-        this.values = values;
+        this.values = new ArrayList<>(values);
     }
     public void switchValues(Integer first, Integer last){
         System.out.println("Values before switching " + first + " and " + last + ": " + values);
@@ -135,7 +134,7 @@ class Update{
         Collections.swap(values, indexOne, indexTwo);
         System.out.println("Values after switching " + first + " and " + last + ": " + values);
     }
-    public static void correctlyOrder(ArrayList<Rule> rules){
+    public void correctlyOrder(ArrayList<Rule> rules){
         Integer[][] permutations = getPermutations();
         for(Integer[] permutation : permutations){
             Boolean followsAllRules = true;
@@ -143,25 +142,27 @@ class Update{
             for(Rule rule : rules){
                 if(checkIfRuleApplies(rule, permutationAsArrayList)){
                     if(!(checkIfRuleFollowed(rule, permutationAsArrayList))){
+                        System.out.println("Failed permutation: " + permutationAsArrayList + " Breaks rule: " + rule.getFirst() + "|" + rule.getLast());
                         followsAllRules = false;
                     }
+
                 }
             }
             if(followsAllRules){
-                System.out.println("Changing " + values + " to " + permutationAsArrayList);
-                values = permutationAsArrayList;
+                System.out.println("Changing " + this.values + " to " + permutationAsArrayList);
+                this.values = permutationAsArrayList;
             }
         }
     }
-    public static Boolean checkIfRuleApplies(Rule rule){
+    public Boolean checkIfRuleApplies(Rule rule){
         Boolean ruleApplies = true;
         if(!(values.contains(rule.getFirst()) && values.contains(rule.getLast()))){
             ruleApplies = false;
         }
-        System.out.println("Checking update: " + values + " Against rule: " + rule.getFirst() + "|"  + rule.getLast() + " ruleApplies: " + ruleApplies);
+        // System.out.println("Checking update: " + values + " Against rule: " + rule.getFirst() + "|"  + rule.getLast() + " ruleApplies: " + ruleApplies);
         return ruleApplies;
     }
-    public static Boolean checkIfRuleApplies(Rule rule, ArrayList<Integer> newValues){
+    public Boolean checkIfRuleApplies(Rule rule, ArrayList<Integer> newValues){
         Boolean ruleApplies = true;
         if(!(newValues.contains(rule.getFirst()) && newValues.contains(rule.getLast()))){
             ruleApplies = false;
@@ -169,7 +170,7 @@ class Update{
         // System.out.println("Checking update: " + newValues + " Against rule: " + rule.getFirst() + "|"  + rule.getLast() + " ruleApplies: " + ruleApplies);
         return ruleApplies;
     }
-    public static Boolean checkIfRuleFollowed(Rule rule, ArrayList<Integer> newValues){
+    public Boolean checkIfRuleFollowed(Rule rule, ArrayList<Integer> newValues){
         Boolean ruleFollowed = true;
         if(!(newValues.indexOf(rule.getFirst()) < newValues.indexOf(rule.getLast()))){
             ruleFollowed = false;
@@ -177,12 +178,12 @@ class Update{
         // System.out.println("Checking if update: " + newValues + " follows rule: " + rule.getFirst() + "|" + rule.getLast() + " ruleFollowed: " + ruleFollowed);
         return ruleFollowed; 
     }
-    public static Boolean checkIfRuleFollowed(Rule rule){
+    public Boolean checkIfRuleFollowed(Rule rule){
         Boolean ruleFollowed = true;
         if(!(values.indexOf(rule.getFirst()) < values.indexOf(rule.getLast()))){
             ruleFollowed = false;
         }
-        System.out.println("Checking if update: " + values + " follows rule: " + rule.getFirst() + "|" + rule.getLast() + " ruleFollowed: " + ruleFollowed);
+        // System.out.println("Checking if update: " + values + " follows rule: " + rule.getFirst() + "|" + rule.getLast() + " ruleFollowed: " + ruleFollowed);
         return ruleFollowed; 
     }
     public Integer getMedian(){
@@ -199,7 +200,7 @@ class Update{
     public void printSelf(){
         System.out.println("Update: " + values);
     }
-    public static Integer[][] getPermutations() {
+    public Integer[][] getPermutations() {
         ArrayList<Integer> input = values;
         if (input == null || input.isEmpty()) {
             return new Integer[0][0];
@@ -227,7 +228,6 @@ class Update{
             result.add(new ArrayList<>(current)); // Add copy of current permutation
             return;
         }
-        
         // Try adding each unused element to the current permutation
         for (int i = 0; i < input.size(); i++) {
             if (!used[i]) {
