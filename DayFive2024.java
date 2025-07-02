@@ -11,31 +11,31 @@ public class DayFive2024 {
     public static ArrayList<Update> updates = new ArrayList<>();
     public static void main(String[] args) {
         loadData();
-        // HashMap<Boolean, ArrayList<Update>> sortedUpdates = sortUpdates(updates);
-        // ArrayList<Update> correctUpdates = sortedUpdates.get(true);
-        // ArrayList<Update> incorrectUpdates = sortedUpdates.get(false);
-        // System.out.println("Incorrect updates:");
-        // for(Update u : incorrectUpdates){
-        //     u.printSelf();
-        // }
-        // Integer correctCount = 0;
-        // for(Update u : correctUpdates){
-        //     Integer median = u.getMedian();
-        //     System.out.println("Adding median: " + median);
-        //     correctCount += median;
-        // }
-        // ArrayList<Update> newlyOrderedUpdates = orderIncorrectUpdates(incorrectUpdates);
-        // Integer reorderedCount = 0;
-        // for(Update u : newlyOrderedUpdates){
-        //     u.printSelf();
-        //     reorderedCount += u.getMedian();
-        // }
-        // System.out.println("Correct count: " + correctCount);
-        // System.out.println("Reordered count: " + reorderedCount); 
+        HashMap<Boolean, ArrayList<Update>> sortedUpdates = sortUpdates(updates);
+        ArrayList<Update> correctUpdates = sortedUpdates.get(true);
+        ArrayList<Update> incorrectUpdates = sortedUpdates.get(false);
+        Integer correctCount = 0;
+        for(Update u : correctUpdates){
+            Integer median = u.getMedian();
+            System.out.println("Adding correct median: " + median);
+            correctCount += median;
+        }
+        System.out.println("About to order updates: ");
+        ArrayList<Update> newlyOrderedUpdates = orderIncorrectUpdates(incorrectUpdates);
+        System.out.println("Ordered updates: ");
+        Integer reorderedCount = 0;
+        for(Update u : newlyOrderedUpdates){
+            u.printSelf();
+            reorderedCount += u.getMedian();
+        }
+        System.out.println("Correct count: " + correctCount);
+        System.out.println("Reordered count: " + reorderedCount); 
     }
     private static ArrayList<Update> orderIncorrectUpdates(ArrayList<Update> incorrectUpdates){
         ArrayList<Update> orderedUpdates = new ArrayList<>();
         for(Update u : incorrectUpdates){
+            System.out.println("Attempting to order:");
+            u.printSelf();
             u.correctlyOrder(rules);
             orderedUpdates.add(u);
         }
@@ -71,7 +71,7 @@ public class DayFive2024 {
     }
     public static void loadData(){
         try {
-            Scanner sc = new Scanner(new File("DataFiles\\DayFiveTestData.txt"));
+            Scanner sc = new Scanner(new File("DataFiles\\DayFiveData.txt"));
             Boolean loadingRules = true;
             while(sc.hasNext()){
                 String line = sc.nextLine();
@@ -140,9 +140,9 @@ class Update{
             Boolean followsAllRules = true;
             ArrayList<Integer> permutationAsArrayList = new ArrayList<>(Arrays.asList(permutation));
             for(Rule rule : rules){
+                System.out.println("Checking permutation: " + permutationAsArrayList + " against rule: " + rule.getFirst() + "|" + rule.getLast());
                 if(checkIfRuleApplies(rule, permutationAsArrayList)){
                     if(!(checkIfRuleFollowed(rule, permutationAsArrayList))){
-                        System.out.println("Failed permutation: " + permutationAsArrayList + " Breaks rule: " + rule.getFirst() + "|" + rule.getLast());
                         followsAllRules = false;
                     }
 
