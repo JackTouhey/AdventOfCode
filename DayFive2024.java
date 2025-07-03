@@ -2,6 +2,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
 import java.util.Scanner;
 
 public class DayFive2024 {
@@ -41,7 +45,7 @@ public class DayFive2024 {
         for(Update u : incorrectUpdates){
             System.out.println("Attempting to order:");
             u.printSelf();
-            u.correctlyOrder(rules);
+            u.correctlyOrder();
             orderedUpdates.add(u);
         }
         return orderedUpdates;
@@ -127,13 +131,16 @@ public class DayFive2024 {
 }
 class Update{
     private ArrayList<Integer> values;
-    private ArrayList<Rule> applicableRules;
+    private ArrayList<Rule> applicableRules = new ArrayList<>();
+    
     public Update(ArrayList<Integer> values){
         this.values = new ArrayList<>(values);
     }
+    
     public void addApplicableRule(Rule r){
         applicableRules.add(r);
     }
+    
     public void switchValues(Integer first, Integer last){
         System.out.println("Values before switching " + first + " and " + last + ": " + values);
         Integer indexOne = values.indexOf(first);
@@ -143,8 +150,9 @@ class Update{
         Collections.swap(values, indexOne, indexTwo);
         System.out.println("Values after switching " + first + " and " + last + ": " + values);
     }
-    public void correctlyOrder(ArrayList<Rule> rules) {
-        ArrayList<Integer> validPermutation = getValidPermutation(rules);
+    
+    public void correctlyOrder() {
+        ArrayList<Integer> validPermutation = getValidPermutationUsingTopologicalSort();
         if (validPermutation != null) {
             System.out.println("Changing " + this.values + " to " + validPermutation);
             this.values = validPermutation;
@@ -152,89 +160,100 @@ class Update{
             System.out.println("No valid permutation found for " + this.values);
         }
     }
-    public ArrayList<Integer> getValidPermutation(ArrayList<Rule> rules) {
-        ArrayList<Integer> input = values;
-        if (input == null || input.isEmpty()) {
+    
+    public ArrayList<Integer> getValidPermutationUsingTopologicalSort() {
+        if (values == null || values.isEmpty()) {
             return null;
         }
         
-        return generatePermutations(input, new ArrayList<>(), new boolean[input.size()], rules);
-    }
-    private ArrayList<Integer> generatePermutations(ArrayList<Integer> input, 
-                                              ArrayList<Integer> current, 
-                                              boolean[] used, 
-                                              ArrayList<Rule> rules) {
-        // Base case: if current permutation is complete
-        if (current.size() == input.size()) {
-            if (isValidPermutation(current, rules)) {
-                return new ArrayList<>(current); // Return copy of valid permutation
-            }
-            return null; // This permutation didn't work
+        // Build graph from applicable rules
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        Map<Integer, Integer> inDegree = new HashMap<>();
+        
+        // Initialize all nodes
+        for (Integer value : values) {
+            graph.put(value, new ArrayList<>());
+            inDegree.put(value, 0);
         }
         
-        // Try adding each unused element to the current permutation
-        for (int i = 0; i < input.size(); i++) {
-            if (!used[i]) {
-                used[i] = true;
-                current.add(input.get(i));
-                
-                // Recursively generate remaining permutations
-                ArrayList<Integer> validPermutation = generatePermutations(input, current, used, rules);
-                if (validPermutation != null) {
-                    return validPermutation; // Found valid permutation, return it
-                }
-                
-                // Backtrack
-                current.remove(current.size() - 1);
-                used[i] = false;
+        // Add edges based on applicable rules
+        for (Rule rule : applicableRules) {
+            Integer first = rule.getFirst();
+            Integer last = rule.getLast();
+            
+            // Only process rules that apply to this update
+            if (values.contains(first) && values.contains(last)) {
+                graph.get(first).add(last);
+                inDegree.put(last, inDegree.get(last) + 1);
             }
         }
         
-        return null; // No valid permutation found in this branch
-    }
-    private boolean isValidPermutation(ArrayList<Integer> permutation, ArrayList<Rule> rules) {
-        for (Rule rule : rules) {
-            System.out.println("Checking permutation: " + permutation + " against rule " + rule.getFirst() + "|" + rule.getLast());
-            if (checkIfRuleApplies(rule, permutation)) {
-                if (!(checkIfRuleFollowed(rule, permutation))) {
-                    return false;
+        // Kahn's algorithm for topological sorting
+        Queue<Integer> queue = new LinkedList<>();
+        ArrayList<Integer> result = new ArrayList<>();
+        
+        // Add all nodes with in-degree 0 to queue
+        for (Map.Entry<Integer, Integer> entry : inDegree.entrySet()) {
+            if (entry.getValue() == 0) {
+                queue.offer(entry.getKey());
+            }
+        }
+        
+        // Process nodes
+        while (!queue.isEmpty()) {
+            Integer current = queue.poll();
+            result.add(current);
+            
+            // Reduce in-degree of neighbors
+            for (Integer neighbor : graph.get(current)) {
+                inDegree.put(neighbor, inDegree.get(neighbor) - 1);
+                if (inDegree.get(neighbor) == 0) {
+                    queue.offer(neighbor);
                 }
             }
         }
-        return true;
+        
+        // Check if all nodes were processed (no cycle)
+        if (result.size() != values.size()) {
+            System.out.println("Cycle detected in rules - no valid ordering exists");
+            return null;
+        }
+        
+        return result;
     }
+
     public Boolean checkIfRuleApplies(Rule rule){
         Boolean ruleApplies = true;
         if(!(values.contains(rule.getFirst()) && values.contains(rule.getLast()))){
             ruleApplies = false;
         }
-        // System.out.println("Checking update: " + values + " Against rule: " + rule.getFirst() + "|"  + rule.getLast() + " ruleApplies: " + ruleApplies);
         return ruleApplies;
     }
+    
     public Boolean checkIfRuleApplies(Rule rule, ArrayList<Integer> newValues){
         Boolean ruleApplies = true;
         if(!(newValues.contains(rule.getFirst()) && newValues.contains(rule.getLast()))){
             ruleApplies = false;
         }
-        // System.out.println("Checking update: " + newValues + " Against rule: " + rule.getFirst() + "|"  + rule.getLast() + " ruleApplies: " + ruleApplies);
         return ruleApplies;
     }
+    
     public Boolean checkIfRuleFollowed(Rule rule, ArrayList<Integer> newValues){
         Boolean ruleFollowed = true;
         if(!(newValues.indexOf(rule.getFirst()) < newValues.indexOf(rule.getLast()))){
             ruleFollowed = false;
         }
-        // System.out.println("Checking if update: " + newValues + " follows rule: " + rule.getFirst() + "|" + rule.getLast() + " ruleFollowed: " + ruleFollowed);
         return ruleFollowed; 
     }
+    
     public Boolean checkIfRuleFollowed(Rule rule){
         Boolean ruleFollowed = true;
         if(!(values.indexOf(rule.getFirst()) < values.indexOf(rule.getLast()))){
             ruleFollowed = false;
         }
-        // System.out.println("Checking if update: " + values + " follows rule: " + rule.getFirst() + "|" + rule.getLast() + " ruleFollowed: " + ruleFollowed);
         return ruleFollowed; 
     }
+    
     public Integer getMedian(){
         Integer median;
         if(!(values.size() % 2 == 0)){
@@ -246,10 +265,10 @@ class Update{
         }
         return values.get(median);
     }
+    
     public void printSelf(){
         System.out.println("Update: " + values);
     }
-    
 }
 class Rule{
     Integer first;
