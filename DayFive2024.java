@@ -34,7 +34,7 @@ public class DayFive2024 {
         System.out.println("Ordered updates: ");
         Integer reorderedCount = 0;
         for(Update u : newlyOrderedUpdates){
-            u.printSelf();
+            // u.printSelf();
             reorderedCount += u.getMedian();
         }
         System.out.println("Correct count: " + correctCount);
