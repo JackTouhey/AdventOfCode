@@ -9,6 +9,13 @@ public class DayFive2024 {
     public static ArrayList<Update> updates = new ArrayList<>();
     public static void main(String[] args) {
         loadData();
+        for(Update u : updates){
+            for(Rule r : rules){
+                if(u.checkIfRuleApplies(r)){
+                    u.addApplicableRule(r);
+                }
+            }
+        }
         HashMap<Boolean, ArrayList<Update>> sortedUpdates = sortUpdates(updates);
         ArrayList<Update> correctUpdates = sortedUpdates.get(true);
         ArrayList<Update> incorrectUpdates = sortedUpdates.get(false);
@@ -120,8 +127,12 @@ public class DayFive2024 {
 }
 class Update{
     private ArrayList<Integer> values;
+    private ArrayList<Rule> applicableRules;
     public Update(ArrayList<Integer> values){
         this.values = new ArrayList<>(values);
+    }
+    public void addApplicableRule(Rule r){
+        applicableRules.add(r);
     }
     public void switchValues(Integer first, Integer last){
         System.out.println("Values before switching " + first + " and " + last + ": " + values);
