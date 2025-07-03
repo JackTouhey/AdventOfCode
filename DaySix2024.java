@@ -1,14 +1,49 @@
 import java.io.*;
 import java.util.*;
 public class DaySix2024 {
+    public static int guardX;
+    public static int guardY;
+    public static String[][] grid = loadData();
     public static void main(String[] args) {
-        String[][] grid = loadData(); 
         for(int y = 0; y < grid.length; y++){
             for(int x = 0; x < grid[y].length; x++){
                 System.out.print(grid[y][x]);
             }
             System.out.println();
         }
+        System.out.println("Guard position x: " + guardX + " y: " + guardY);
+        moveNorth();
+        moveEast();
+        moveSouth();
+        moveSouth();
+        moveWest();
+        for(int y = 0; y < grid.length; y++){
+            for(int x = 0; x < grid[y].length; x++){
+                System.out.print(grid[y][x]);
+            }
+            System.out.println();
+        }
+        System.out.println("Guard position x: " + guardX + " y: " + guardY);
+    }
+    public static void moveNorth(){
+        grid[guardY - 1][guardX] = "^";
+        grid[guardY][guardX] = "X";
+        guardY -= 1;
+    }
+    public static void moveSouth(){
+        grid[guardY + 1][guardX] = "^";
+        grid[guardY][guardX] = "X";
+        guardY += 1;
+    }
+    public static void moveEast(){
+        grid[guardY][guardX + 1] = "^";
+        grid[guardY][guardX] = "X";
+        guardX += 1;
+    }
+    public static void moveWest(){
+        grid[guardY][guardX - 1] = "^";
+        grid[guardY][guardX] = "X";
+        guardX -= 1;
     }
     public static String[][] loadData(){
         String[][] returnGrid = new String[0][0];
@@ -43,6 +78,10 @@ public class DaySix2024 {
             for(int ii = 0; ii < grid[0].length; ii++){
                 sc2.useDelimiter("");
                 String next = sc2.next();
+                if(next.equals("^")){
+                    guardX = ii;
+                    guardY = i;
+                }
                 // System.out.println("Column: " + i +" Row: " + ii + " Adding: " + next);
                 grid[i][ii] = next;
             }
