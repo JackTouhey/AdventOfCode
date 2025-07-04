@@ -30,9 +30,9 @@ public class DaySix2024 {
         Boolean inBounds = true;
         Boolean inLoop = false;
         ArrayList<int[]> encounteredObstacles = new ArrayList<>();
-        while(inBounds || !inLoop){
+        while(inBounds && !inLoop){
             switch (guardDirection) {
-                case "north":
+                case "north" -> {
                     if(guardY == 0){
                         grid[guardY][guardX] = "X";
                         inBounds = false;
@@ -49,11 +49,12 @@ public class DaySix2024 {
                             if(encounteredObstacles.size() > 7){
                                 inLoop = checkIfLoop(encounteredObstacles, obstacleIndex);
                             }
+                            System.out.println("inLoop:" + inLoop);
                             guardDirection = "east";
                         }
                     }
-                    break;
-                case "east":
+                }
+                case "east" -> {
                     if(guardX == grid[0].length-1){
                         grid[guardY][guardX] = "X";
                         inBounds = false;
@@ -70,11 +71,12 @@ public class DaySix2024 {
                             if(encounteredObstacles.size() > 7){
                                 inLoop = checkIfLoop(encounteredObstacles, obstacleIndex);
                             }
+                            System.out.println("inLoop:" + inLoop);
                             guardDirection = "south";
                         }
                     }
-                    break;
-                case "south":
+                }
+                case "south" -> {
                     if(guardY == grid.length-1){
                         grid[guardY][guardX] = "X";
                         inBounds = false;
@@ -91,11 +93,12 @@ public class DaySix2024 {
                             if(encounteredObstacles.size() > 7){
                                 inLoop = checkIfLoop(encounteredObstacles, obstacleIndex);
                             }
+                            System.out.println("inLoop:" + inLoop);
                             guardDirection = "west";
                         }
                     }
-                    break;
-                case "west":
+                }
+                case "west" -> {
                     if(guardX == 0){
                         grid[guardY][guardX] = "X";
                         inBounds = false;
@@ -112,12 +115,12 @@ public class DaySix2024 {
                             if(encounteredObstacles.size() > 7){
                                 inLoop = checkIfLoop(encounteredObstacles, obstacleIndex);
                             }
+                            System.out.println("inLoop:" + inLoop);
                             guardDirection = "north";
                         }
                     }
-                    break;
-                default:
-                    throw new AssertionError();
+                }
+                default -> throw new AssertionError();
             }
         }
         if(inLoop){
@@ -125,10 +128,18 @@ public class DaySix2024 {
         }
     }
     public static Boolean checkIfLoop(ArrayList<int[]> encounteredObstacles, int obstacleIndex){
-        return encounteredObstacles.get(obstacleIndex) == encounteredObstacles.get(obstacleIndex-4) && 
+        System.out.println("Obstacle index   : " + Arrays.toString(encounteredObstacles.get(obstacleIndex)));
+        System.out.println("Obstacle index -4: " + Arrays.toString(encounteredObstacles.get(obstacleIndex - 4)));
+        System.out.println("Obstacle index -1: " + Arrays.toString(encounteredObstacles.get(obstacleIndex-1)));
+        System.out.println("Obstacle index -5: " + Arrays.toString(encounteredObstacles.get(obstacleIndex-5)));
+        System.out.println("Obstacle index -2: " + Arrays.toString(encounteredObstacles.get(obstacleIndex-2)));
+        System.out.println("Obstacle index -6: " + Arrays.toString(encounteredObstacles.get(obstacleIndex-6)));
+        System.out.println("Obstacle index -3: " + Arrays.toString(encounteredObstacles.get(obstacleIndex-3)));
+        System.out.println("Obstacle index -7: " + Arrays.toString(encounteredObstacles.get(obstacleIndex-7)));
+        return (encounteredObstacles.get(obstacleIndex) == encounteredObstacles.get(obstacleIndex-4) && 
                 encounteredObstacles.get(obstacleIndex-1) == encounteredObstacles.get(obstacleIndex-5) &&
-                encounteredObstacles.get(obstacleIndex-2) == (encounteredObstacles.get(obstacleIndex-6)) &&
-                encounteredObstacles.get(obstacleIndex-3) == (encounteredObstacles.get(obstacleIndex-7));
+                encounteredObstacles.get(obstacleIndex-2) == encounteredObstacles.get(obstacleIndex-6) &&
+                encounteredObstacles.get(obstacleIndex-3) == encounteredObstacles.get(obstacleIndex-7));
     }
     public static void moveNorth(){
         grid[guardY - 1][guardX] = "^";
