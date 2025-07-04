@@ -3,22 +3,22 @@ import java.util.*;
 public class DaySix2024 {
     public static int guardX;
     public static int guardY;
-    public static String[][] grid = loadData();
+    public static String[][] mainGrid = loadData();
     public static String guardDirection = "north";
     public static void main(String[] args) {
-        for(int y = 0; y < grid.length; y++){
-            for(int x = 0; x < grid[y].length; x++){
-                System.out.print(grid[y][x]);
+        for(int y = 0; y < mainGrid.length; y++){
+            for(int x = 0; x < mainGrid[y].length; x++){
+                System.out.print(mainGrid[y][x]);
             }
             System.out.println();
         }
         System.out.println("Guard position x: " + guardX + " y: " + guardY);
-        moveGuard();
+        moveGuard(mainGrid);
         int xCount = 0;
-        for(int y = 0; y < grid.length; y++){
-            for(int x = 0; x < grid[y].length; x++){
-                System.out.print(grid[y][x]);
-                if(grid[y][x].equals("X")){
+        for(int y = 0; y < mainGrid.length; y++){
+            for(int x = 0; x < mainGrid[y].length; x++){
+                System.out.print(mainGrid[y][x]);
+                if(mainGrid[y][x].equals("X")){
                     xCount++;
                 }
             }
@@ -26,7 +26,10 @@ public class DaySix2024 {
         }
         System.out.println("xCount: " + xCount);
     }
-    public static void moveGuard(){
+    // public static ArrayList<String[][]> generateSubGrids(String[][] grid){
+
+    // }
+    public static void moveGuard(String[][] grid){
         Boolean inBounds = true;
         Boolean inLoop = false;
         ArrayList<int[]> encounteredObstacles = new ArrayList<>();
@@ -40,7 +43,7 @@ public class DaySix2024 {
                     else{
                         if(!(grid[guardY-1][guardX].equals("#"))){
                             System.out.println("About to move north. Current position y: " + guardY + " x: " + guardX);
-                            moveNorth();
+                            grid = moveNorth(grid);
                         }
                         else{
                             int[] obstaclePosition = {guardY, guardX};
@@ -62,7 +65,7 @@ public class DaySix2024 {
                     else{
                         if(!(grid[guardY][guardX+1].equals("#"))){
                             System.out.println("About to move east. Current position y: " + guardY + " x: " + guardX);
-                            moveEast();
+                            grid = moveEast(grid);
                         }
                         else{
                             int[] obstaclePosition = {guardY, guardX};
@@ -84,7 +87,7 @@ public class DaySix2024 {
                     else{
                         if(!(grid[guardY+1][guardX].equals("#"))){
                             System.out.println("About to move south. Current position y: " + guardY + " x: " + guardX);
-                            moveSouth();
+                            grid = moveSouth(grid);
                         }
                         else{
                             int[] obstaclePosition = {guardY, guardX};
@@ -106,7 +109,7 @@ public class DaySix2024 {
                     else{
                         if(!(grid[guardY][guardX-1].equals("#"))){
                             System.out.println("About to move west. Current position y: " + guardY + " x: " + guardX);
-                            moveWest();
+                            grid = moveWest(grid);
                         }
                         else{
                             int[] obstaclePosition = {guardY, guardX};
@@ -141,25 +144,29 @@ public class DaySix2024 {
                 Arrays.equals(encounteredObstacles.get(obstacleIndex-2), encounteredObstacles.get(obstacleIndex-6)) &&
                 Arrays.equals(encounteredObstacles.get(obstacleIndex-3), encounteredObstacles.get(obstacleIndex-7)));
     }
-    public static void moveNorth(){
+    public static String[][] moveNorth(String[][] grid){
         grid[guardY - 1][guardX] = "^";
         grid[guardY][guardX] = "X";
         guardY -= 1;
+        return grid;
     }
-    public static void moveSouth(){
+    public static String[][] moveSouth(String[][] grid){
         grid[guardY + 1][guardX] = "^";
         grid[guardY][guardX] = "X";
         guardY += 1;
+        return grid;
     }
-    public static void moveEast(){
+    public static String[][] moveEast(String[][] grid){
         grid[guardY][guardX + 1] = "^";
         grid[guardY][guardX] = "X";
         guardX += 1;
+        return grid;
     }
-    public static void moveWest(){
+    public static String[][] moveWest(String[][] grid){
         grid[guardY][guardX - 1] = "^";
         grid[guardY][guardX] = "X";
         guardX -= 1;
+        return grid;
     }
     public static String[][] loadData(){
         String[][] returnGrid = new String[0][0];
