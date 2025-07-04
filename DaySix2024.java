@@ -32,16 +32,36 @@ public class DaySix2024 {
         while(guardX >= 0 || guardY >= 0){
             switch (guardDirection) {
                 case "north":
-                    
+                    if(!(grid[guardY-1][guardX].equals("#"))){
+
+                    }
+                    else{
+                        guardDirection = "east";
+                    }
                     break;
                 case "east":
-                    
+                    if(!(grid[guardY-1][guardX].equals("#"))){
+
+                    }
+                    else{
+                        guardDirection = "south";
+                    }
                     break;
                 case "south":
-                    
+                    if(!(grid[guardY-1][guardX].equals("#"))){
+
+                    }
+                    else{
+                        guardDirection = "west";
+                    }
                     break;
                 case "west":
-                    
+                    if(!(grid[guardY-1][guardX].equals("#"))){
+
+                    }
+                    else{
+                        guardDirection = "north";
+                    }
                     break;
                 default:
                     throw new AssertionError();
