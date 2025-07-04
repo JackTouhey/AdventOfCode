@@ -28,6 +28,7 @@ public class DaySix2024 {
     }
     public static void moveGuard(){
         Boolean inBounds = true;
+        ArrayList<int[]> encounteredObstacles = new ArrayList<>();
         while(inBounds){
             switch (guardDirection) {
                 case "north":
@@ -41,6 +42,8 @@ public class DaySix2024 {
                             moveNorth();
                         }
                         else{
+                            int[] obstaclePosition = {guardY, guardX};
+                            encounteredObstacles.add(obstaclePosition);
                             guardDirection = "east";
                         }
                     }
@@ -56,6 +59,8 @@ public class DaySix2024 {
                             moveEast();
                         }
                         else{
+                            int[] obstaclePosition = {guardY, guardX};
+                            encounteredObstacles.add(obstaclePosition);
                             guardDirection = "south";
                         }
                     }
@@ -71,6 +76,8 @@ public class DaySix2024 {
                             moveSouth();
                         }
                         else{
+                            int[] obstaclePosition = {guardY, guardX};
+                            encounteredObstacles.add(obstaclePosition);
                             guardDirection = "west";
                         }
                     }
@@ -86,6 +93,8 @@ public class DaySix2024 {
                             moveWest();
                         }
                         else{
+                            int[] obstaclePosition = {guardY, guardX};
+                            encounteredObstacles.add(obstaclePosition);
                             guardDirection = "north";
                         }
                     }
