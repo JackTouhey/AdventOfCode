@@ -4,6 +4,7 @@ public class DaySix2024 {
     public static int guardX;
     public static int guardY;
     public static String[][] grid = loadData();
+    public static String guardDirection = "north";
     public static void main(String[] args) {
         for(int y = 0; y < grid.length; y++){
             for(int x = 0; x < grid[y].length; x++){
@@ -17,6 +18,8 @@ public class DaySix2024 {
         moveSouth();
         moveSouth();
         moveWest();
+        moveWest();
+        moveWest();
         for(int y = 0; y < grid.length; y++){
             for(int x = 0; x < grid[y].length; x++){
                 System.out.print(grid[y][x]);
@@ -24,6 +27,26 @@ public class DaySix2024 {
             System.out.println();
         }
         System.out.println("Guard position x: " + guardX + " y: " + guardY);
+    }
+    public static void moveGuard(){
+        while(guardX >= 0 || guardY >= 0){
+            switch (guardDirection) {
+                case "north":
+                    
+                    break;
+                case "east":
+                    
+                    break;
+                case "south":
+                    
+                    break;
+                case "west":
+                    
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+        }
     }
     public static void moveNorth(){
         grid[guardY - 1][guardX] = "^";
