@@ -13,54 +13,81 @@ public class DaySix2024 {
             System.out.println();
         }
         System.out.println("Guard position x: " + guardX + " y: " + guardY);
-        moveNorth();
-        moveEast();
-        moveSouth();
-        moveSouth();
-        moveWest();
-        moveWest();
-        moveWest();
+        moveGuard();
+        int xCount = 0;
         for(int y = 0; y < grid.length; y++){
             for(int x = 0; x < grid[y].length; x++){
                 System.out.print(grid[y][x]);
+                if(grid[y][x].equals("X")){
+                    xCount++;
+                }
             }
             System.out.println();
         }
-        System.out.println("Guard position x: " + guardX + " y: " + guardY);
+        System.out.println("xCount: " + xCount);
     }
     public static void moveGuard(){
-        while(guardX >= 0 || guardY >= 0){
+        Boolean inBounds = true;
+        while(inBounds){
             switch (guardDirection) {
                 case "north":
-                    if(!(grid[guardY-1][guardX].equals("#"))){
-
+                    if(guardY == 0){
+                        grid[guardY][guardX] = "X";
+                        inBounds = false;
                     }
                     else{
-                        guardDirection = "east";
+                        if(!(grid[guardY-1][guardX].equals("#"))){
+                            System.out.println("About to move north. Current position y: " + guardY + " x: " + guardX);
+                            moveNorth();
+                        }
+                        else{
+                            guardDirection = "east";
+                        }
                     }
                     break;
                 case "east":
-                    if(!(grid[guardY][guardX+1].equals("#"))){
-
+                    if(guardX == grid[0].length-1){
+                        grid[guardY][guardX] = "X";
+                        inBounds = false;
                     }
                     else{
-                        guardDirection = "south";
+                        if(!(grid[guardY][guardX+1].equals("#"))){
+                            System.out.println("About to move east. Current position y: " + guardY + " x: " + guardX);
+                            moveEast();
+                        }
+                        else{
+                            guardDirection = "south";
+                        }
                     }
                     break;
                 case "south":
-                    if(!(grid[guardY+1][guardX].equals("#"))){
-
+                    if(guardY == grid.length-1){
+                        grid[guardY][guardX] = "X";
+                        inBounds = false;
                     }
                     else{
-                        guardDirection = "west";
+                        if(!(grid[guardY+1][guardX].equals("#"))){
+                            System.out.println("About to move south. Current position y: " + guardY + " x: " + guardX);
+                            moveSouth();
+                        }
+                        else{
+                            guardDirection = "west";
+                        }
                     }
                     break;
                 case "west":
-                    if(!(grid[guardY][guardX-1].equals("#"))){
-
+                    if(guardX == 0){
+                        grid[guardY][guardX] = "X";
+                        inBounds = false;
                     }
                     else{
-                        guardDirection = "north";
+                        if(!(grid[guardY][guardX-1].equals("#"))){
+                            System.out.println("About to move west. Current position y: " + guardY + " x: " + guardX);
+                            moveWest();
+                        }
+                        else{
+                            guardDirection = "north";
+                        }
                     }
                     break;
                 default:
@@ -91,7 +118,7 @@ public class DaySix2024 {
     public static String[][] loadData(){
         String[][] returnGrid = new String[0][0];
         try {
-            File dataFile= new File("DataFiles\\DaySixTestData.txt");
+            File dataFile= new File("DataFiles\\DaySixData.txt");
             Scanner sc = new Scanner(dataFile);
             sc.useDelimiter("");
             String[][] grid = createArray(sc);
