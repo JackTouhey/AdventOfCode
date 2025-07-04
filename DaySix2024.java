@@ -40,7 +40,7 @@ public class DaySix2024 {
                     }
                     break;
                 case "east":
-                    if(!(grid[guardY-1][guardX].equals("#"))){
+                    if(!(grid[guardY][guardX+1].equals("#"))){
 
                     }
                     else{
@@ -48,7 +48,7 @@ public class DaySix2024 {
                     }
                     break;
                 case "south":
-                    if(!(grid[guardY-1][guardX].equals("#"))){
+                    if(!(grid[guardY+1][guardX].equals("#"))){
 
                     }
                     else{
@@ -56,7 +56,7 @@ public class DaySix2024 {
                     }
                     break;
                 case "west":
-                    if(!(grid[guardY-1][guardX].equals("#"))){
+                    if(!(grid[guardY][guardX-1].equals("#"))){
 
                     }
                     else{
