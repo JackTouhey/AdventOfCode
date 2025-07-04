@@ -6,30 +6,48 @@ public class DaySix2024 {
     public static String[][] mainGrid = loadData();
     public static String guardDirection = "north";
     public static void main(String[] args) {
-        for(int y = 0; y < mainGrid.length; y++){
-            for(int x = 0; x < mainGrid[y].length; x++){
-                System.out.print(mainGrid[y][x]);
+        // for(int y = 0; y < mainGrid.length; y++){
+        //     for(int x = 0; x < mainGrid[y].length; x++){
+        //         System.out.print(mainGrid[y][x]);
+        //     }
+        //     System.out.println();
+        // }
+        // System.out.println("Guard position x: " + guardX + " y: " + guardY);
+        // moveGuard(mainGrid);
+        // int xCount = 0;
+        // for(int y = 0; y < mainGrid.length; y++){
+        //     for(int x = 0; x < mainGrid[y].length; x++){
+        //         System.out.print(mainGrid[y][x]);
+        //         if(mainGrid[y][x].equals("X")){
+        //             xCount++;
+        //         }
+        //     }
+        //     System.out.println();
+        // }
+        // System.out.println("xCount: " + xCount);
+        ArrayList<String[][]> subGrids = generateSubGrids(mainGrid);
+        int count = 0;
+        for(String[][] subGrid : subGrids){
+            if(moveGuard(subGrid)){ 
+                count++;
             }
-            System.out.println();
         }
-        System.out.println("Guard position x: " + guardX + " y: " + guardY);
-        moveGuard(mainGrid);
-        int xCount = 0;
-        for(int y = 0; y < mainGrid.length; y++){
-            for(int x = 0; x < mainGrid[y].length; x++){
-                System.out.print(mainGrid[y][x]);
-                if(mainGrid[y][x].equals("X")){
-                    xCount++;
+        System.out.println("Count: " + count);
+    }
+    public static ArrayList<String[][]> generateSubGrids(String[][] grid){
+        ArrayList<String[][]> subGrids = new ArrayList<>();
+        for(int y = 0; y < grid.length; y++){
+            for(int x = 0; x < grid[y].length; x++){
+                String[][] newGrid = grid.clone();
+                if(!newGrid[y][x].equals("#") && !newGrid[y][x].equals("^")){
+                    newGrid[y][x] = "#";
+                    subGrids.add(newGrid);
                 }
             }
-            System.out.println();
         }
-        System.out.println("xCount: " + xCount);
+        return subGrids; 
     }
-    // public static ArrayList<String[][]> generateSubGrids(String[][] grid){
-
-    // }
-    public static void moveGuard(String[][] grid){
+    public static Boolean moveGuard(String[][] grid){
         Boolean inBounds = true;
         Boolean inLoop = false;
         ArrayList<int[]> encounteredObstacles = new ArrayList<>();
@@ -129,6 +147,7 @@ public class DaySix2024 {
         if(inLoop){
             System.out.println("Guard stuck in loop");
         }
+        return inLoop;
     }
     public static Boolean checkIfLoop(ArrayList<int[]> encounteredObstacles, int obstacleIndex){
         System.out.println("Obstacle index   : " + Arrays.toString(encounteredObstacles.get(obstacleIndex)));
