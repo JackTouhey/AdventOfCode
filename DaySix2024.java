@@ -28,8 +28,9 @@ public class DaySix2024 {
     }
     public static void moveGuard(){
         Boolean inBounds = true;
+        Boolean inLoop = false;
         ArrayList<int[]> encounteredObstacles = new ArrayList<>();
-        while(inBounds){
+        while(inBounds || !inLoop){
             switch (guardDirection) {
                 case "north":
                     if(guardY == 0){
@@ -44,6 +45,10 @@ public class DaySix2024 {
                         else{
                             int[] obstaclePosition = {guardY, guardX};
                             encounteredObstacles.add(obstaclePosition);
+                            int obstacleIndex = encounteredObstacles.size() - 1;
+                            if(encounteredObstacles.size() > 7){
+                                inLoop = checkIfLoop(encounteredObstacles, obstacleIndex);
+                            }
                             guardDirection = "east";
                         }
                     }
@@ -61,6 +66,10 @@ public class DaySix2024 {
                         else{
                             int[] obstaclePosition = {guardY, guardX};
                             encounteredObstacles.add(obstaclePosition);
+                            int obstacleIndex = encounteredObstacles.size() - 1;
+                            if(encounteredObstacles.size() > 7){
+                                inLoop = checkIfLoop(encounteredObstacles, obstacleIndex);
+                            }
                             guardDirection = "south";
                         }
                     }
@@ -78,6 +87,10 @@ public class DaySix2024 {
                         else{
                             int[] obstaclePosition = {guardY, guardX};
                             encounteredObstacles.add(obstaclePosition);
+                            int obstacleIndex = encounteredObstacles.size() - 1;
+                            if(encounteredObstacles.size() > 7){
+                                inLoop = checkIfLoop(encounteredObstacles, obstacleIndex);
+                            }
                             guardDirection = "west";
                         }
                     }
@@ -95,6 +108,10 @@ public class DaySix2024 {
                         else{
                             int[] obstaclePosition = {guardY, guardX};
                             encounteredObstacles.add(obstaclePosition);
+                            int obstacleIndex = encounteredObstacles.size() - 1;
+                            if(encounteredObstacles.size() > 7){
+                                inLoop = checkIfLoop(encounteredObstacles, obstacleIndex);
+                            }
                             guardDirection = "north";
                         }
                     }
@@ -103,6 +120,15 @@ public class DaySix2024 {
                     throw new AssertionError();
             }
         }
+        if(inLoop){
+            System.out.println("Guard stuck in loop");
+        }
+    }
+    public static Boolean checkIfLoop(ArrayList<int[]> encounteredObstacles, int obstacleIndex){
+        return encounteredObstacles.get(obstacleIndex) == encounteredObstacles.get(obstacleIndex-4) && 
+                encounteredObstacles.get(obstacleIndex-1) == encounteredObstacles.get(obstacleIndex-5) &&
+                encounteredObstacles.get(obstacleIndex-2) == (encounteredObstacles.get(obstacleIndex-6)) &&
+                encounteredObstacles.get(obstacleIndex-3) == (encounteredObstacles.get(obstacleIndex-7));
     }
     public static void moveNorth(){
         grid[guardY - 1][guardX] = "^";
@@ -127,7 +153,7 @@ public class DaySix2024 {
     public static String[][] loadData(){
         String[][] returnGrid = new String[0][0];
         try {
-            File dataFile= new File("DataFiles\\DaySixData.txt");
+            File dataFile= new File("DataFiles\\DaySixTestData.txt");
             Scanner sc = new Scanner(dataFile);
             sc.useDelimiter("");
             String[][] grid = createArray(sc);
