@@ -136,10 +136,10 @@ public class DaySix2024 {
         System.out.println("Obstacle index -6: " + Arrays.toString(encounteredObstacles.get(obstacleIndex-6)));
         System.out.println("Obstacle index -3: " + Arrays.toString(encounteredObstacles.get(obstacleIndex-3)));
         System.out.println("Obstacle index -7: " + Arrays.toString(encounteredObstacles.get(obstacleIndex-7)));
-        return (encounteredObstacles.get(obstacleIndex) == encounteredObstacles.get(obstacleIndex-4) && 
-                encounteredObstacles.get(obstacleIndex-1) == encounteredObstacles.get(obstacleIndex-5) &&
-                encounteredObstacles.get(obstacleIndex-2) == encounteredObstacles.get(obstacleIndex-6) &&
-                encounteredObstacles.get(obstacleIndex-3) == encounteredObstacles.get(obstacleIndex-7));
+        return (Arrays.equals(encounteredObstacles.get(obstacleIndex), encounteredObstacles.get(obstacleIndex-4)) && 
+                Arrays.equals(encounteredObstacles.get(obstacleIndex-1), encounteredObstacles.get(obstacleIndex-5)) &&
+                Arrays.equals(encounteredObstacles.get(obstacleIndex-2), encounteredObstacles.get(obstacleIndex-6)) &&
+                Arrays.equals(encounteredObstacles.get(obstacleIndex-3), encounteredObstacles.get(obstacleIndex-7)));
     }
     public static void moveNorth(){
         grid[guardY - 1][guardX] = "^";
