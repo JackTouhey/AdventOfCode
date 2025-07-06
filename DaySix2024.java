@@ -28,19 +28,36 @@ public class DaySix2024 {
         ArrayList<String[][]> subGrids = generateSubGrids(mainGrid);
         int count = 0;
         for(String[][] subGrid : subGrids){
+            // printGrid(subGrid);
+            
             if(moveGuard(subGrid)){ 
                 count++;
             }
         }
         System.out.println("Count: " + count);
     }
+    public static void printGrid(String[][] grid){
+        for(int y = 0; y < grid.length; y++){
+            for(int x = 0; x < grid[y].length; x++){
+                System.out.print(grid[y][x]);
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
     public static ArrayList<String[][]> generateSubGrids(String[][] grid){
         ArrayList<String[][]> subGrids = new ArrayList<>();
         for(int y = 0; y < grid.length; y++){
             for(int x = 0; x < grid[y].length; x++){
-                String[][] newGrid = grid.clone();
+                String[][] newGrid = new String[grid.length][];
+                for(int i = 0; i < grid.length; i++){
+                    newGrid[i] = grid[i].clone();
+                }
+                
                 if(!newGrid[y][x].equals("#") && !newGrid[y][x].equals("^")){
                     newGrid[y][x] = "#";
+                    System.out.println("Generated newGrid: ");
+                    printGrid(newGrid);
                     subGrids.add(newGrid);
                 }
             }
