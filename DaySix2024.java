@@ -91,7 +91,8 @@ public class DaySix2024 {
                             if(encounteredObstacles.size() > 7){
                                 inLoop = checkIfLoop(encounteredObstacles, obstacleIndex);
                             }
-                            System.out.println("inLoop:" + inLoop);
+                            printGrid(grid);
+                            // System.out.println("inLoop:" + inLoop);
                             guardDirection = "east";
                         }
                     }
@@ -113,7 +114,8 @@ public class DaySix2024 {
                             if(encounteredObstacles.size() > 7){
                                 inLoop = checkIfLoop(encounteredObstacles, obstacleIndex);
                             }
-                            System.out.println("inLoop:" + inLoop);
+                            printGrid(grid);
+                            // System.out.println("inLoop:" + inLoop);
                             guardDirection = "south";
                         }
                     }
@@ -135,7 +137,8 @@ public class DaySix2024 {
                             if(encounteredObstacles.size() > 7){
                                 inLoop = checkIfLoop(encounteredObstacles, obstacleIndex);
                             }
-                            System.out.println("inLoop:" + inLoop);
+                            printGrid(grid);
+                            // System.out.println("inLoop:" + inLoop);
                             guardDirection = "west";
                         }
                     }
@@ -157,6 +160,7 @@ public class DaySix2024 {
                             if(encounteredObstacles.size() > 7){
                                 inLoop = checkIfLoop(encounteredObstacles, obstacleIndex);
                             }
+                            printGrid(grid);
                             // System.out.println("inLoop:" + inLoop);
                             guardDirection = "north";
                         }
@@ -256,4 +260,20 @@ public class DaySix2024 {
         }
         return grid;
     }
+}
+class Moment{
+    private final int guardY;
+    private final int guardX;
+    private final String direction;
+    public Moment(int guardY, int guardX, String direction){
+        this.guardY = guardY;
+        this.guardX = guardX;
+        this.direction = direction;
+    }
+    public Boolean checkIfMatching(Moment m){
+        return guardY == m.getGuardY() && guardX == m.getGuardX() && direction.equals(m.getGuardDirection());
+    }
+    public int getGuardY(){return this.guardY;}
+    public int getGuardX(){return this.guardX;}
+    public String getGuardDirection(){return this.direction;}
 }
