@@ -28,9 +28,11 @@ public class DaySix2024 {
         ArrayList<String[][]> subGrids = generateSubGrids(mainGrid);
         int count = 0;
         for(String[][] subGrid : subGrids){
-            // printGrid(subGrid);
-            
-            if(moveGuard(subGrid)){ 
+            System.out.println("Checking grid:");
+            printGrid(subGrid);
+            Boolean inLoop = moveGuard(subGrid);
+            System.out.println("inLoop: " + inLoop);
+            if(inLoop){ 
                 count++;
             }
         }
@@ -55,7 +57,7 @@ public class DaySix2024 {
                 }
                 
                 if(!newGrid[y][x].equals("#") && !newGrid[y][x].equals("^")){
-                    newGrid[y][x] = "#";
+                    newGrid[y][x] = "O";
                     System.out.println("Generated newGrid: ");
                     printGrid(newGrid);
                     subGrids.add(newGrid);
@@ -68,6 +70,8 @@ public class DaySix2024 {
         Boolean inBounds = true;
         Boolean inLoop = false;
         ArrayList<int[]> encounteredObstacles = new ArrayList<>();
+        int[] originalGuardLocation ={guardY, guardX};
+        String originalGuardDirection = guardDirection;
         while(inBounds && !inLoop){
             switch (guardDirection) {
                 case "north" -> {
@@ -76,8 +80,8 @@ public class DaySix2024 {
                         inBounds = false;
                     }
                     else{
-                        if(!(grid[guardY-1][guardX].equals("#"))){
-                            System.out.println("About to move north. Current position y: " + guardY + " x: " + guardX);
+                        if(!(grid[guardY-1][guardX].equals("#")) && !(grid[guardY-1][guardX].equals("O"))){
+                            // System.out.println("About to move north. Current position y: " + guardY + " x: " + guardX);
                             grid = moveNorth(grid);
                         }
                         else{
@@ -98,8 +102,8 @@ public class DaySix2024 {
                         inBounds = false;
                     }
                     else{
-                        if(!(grid[guardY][guardX+1].equals("#"))){
-                            System.out.println("About to move east. Current position y: " + guardY + " x: " + guardX);
+                        if(!(grid[guardY][guardX+1].equals("#")) && !(grid[guardY][guardX+1].equals("O"))){
+                            // System.out.println("About to move east. Current position y: " + guardY + " x: " + guardX);
                             grid = moveEast(grid);
                         }
                         else{
@@ -120,8 +124,8 @@ public class DaySix2024 {
                         inBounds = false;
                     }
                     else{
-                        if(!(grid[guardY+1][guardX].equals("#"))){
-                            System.out.println("About to move south. Current position y: " + guardY + " x: " + guardX);
+                        if(!(grid[guardY+1][guardX].equals("#")) && !(grid[guardY+1][guardX].equals("O"))){
+                            // System.out.println("About to move south. Current position y: " + guardY + " x: " + guardX);
                             grid = moveSouth(grid);
                         }
                         else{
@@ -142,8 +146,8 @@ public class DaySix2024 {
                         inBounds = false;
                     }
                     else{
-                        if(!(grid[guardY][guardX-1].equals("#"))){
-                            System.out.println("About to move west. Current position y: " + guardY + " x: " + guardX);
+                        if(!(grid[guardY][guardX-1].equals("#")) && !(grid[guardY][guardX-1].equals("O"))){
+                            // System.out.println("About to move west. Current position y: " + guardY + " x: " + guardX);
                             grid = moveWest(grid);
                         }
                         else{
@@ -153,7 +157,7 @@ public class DaySix2024 {
                             if(encounteredObstacles.size() > 7){
                                 inLoop = checkIfLoop(encounteredObstacles, obstacleIndex);
                             }
-                            System.out.println("inLoop:" + inLoop);
+                            // System.out.println("inLoop:" + inLoop);
                             guardDirection = "north";
                         }
                     }
@@ -161,6 +165,11 @@ public class DaySix2024 {
                 default -> throw new AssertionError();
             }
         }
+        guardY = originalGuardLocation[0];
+        guardX = originalGuardLocation[1];
+        guardDirection = originalGuardDirection;
+        System.out.println("Result:");
+        printGrid(grid);
         if(inLoop){
             System.out.println("Guard stuck in loop");
         }
