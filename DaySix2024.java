@@ -26,12 +26,14 @@ public class DaySix2024 {
         // }
         // System.out.println("xCount: " + xCount);
         ArrayList<String[][]> subGrids = generateSubGrids(mainGrid);
+        int checkNumber = 0;
         int count = 0;
         for(String[][] subGrid : subGrids){
-            System.out.println("Checking grid:");
-            printGrid(subGrid);
+            System.out.println("Checking grid: " + checkNumber);
+            checkNumber ++;
+            // printGrid(subGrid);
             Boolean inLoop = moveGuard(subGrid);
-            System.out.println("inLoop: " + inLoop);
+            // System.out.println("inLoop: " + inLoop);
             if(inLoop){ 
                 count++;
             }
@@ -41,7 +43,7 @@ public class DaySix2024 {
     public static String[][] loadData(){
         String[][] returnGrid = new String[0][0];
         try {
-            File dataFile= new File("DataFiles\\DaySixTestData.txt");
+            File dataFile= new File("DataFiles\\DaySixData.txt");
             Scanner sc = new Scanner(dataFile);
             sc.useDelimiter("");
             String[][] grid = createArray(sc);
@@ -74,7 +76,7 @@ public class DaySix2024 {
                 if(!newGrid[y][x].equals("#") && !newGrid[y][x].equals("^")){
                     newGrid[y][x] = "O";
                     System.out.println("Generated newGrid: ");
-                    printGrid(newGrid);
+                    // printGrid(newGrid);
                     subGrids.add(newGrid);
                 }
             }
@@ -84,7 +86,7 @@ public class DaySix2024 {
     private static Boolean checkIfMomentContained(HashSet<Moment> moments, Moment moment){
         for(Moment m : moments){
             if(moment.checkIfMatching(m)){
-                System.out.println("Moment contained");
+                // System.out.println("Moment contained");
                 return true;
             }
         }
@@ -122,7 +124,7 @@ public class DaySix2024 {
                                 if(encounteredObstacles.size() > 7){
                                     // inLoop = checkIfLoop(encounteredObstacles, obstacleIndex);
                                 }
-                                printGrid(grid);
+                                // printGrid(grid);
                                 // System.out.println("inLoop:" + inLoop);
                                 guardDirection = "east";
                             }
@@ -145,7 +147,7 @@ public class DaySix2024 {
                                 if(encounteredObstacles.size() > 7){
                                     // inLoop = checkIfLoop(encounteredObstacles, obstacleIndex);
                                 }
-                                printGrid(grid);
+                                // printGrid(grid);
                                 // System.out.println("inLoop:" + inLoop);
                                 guardDirection = "south";
                             }
@@ -168,7 +170,7 @@ public class DaySix2024 {
                                 if(encounteredObstacles.size() > 7){
                                     // inLoop = checkIfLoop(encounteredObstacles, obstacleIndex);
                                 }
-                                printGrid(grid);
+                                // printGrid(grid);
                                 // System.out.println("inLoop:" + inLoop);
                                 guardDirection = "west";
                             }
@@ -191,7 +193,7 @@ public class DaySix2024 {
                                 if(encounteredObstacles.size() > 7){
                                     // inLoop = checkIfLoop(encounteredObstacles, obstacleIndex);
                                 }
-                                printGrid(grid);
+                                // printGrid(grid);
                                 // System.out.println("inLoop:" + inLoop);
                                 guardDirection = "north";
                             }
@@ -205,8 +207,8 @@ public class DaySix2024 {
         guardY = originalGuardLocation[0];
         guardX = originalGuardLocation[1];
         guardDirection = originalGuardDirection;
-        System.out.println("Result:");
-        printGrid(grid);
+        // System.out.println("Result:");
+        // printGrid(grid);
         if(inLoop){
             System.out.println("Guard stuck in loop");
         }
