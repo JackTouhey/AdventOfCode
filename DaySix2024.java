@@ -38,6 +38,21 @@ public class DaySix2024 {
         }
         System.out.println("Count: " + count);
     }
+    public static String[][] loadData(){
+        String[][] returnGrid = new String[0][0];
+        try {
+            File dataFile= new File("DataFiles\\DaySixTestData.txt");
+            Scanner sc = new Scanner(dataFile);
+            sc.useDelimiter("");
+            String[][] grid = createArray(sc);
+            Scanner sc2 = new Scanner(dataFile);
+            sc2.useDelimiter("");
+            returnGrid = populateArray(sc2, grid);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return returnGrid;
+    }
     public static void printGrid(String[][] grid){
         for(int y = 0; y < grid.length; y++){
             for(int x = 0; x < grid[y].length; x++){
@@ -66,108 +81,126 @@ public class DaySix2024 {
         }
         return subGrids; 
     }
+    private static Boolean checkIfMomentContained(HashSet<Moment> moments, Moment moment){
+        for(Moment m : moments){
+            if(moment.checkIfMatching(m)){
+                System.out.println("Moment contained");
+                return true;
+            }
+        }
+        return false;
+    }
     public static Boolean moveGuard(String[][] grid){
         Boolean inBounds = true;
         Boolean inLoop = false;
         ArrayList<int[]> encounteredObstacles = new ArrayList<>();
         int[] originalGuardLocation ={guardY, guardX};
         String originalGuardDirection = guardDirection;
+        HashSet<Moment> moments = new HashSet<>();
         while(inBounds && !inLoop){
-            switch (guardDirection) {
-                case "north" -> {
-                    if(guardY == 0){
-                        grid[guardY][guardX] = "X";
-                        inBounds = false;
-                    }
-                    else{
-                        if(!(grid[guardY-1][guardX].equals("#")) && !(grid[guardY-1][guardX].equals("O"))){
-                            // System.out.println("About to move north. Current position y: " + guardY + " x: " + guardX);
-                            grid = moveNorth(grid);
-                        }
-                        else{
-                            int[] obstaclePosition = {guardY, guardX};
-                            encounteredObstacles.add(obstaclePosition);
-                            int obstacleIndex = encounteredObstacles.size() - 1;
-                            if(encounteredObstacles.size() > 7){
-                                inLoop = checkIfLoop(encounteredObstacles, obstacleIndex);
-                            }
-                            printGrid(grid);
-                            // System.out.println("inLoop:" + inLoop);
-                            guardDirection = "east";
-                        }
-                    }
-                }
-                case "east" -> {
-                    if(guardX == grid[0].length-1){
-                        grid[guardY][guardX] = "X";
-                        inBounds = false;
-                    }
-                    else{
-                        if(!(grid[guardY][guardX+1].equals("#")) && !(grid[guardY][guardX+1].equals("O"))){
-                            // System.out.println("About to move east. Current position y: " + guardY + " x: " + guardX);
-                            grid = moveEast(grid);
-                        }
-                        else{
-                            int[] obstaclePosition = {guardY, guardX};
-                            encounteredObstacles.add(obstaclePosition);
-                            int obstacleIndex = encounteredObstacles.size() - 1;
-                            if(encounteredObstacles.size() > 7){
-                                inLoop = checkIfLoop(encounteredObstacles, obstacleIndex);
-                            }
-                            printGrid(grid);
-                            // System.out.println("inLoop:" + inLoop);
-                            guardDirection = "south";
-                        }
-                    }
-                }
-                case "south" -> {
-                    if(guardY == grid.length-1){
-                        grid[guardY][guardX] = "X";
-                        inBounds = false;
-                    }
-                    else{
-                        if(!(grid[guardY+1][guardX].equals("#")) && !(grid[guardY+1][guardX].equals("O"))){
-                            // System.out.println("About to move south. Current position y: " + guardY + " x: " + guardX);
-                            grid = moveSouth(grid);
-                        }
-                        else{
-                            int[] obstaclePosition = {guardY, guardX};
-                            encounteredObstacles.add(obstaclePosition);
-                            int obstacleIndex = encounteredObstacles.size() - 1;
-                            if(encounteredObstacles.size() > 7){
-                                inLoop = checkIfLoop(encounteredObstacles, obstacleIndex);
-                            }
-                            printGrid(grid);
-                            // System.out.println("inLoop:" + inLoop);
-                            guardDirection = "west";
-                        }
-                    }
-                }
-                case "west" -> {
-                    if(guardX == 0){
-                        grid[guardY][guardX] = "X";
-                        inBounds = false;
-                    }
-                    else{
-                        if(!(grid[guardY][guardX-1].equals("#")) && !(grid[guardY][guardX-1].equals("O"))){
-                            // System.out.println("About to move west. Current position y: " + guardY + " x: " + guardX);
-                            grid = moveWest(grid);
-                        }
-                        else{
-                            int[] obstaclePosition = {guardY, guardX};
-                            encounteredObstacles.add(obstaclePosition);
-                            int obstacleIndex = encounteredObstacles.size() - 1;
-                            if(encounteredObstacles.size() > 7){
-                                inLoop = checkIfLoop(encounteredObstacles, obstacleIndex);
-                            }
-                            printGrid(grid);
-                            // System.out.println("inLoop:" + inLoop);
-                            guardDirection = "north";
-                        }
-                    }
-                }
-                default -> throw new AssertionError();
+            Moment currentMoment = new Moment(guardY, guardX, guardDirection);
+            if(checkIfMomentContained(moments, currentMoment)){
+                inLoop = true;
             }
+            else{
+                moments.add(currentMoment);
+                switch (guardDirection) {
+                    case "north" -> {
+                        if(guardY == 0){
+                            grid[guardY][guardX] = "X";
+                            inBounds = false;
+                        }
+                        else{
+                            if(!(grid[guardY-1][guardX].equals("#")) && !(grid[guardY-1][guardX].equals("O"))){
+                                // System.out.println("About to move north. Current position y: " + guardY + " x: " + guardX);
+                                grid = moveNorth(grid);
+                            }
+                            else{
+                                int[] obstaclePosition = {guardY, guardX};
+                                encounteredObstacles.add(obstaclePosition);
+                                int obstacleIndex = encounteredObstacles.size() - 1;
+                                if(encounteredObstacles.size() > 7){
+                                    // inLoop = checkIfLoop(encounteredObstacles, obstacleIndex);
+                                }
+                                printGrid(grid);
+                                // System.out.println("inLoop:" + inLoop);
+                                guardDirection = "east";
+                            }
+                        }
+                    }
+                    case "east" -> {
+                        if(guardX == grid[0].length-1){
+                            grid[guardY][guardX] = "X";
+                            inBounds = false;
+                        }
+                        else{
+                            if(!(grid[guardY][guardX+1].equals("#")) && !(grid[guardY][guardX+1].equals("O"))){
+                                // System.out.println("About to move east. Current position y: " + guardY + " x: " + guardX);
+                                grid = moveEast(grid);
+                            }
+                            else{
+                                int[] obstaclePosition = {guardY, guardX};
+                                encounteredObstacles.add(obstaclePosition);
+                                int obstacleIndex = encounteredObstacles.size() - 1;
+                                if(encounteredObstacles.size() > 7){
+                                    // inLoop = checkIfLoop(encounteredObstacles, obstacleIndex);
+                                }
+                                printGrid(grid);
+                                // System.out.println("inLoop:" + inLoop);
+                                guardDirection = "south";
+                            }
+                        }
+                    }
+                    case "south" -> {
+                        if(guardY == grid.length-1){
+                            grid[guardY][guardX] = "X";
+                            inBounds = false;
+                        }
+                        else{
+                            if(!(grid[guardY+1][guardX].equals("#")) && !(grid[guardY+1][guardX].equals("O"))){
+                                // System.out.println("About to move south. Current position y: " + guardY + " x: " + guardX);
+                                grid = moveSouth(grid);
+                            }
+                            else{
+                                int[] obstaclePosition = {guardY, guardX};
+                                encounteredObstacles.add(obstaclePosition);
+                                int obstacleIndex = encounteredObstacles.size() - 1;
+                                if(encounteredObstacles.size() > 7){
+                                    // inLoop = checkIfLoop(encounteredObstacles, obstacleIndex);
+                                }
+                                printGrid(grid);
+                                // System.out.println("inLoop:" + inLoop);
+                                guardDirection = "west";
+                            }
+                        }
+                    }
+                    case "west" -> {
+                        if(guardX == 0){
+                            grid[guardY][guardX] = "X";
+                            inBounds = false;
+                        }
+                        else{
+                            if(!(grid[guardY][guardX-1].equals("#")) && !(grid[guardY][guardX-1].equals("O"))){
+                                // System.out.println("About to move west. Current position y: " + guardY + " x: " + guardX);
+                                grid = moveWest(grid);
+                            }
+                            else{
+                                int[] obstaclePosition = {guardY, guardX};
+                                encounteredObstacles.add(obstaclePosition);
+                                int obstacleIndex = encounteredObstacles.size() - 1;
+                                if(encounteredObstacles.size() > 7){
+                                    // inLoop = checkIfLoop(encounteredObstacles, obstacleIndex);
+                                }
+                                printGrid(grid);
+                                // System.out.println("inLoop:" + inLoop);
+                                guardDirection = "north";
+                            }
+                        }
+                    }
+                    default -> throw new AssertionError();
+                }
+            }
+            
         }
         guardY = originalGuardLocation[0];
         guardX = originalGuardLocation[1];
@@ -217,21 +250,7 @@ public class DaySix2024 {
         guardX -= 1;
         return grid;
     }
-    public static String[][] loadData(){
-        String[][] returnGrid = new String[0][0];
-        try {
-            File dataFile= new File("DataFiles\\DaySixTestData.txt");
-            Scanner sc = new Scanner(dataFile);
-            sc.useDelimiter("");
-            String[][] grid = createArray(sc);
-            Scanner sc2 = new Scanner(dataFile);
-            sc2.useDelimiter("");
-            returnGrid = populateArray(sc2, grid);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return returnGrid;
-    }
+    
     public static String[][] createArray(Scanner sc){
         int height = 1;
         String rowOne = sc.nextLine();
