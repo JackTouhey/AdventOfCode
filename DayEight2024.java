@@ -30,14 +30,17 @@ public class DayEight2024 {
                 }
             }
         }
-
         int count = 0;
         for(Coordinate c : antinodes){
             if(c.getX() >= 0 && c.getX() < grid[0].length && c.getY() >= 0 && c.getY() < grid.length){
                 System.out.println("Antinode coordinate: " + c.getY() + "," + c.getX());
                 count++;
+                if(grid[c.getY()][c.getX()].equals(".")){
+                    grid[c.getY()][c.getX()] = "#";
+                }
             }
         }
+        printGrid(grid);
         System.out.println("Count: " + count);
     }
     public static void printGrid(String[][] grid){
@@ -52,7 +55,7 @@ public class DayEight2024 {
     public static String[][] loadData(){
         String[][] returnGrid = new String[0][0];
         try {
-            File dataFile= new File("DataFiles\\DayEightTestData.txt");
+            File dataFile= new File("DataFiles\\DayEightData.txt");
             Scanner sc = new Scanner(dataFile);
             sc.useDelimiter("");
             String[][] grid = createArray(sc);
