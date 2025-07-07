@@ -1,5 +1,6 @@
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -10,6 +11,20 @@ public class DayEight2024 {
     public static void main(String[] args) {
         printGrid(grid);
         System.out.println("Number of A loaded: " + antennaByFrequency.get('A').size());
+        ArrayList<Coordinate> antinodes = new ArrayList<>();
+        for(Antenna a : antennaByFrequency.get('A')){
+            for(Antenna b : antennaByFrequency.get('A')){
+                if(!(a.equals(b))){
+                    antinodes.addAll(Arrays.asList(getAntinodesFromTwoAntenna(a, b)));
+                }
+            }
+        }
+        for(Coordinate c : antinodes){
+            if(c.getX() >= 0 && c.getX() < grid[0].length && c.getY() >= 0 && c.getY() < grid.length){
+                grid[c.getY()][c.getX()] = "#";
+            }
+        }
+        printGrid(grid);
     }
     public static void printGrid(String[][] grid){
         for(int y = 0; y < grid.length; y++){
@@ -72,11 +87,15 @@ public class DayEight2024 {
         }
         return grid;
     }
-    public static Coordinate[] getAntinodesFromTwoAntenna(Antenna antenna1, Antenna antenna2){
+    private static Coordinate[] getAntinodesFromTwoAntenna(Antenna antenna1, Antenna antenna2){
         int xDistance = antenna1.getLocation().getX() - antenna2.getLocation().getX();
         int yDistance = antenna1.getLocation().getY() - antenna2.getLocation().getY();
-        Coordinate antinode1 = new Coordinate(antenna1.getLocation().getX() + xDistance, antenna1.getLocation().getX() + yDistance);
-        Coordinate antinode2 = new Coordinate(antenna1.getLocation().getX() - (2 * xDistance), antenna1.getLocation().getX() - (2 * yDistance));
+        Coordinate antinode1 = new Coordinate(antenna1.getLocation().getX() + xDistance, antenna1.getLocation().getY() + yDistance);
+        Coordinate antinode2 = new Coordinate(antenna1.getLocation().getX() - (2 * xDistance), antenna1.getLocation().getY() - (2 * yDistance));
+        System.out.println("Antenna1 location: " + antenna1.getLocation().getY() + "," + antenna1.getLocation().getX() + 
+        " Antenna2 location: " + antenna2.getLocation().getY() + "," + antenna2.getLocation().getX() + 
+        " yDistance: " + yDistance + " xDistance " + xDistance);
+        System.out.println("Antinodes generated: " + antinode1.getY() + "," + antinode1.getX() + " + " + antinode2.getY() + "," + antinode2.getX());
         Coordinate[] antinodes = {antinode1, antinode2};
         return antinodes;
     }
