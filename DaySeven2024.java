@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
@@ -8,16 +9,18 @@ public class DaySeven2024 {
     private static ArrayList<Equation> equations = new ArrayList<>();
     public static void main(String[] args) {
         equations = loadData();
+        int count = 0;
         Double sum = 0.0;
         for(Equation e : equations){
-            System.out.println();
-            e.printSelf();
+            count++;
+            System.out.println("Count: " + count);
+            // e.printSelf();
             // System.out.print("Success: " + e.testSelf());
             if(e.testSelf()){
                 sum += e.getTestValue();
             }
         }
-        System.out.println("Sum: " + String.format("%.20f", sum));
+        System.out.println("Sum: " + String.format("%.200f", sum));
     }
     private static ArrayList<Equation> loadData(){
         ArrayList<Equation> equations = new ArrayList<>();
@@ -57,45 +60,42 @@ class Equation{
     public Boolean testSelf(){
         Boolean success = false;
         ArrayList<Double> currentResults = new ArrayList<>();
+        DecimalFormat df = new DecimalFormat("#");
         for(int i = 1; i < values.size(); i++){
             if(currentResults.isEmpty()){
                 currentResults.add(values.get(i-1) + values.get(i));
                 currentResults.add(values.get(i-1) * values.get(i));
-                String firstNumber = String.valueOf(String.valueOf(values.get(i-1)));
-                String secondNumber = String.valueOf(values.get(i));
-                firstNumber = firstNumber.substring(0, firstNumber.length()-2);
-                secondNumber = secondNumber.substring(0, secondNumber.length()-2);
-                System.out.println("First number: " + firstNumber + " secondNumber: " + secondNumber);
+                String firstNumber = df.format(values.get(i-1));
+                String secondNumber = df.format(values.get(i)); 
+                // System.out.println("First number: " + firstNumber + " secondNumber: " + secondNumber);
                 Double concatenationValue = Double.valueOf(firstNumber+secondNumber);
                 currentResults.add(concatenationValue);
-                System.out.println("Starting currentValues: " + currentResults.get(0) + ", " + currentResults.get(1) + " ||:" + currentResults.get(2));
+                // System.out.println("Starting currentValues: " + currentResults.get(0) + ", " + currentResults.get(1) + " ||:" + currentResults.get(2));
             }
             else{
-                System.out.println("Handling value: " + values.get(i));
+                // System.out.println("Handling value: " + values.get(i));
                 Integer resultsToBeRemoved = currentResults.size();
                 for(int ii = 0; ii < resultsToBeRemoved; ii++){
                     Double additionValue = currentResults.get(ii) + values.get(i);
                     Double multiplicationValue = currentResults.get(ii) * values.get(i);
-                    String firstNumber = String.valueOf(currentResults.get(ii));
-                    String secondNumber = String.valueOf(values.get(i));
-                    firstNumber = firstNumber.substring(0, firstNumber.length()-2);
-                    secondNumber = secondNumber.substring(0, secondNumber.length()-2);
-                    Double concatenationValue = Double.valueOf(firstNumber+secondNumber);
-                    System.out.println("Adding additionValue: " + additionValue +" and mult value: " + multiplicationValue + " ||: " + concatenationValue);
+                    String firstNumber = df.format(currentResults.get(ii));
+                    String secondNumber = df.format(values.get(i)); 
+                    Double concatenationValue = Double.valueOf(firstNumber + secondNumber);
+                    // System.out.println("Adding additionValue: " + additionValue +" and mult value: " + multiplicationValue + " ||: " + concatenationValue);
                     currentResults.add(additionValue);
                     currentResults.add(multiplicationValue);
                     currentResults.add(concatenationValue);
                 }
                 for(int iii = 0; iii < resultsToBeRemoved; iii++){
-                    System.out.println("Removing: " + currentResults.get(0));
+                    // System.out.println("Removing: " + currentResults.get(0));
                     currentResults.remove(0);
                 }
             }
         }
-        System.out.println("Final values: " + currentResults);
+        // System.out.println("Final values: " + currentResults);
         for(Double i : currentResults){
             if(Objects.equals(i, testValue)){
-                System.out.println("Match: " + i + " to test value " + testValue);
+                // System.out.println("Match: " + i + " to test value " + testValue);
                 success = true;
             }
         }
