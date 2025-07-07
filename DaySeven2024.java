@@ -8,7 +8,7 @@ public class DaySeven2024 {
     private static ArrayList<Equation> equations = new ArrayList<>();
     public static void main(String[] args) {
         equations = loadData();
-        int sum = 0;
+        Double sum = 0.0;
         for(Equation e : equations){
             System.out.println();
             e.printSelf();
@@ -17,7 +17,7 @@ public class DaySeven2024 {
                 sum += e.getTestValue();
             }
         }
-        System.out.println("Sum: " + sum);
+        System.out.println("Sum: " + String.format("%.200f", sum));
     }
     private static ArrayList<Equation> loadData(){
         ArrayList<Equation> equations = new ArrayList<>();
@@ -82,6 +82,7 @@ class Equation{
         System.out.println("Final values: " + currentResults);
         for(Double i : currentResults){
             if(Objects.equals(i, testValue)){
+                System.out.println("Match: " + i + " to test value " + testValue);
                 success = true;
             }
         }
