@@ -24,14 +24,14 @@ public class DaySeven2024 {
         try {
             Scanner sc = new Scanner(new File("DataFiles\\DaySevenData.txt"));
             while(sc.hasNext()){
-                ArrayList<Integer> values = new ArrayList<>();
+                ArrayList<Double> values = new ArrayList<>();
                 Scanner lineScanner = new Scanner(sc.nextLine());
                 lineScanner.useDelimiter(":");
-                Integer testValue = lineScanner.nextInt(); 
+                Double testValue = lineScanner.nextDouble(); 
                 lineScanner.useDelimiter(" ");
                 lineScanner.next();
                 while(lineScanner.hasNext()){
-                    values.add(lineScanner.nextInt());
+                    values.add(lineScanner.nextDouble());
                 }
                 equations.add(new Equation(testValue, values));
                 lineScanner.close();
@@ -44,19 +44,19 @@ public class DaySeven2024 {
     }
 }
 class Equation{
-    Integer testValue;
-    ArrayList<Integer> values = new ArrayList<>();
-    public Equation(Integer testValue, ArrayList<Integer> values){
+    Double testValue;
+    ArrayList<Double> values = new ArrayList<>();
+    public Equation(Double testValue, ArrayList<Double> values){
         this.testValue = testValue;
         this.values = new ArrayList<>(values);
     }
     public void printSelf(){
         System.out.println(testValue + ": " + values);
     }
-    public Integer getTestValue(){return this.testValue;}
+    public Double getTestValue(){return this.testValue;}
     public Boolean testSelf(){
         Boolean success = false;
-        ArrayList<Integer> currentResults = new ArrayList<>();
+        ArrayList<Double> currentResults = new ArrayList<>();
         for(int i = 1; i < values.size(); i++){
             if(currentResults.size() == 0){
                 currentResults.add(values.get(i-1) + values.get(i));
@@ -67,8 +67,8 @@ class Equation{
                 System.out.println("Handling value: " + values.get(i));
                 Integer resultsToBeRemoved = currentResults.size();
                 for(int ii = 0; ii < resultsToBeRemoved; ii++){
-                    Integer additionValue = currentResults.get(ii) + values.get(i);
-                    Integer multiplicationValue = currentResults.get(ii) * values.get(i);
+                    Double additionValue = currentResults.get(ii) + values.get(i);
+                    Double multiplicationValue = currentResults.get(ii) * values.get(i);
                     System.out.println("Adding additionValue: " + additionValue +" and mult value: " + multiplicationValue);
                     currentResults.add(additionValue);
                     currentResults.add(multiplicationValue);
@@ -83,7 +83,7 @@ class Equation{
                 
         }
         }
-        for(Integer i : currentResults){
+        for(Double i : currentResults){
             if(Objects.equals(i, testValue)){
                 success = true;
             }
