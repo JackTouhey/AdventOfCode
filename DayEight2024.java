@@ -1,7 +1,7 @@
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Scanner;
 
 public class DayEight2024 {
@@ -9,22 +9,36 @@ public class DayEight2024 {
     private static HashMap<Character, ArrayList<Antenna>> antennaByFrequency = new HashMap<>();
     private static String[][] grid = loadData();
     public static void main(String[] args) {
-        printGrid(grid);
-        System.out.println("Number of A loaded: " + antennaByFrequency.get('A').size());
-        ArrayList<Coordinate> antinodes = new ArrayList<>();
-        for(Antenna a : antennaByFrequency.get('A')){
-            for(Antenna b : antennaByFrequency.get('A')){
-                if(!(a.equals(b))){
-                    antinodes.addAll(Arrays.asList(getAntinodesFromTwoAntenna(a, b)));
+        // printGrid(grid);
+        HashSet<Coordinate> antinodes = new HashSet<>();
+        for(Character c : antennaByFrequency.keySet()){
+            for(Antenna a : antennaByFrequency.get(c)){
+                for(Antenna b : antennaByFrequency.get(c)){
+                    if(!(a.equals(b))){
+                        for(Coordinate newAntinode : getAntinodesFromTwoAntenna(a, b)){
+                            Boolean antinodeContained = false;
+                            for(Coordinate antinode : antinodes){
+                                if(antinode.getX() == newAntinode.getX() && antinode.getY() == newAntinode.getY()){
+                                    antinodeContained = true;
+                                }
+                            }
+                            if(!antinodeContained){
+                                antinodes.add(newAntinode);
+                            }
+                        }
+                    }
                 }
             }
         }
+
+        int count = 0;
         for(Coordinate c : antinodes){
             if(c.getX() >= 0 && c.getX() < grid[0].length && c.getY() >= 0 && c.getY() < grid.length){
-                grid[c.getY()][c.getX()] = "#";
+                System.out.println("Antinode coordinate: " + c.getY() + "," + c.getX());
+                count++;
             }
         }
-        printGrid(grid);
+        System.out.println("Count: " + count);
     }
     public static void printGrid(String[][] grid){
         for(int y = 0; y < grid.length; y++){
@@ -92,10 +106,10 @@ public class DayEight2024 {
         int yDistance = antenna1.getLocation().getY() - antenna2.getLocation().getY();
         Coordinate antinode1 = new Coordinate(antenna1.getLocation().getX() + xDistance, antenna1.getLocation().getY() + yDistance);
         Coordinate antinode2 = new Coordinate(antenna1.getLocation().getX() - (2 * xDistance), antenna1.getLocation().getY() - (2 * yDistance));
-        System.out.println("Antenna1 location: " + antenna1.getLocation().getY() + "," + antenna1.getLocation().getX() + 
-        " Antenna2 location: " + antenna2.getLocation().getY() + "," + antenna2.getLocation().getX() + 
-        " yDistance: " + yDistance + " xDistance " + xDistance);
-        System.out.println("Antinodes generated: " + antinode1.getY() + "," + antinode1.getX() + " + " + antinode2.getY() + "," + antinode2.getX());
+        // System.out.println("Antenna1 location: " + antenna1.getLocation().getY() + "," + antenna1.getLocation().getX() + 
+        // " Antenna2 location: " + antenna2.getLocation().getY() + "," + antenna2.getLocation().getX() + 
+        // " yDistance: " + yDistance + " xDistance " + xDistance);
+        // System.out.println("Antinodes generated: " + antinode1.getY() + "," + antinode1.getX() + " + " + antinode2.getY() + "," + antinode2.getX());
         Coordinate[] antinodes = {antinode1, antinode2};
         return antinodes;
     }
