@@ -58,7 +58,7 @@ class Equation{
         Boolean success = false;
         ArrayList<Double> currentResults = new ArrayList<>();
         for(int i = 1; i < values.size(); i++){
-            if(currentResults.size() == 0){
+            if(currentResults.isEmpty()){
                 currentResults.add(values.get(i-1) + values.get(i));
                 currentResults.add(values.get(i-1) * values.get(i));
                 System.out.println("Starting currentValues: " + currentResults.get(0) + ", " + currentResults.get(1));
@@ -73,16 +73,13 @@ class Equation{
                     currentResults.add(additionValue);
                     currentResults.add(multiplicationValue);
                 }
-                System.out.println("Current size before cull: " + currentResults.size());
-                if(i != values.size()-1){
-                    for(int iii = 0; iii < resultsToBeRemoved; iii++){
-                        System.out.println("Removing: " + currentResults.get(iii));
-                        currentResults.remove(iii);
-                    }
+                for(int iii = 0; iii < resultsToBeRemoved; iii++){
+                    System.out.println("Removing: " + currentResults.get(0));
+                    currentResults.remove(0);
                 }
-                
+            }
         }
-        }
+        System.out.println("Final values: " + currentResults);
         for(Double i : currentResults){
             if(Objects.equals(i, testValue)){
                 success = true;
