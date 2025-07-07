@@ -54,8 +54,9 @@ public class DayEight2024 {
                 sc2.useDelimiter("");
                 String next = sc2.next();
                 if(!next.equals(".")){
+                    Coordinate location = new Coordinate(x, y);
                     char c = next.charAt(0);
-                    Antenna newAntenna = new Antenna(x, y, c);
+                    Antenna newAntenna = new Antenna(location, c);
                     antennae.add(newAntenna);
                     if(antennaByFrequency.containsKey(c)){
                        antennaByFrequency.get(c).add(newAntenna); 
@@ -71,14 +72,23 @@ public class DayEight2024 {
         }
         return grid;
     }
+    public static 
 }
 class Antenna{
-    int antennaX;
-    int antennaY;
+    Coordinate location;
     char frequency;
-    public Antenna(int antennaX, int antennaY, char frequency){
-        this.antennaX = antennaX;
-        this.antennaY = antennaY;
+    public Antenna(Coordinate location, char frequency){
+        this.location = location;
         this.frequency = frequency;
     }
+}
+class Coordinate{
+    int x;
+    int y;
+    public Coordinate(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
+    public int getX(){return this.x;}
+    public int getY(){return this.y;}
 }
