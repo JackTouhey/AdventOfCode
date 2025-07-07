@@ -17,7 +17,7 @@ public class DaySeven2024 {
                 sum += e.getTestValue();
             }
         }
-        System.out.println("Sum: " + String.format("%.200f", sum));
+        System.out.println("Sum: " + String.format("%.20f", sum));
     }
     private static ArrayList<Equation> loadData(){
         ArrayList<Equation> equations = new ArrayList<>();
@@ -61,7 +61,14 @@ class Equation{
             if(currentResults.isEmpty()){
                 currentResults.add(values.get(i-1) + values.get(i));
                 currentResults.add(values.get(i-1) * values.get(i));
-                System.out.println("Starting currentValues: " + currentResults.get(0) + ", " + currentResults.get(1));
+                String firstNumber = String.valueOf(String.valueOf(values.get(i-1)));
+                String secondNumber = String.valueOf(values.get(i));
+                firstNumber = firstNumber.substring(0, firstNumber.length()-2);
+                secondNumber = secondNumber.substring(0, secondNumber.length()-2);
+                System.out.println("First number: " + firstNumber + " secondNumber: " + secondNumber);
+                Double concatenationValue = Double.valueOf(firstNumber+secondNumber);
+                currentResults.add(concatenationValue);
+                System.out.println("Starting currentValues: " + currentResults.get(0) + ", " + currentResults.get(1) + " ||:" + currentResults.get(2));
             }
             else{
                 System.out.println("Handling value: " + values.get(i));
@@ -69,9 +76,15 @@ class Equation{
                 for(int ii = 0; ii < resultsToBeRemoved; ii++){
                     Double additionValue = currentResults.get(ii) + values.get(i);
                     Double multiplicationValue = currentResults.get(ii) * values.get(i);
-                    System.out.println("Adding additionValue: " + additionValue +" and mult value: " + multiplicationValue);
+                    String firstNumber = String.valueOf(currentResults.get(ii));
+                    String secondNumber = String.valueOf(values.get(i));
+                    firstNumber = firstNumber.substring(0, firstNumber.length()-2);
+                    secondNumber = secondNumber.substring(0, secondNumber.length()-2);
+                    Double concatenationValue = Double.valueOf(firstNumber+secondNumber);
+                    System.out.println("Adding additionValue: " + additionValue +" and mult value: " + multiplicationValue + " ||: " + concatenationValue);
                     currentResults.add(additionValue);
                     currentResults.add(multiplicationValue);
+                    currentResults.add(concatenationValue);
                 }
                 for(int iii = 0; iii < resultsToBeRemoved; iii++){
                     System.out.println("Removing: " + currentResults.get(0));
