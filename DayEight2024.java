@@ -72,7 +72,14 @@ public class DayEight2024 {
         }
         return grid;
     }
-    public static 
+    public static Coordinate[] getAntinodesFromTwoAntenna(Antenna antenna1, Antenna antenna2){
+        int xDistance = antenna1.getLocation().getX() - antenna2.getLocation().getX();
+        int yDistance = antenna1.getLocation().getY() - antenna2.getLocation().getY();
+        Coordinate antinode1 = new Coordinate(antenna1.getLocation().getX() + xDistance, antenna1.getLocation().getX() + yDistance);
+        Coordinate antinode2 = new Coordinate(antenna1.getLocation().getX() - (2 * xDistance), antenna1.getLocation().getX() - (2 * yDistance));
+        Coordinate[] antinodes = {antinode1, antinode2};
+        return antinodes;
+    }
 }
 class Antenna{
     Coordinate location;
@@ -81,6 +88,8 @@ class Antenna{
         this.location = location;
         this.frequency = frequency;
     }
+    public Coordinate getLocation(){return this.location;}
+    public char getFrequency(){return this.frequency;}
 }
 class Coordinate{
     int x;
