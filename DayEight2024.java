@@ -55,7 +55,7 @@ public class DayEight2024 {
     public static String[][] loadData(){
         String[][] returnGrid = new String[0][0];
         try {
-            File dataFile= new File("DataFiles\\DayEightTestData.txt");
+            File dataFile= new File("DataFiles\\DayEightData.txt");
             Scanner sc = new Scanner(dataFile);
             sc.useDelimiter("");
             String[][] grid = createArray(sc);
