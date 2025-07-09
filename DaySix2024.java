@@ -35,9 +35,9 @@ public class DaySix2024 {
         return returnGrid;
     }
     public static void printGrid(String[][] grid){
-        for(int y = 0; y < grid.length; y++){
-            for(int x = 0; x < grid[y].length; x++){
-                System.out.print(grid[y][x]);
+        for (String[] grid1 : grid) {
+            for (String item : grid1) {
+                System.out.print(item);
             }
             System.out.println();
         }

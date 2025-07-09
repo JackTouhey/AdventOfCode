@@ -114,7 +114,16 @@ public class DayEight2024 {
         int currentX = antenna1.getLocation().getX();
         int currentY = antenna1.getLocation().getY();
         while(checkIfCoordinateInGrid(currentX, currentY)){
-
+            antinodes.add(new Coordinate(currentX, currentY));
+            currentX += xDistance;
+            currentY += yDistance;
+        }
+        currentX = antenna2.getLocation().getX();
+        currentY = antenna2.getLocation().getY();
+        while(checkIfCoordinateInGrid(currentX, currentY)){
+            antinodes.add(new Coordinate(currentX, currentY));
+            currentX -= xDistance;
+            currentY -= yDistance;
         }
         return antinodes;
     }
