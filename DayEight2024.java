@@ -1,13 +1,13 @@
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
 
 public class DayEight2024 {
-    private static ArrayList<Antenna> antennae = new ArrayList<>();
-    private static HashMap<Character, ArrayList<Antenna>> antennaByFrequency = new HashMap<>();
-    private static String[][] grid = loadData();
+    private static final HashMap<Character, ArrayList<Antenna>> antennaByFrequency = new HashMap<>();
+    private static final String[][] grid = loadData();
     public static void main(String[] args) {
         // printGrid(grid);
         HashSet<Coordinate> antinodes = new HashSet<>();
@@ -32,7 +32,7 @@ public class DayEight2024 {
         }
         int count = 0;
         for(Coordinate c : antinodes){
-            if(c.getX() >= 0 && c.getX() < grid[0].length && c.getY() >= 0 && c.getY() < grid.length){
+            if(checkIfCoordinateInGrid(c.getX(), c.getY())){
                 System.out.println("Antinode coordinate: " + c.getY() + "," + c.getX());
                 count++;
                 if(grid[c.getY()][c.getX()].equals(".")){
@@ -44,9 +44,9 @@ public class DayEight2024 {
         System.out.println("Count: " + count);
     }
     public static void printGrid(String[][] grid){
-        for(int y = 0; y < grid.length; y++){
-            for(int x = 0; x < grid[y].length; x++){
-                System.out.print(grid[y][x]);
+        for (String[] grid1 : grid) {
+            for (String item : grid1) {
+                System.out.print(item);
             }
             System.out.println();
         }
@@ -58,12 +58,11 @@ public class DayEight2024 {
             File dataFile= new File("DataFiles\\DayEightData.txt");
             Scanner sc = new Scanner(dataFile);
             sc.useDelimiter("");
-            String[][] grid = createArray(sc);
+            String[][] blankGrid = createArray(sc);
             Scanner sc2 = new Scanner(dataFile);
             sc2.useDelimiter("");
-            returnGrid = populateArray(sc2, grid);
-        } catch (Exception e) {
-            e.printStackTrace();
+            returnGrid = populateArray(sc2, blankGrid);
+        } catch (FileNotFoundException e) {
         }
         return returnGrid;
     }
@@ -76,30 +75,30 @@ public class DayEight2024 {
             sc.nextLine();
         }
         System.out.println("Array height: " + height + " Array width: " + width);
-        String[][] grid = new String[height][width];
-        return grid;
+        String[][] returnGrid = new String[height][width];
+        return returnGrid;
     }
     public static String[][] populateArray(Scanner sc, String[][] grid){
         for(int y = 0; y < grid.length; y++){
-            Scanner sc2 = new Scanner(sc.nextLine());
-            for(int x = 0; x < grid[0].length; x++){
-                sc2.useDelimiter("");
-                String next = sc2.next();
-                if(!next.equals(".")){
-                    Coordinate location = new Coordinate(x, y);
-                    char c = next.charAt(0);
-                    Antenna newAntenna = new Antenna(location, c);
-                    antennae.add(newAntenna);
-                    if(antennaByFrequency.containsKey(c)){
-                       antennaByFrequency.get(c).add(newAntenna); 
+            try (Scanner sc2 = new Scanner(sc.nextLine())) {
+                for(int x = 0; x < grid[0].length; x++){
+                    sc2.useDelimiter("");
+                    String next = sc2.next();
+                    if(!next.equals(".")){
+                        Coordinate location = new Coordinate(x, y);
+                        char c = next.charAt(0);
+                        Antenna newAntenna = new Antenna(location, c);
+                        if(antennaByFrequency.containsKey(c)){
+                            antennaByFrequency.get(c).add(newAntenna); 
+                        }
+                        else{
+                            ArrayList<Antenna> newArray = new ArrayList<>();
+                            newArray.add(newAntenna);
+                            antennaByFrequency.put(c, newArray);
+                        }
                     }
-                    else{
-                        ArrayList<Antenna> newArray = new ArrayList<>();
-                        newArray.add(newAntenna);
-                        antennaByFrequency.put(c, newArray);
-                    }
+                    grid[y][x] = next;
                 }
-                grid[y][x] = next;
             }
         }
         return grid;
