@@ -55,7 +55,7 @@ public class DayEight2024 {
     public static String[][] loadData(){
         String[][] returnGrid = new String[0][0];
         try {
-            File dataFile= new File("DataFiles\\DayEightData.txt");
+            File dataFile= new File("DataFiles\\DayEightTestData.txt");
             Scanner sc = new Scanner(dataFile);
             sc.useDelimiter("");
             String[][] grid = createArray(sc);
@@ -104,16 +104,18 @@ public class DayEight2024 {
         }
         return grid;
     }
-    private static Coordinate[] getAntinodesFromTwoAntenna(Antenna antenna1, Antenna antenna2){
+    private static Boolean checkIfCoordinateInGrid(int x, int y){
+        return x >= 0 && x < grid[0].length && y >= 0 && y < grid.length;
+    }
+    private static ArrayList<Coordinate> getAntinodesFromTwoAntenna(Antenna antenna1, Antenna antenna2){
+        ArrayList<Coordinate> antinodes = new ArrayList<>();
         int xDistance = antenna1.getLocation().getX() - antenna2.getLocation().getX();
         int yDistance = antenna1.getLocation().getY() - antenna2.getLocation().getY();
-        Coordinate antinode1 = new Coordinate(antenna1.getLocation().getX() + xDistance, antenna1.getLocation().getY() + yDistance);
-        Coordinate antinode2 = new Coordinate(antenna1.getLocation().getX() - (2 * xDistance), antenna1.getLocation().getY() - (2 * yDistance));
-        // System.out.println("Antenna1 location: " + antenna1.getLocation().getY() + "," + antenna1.getLocation().getX() + 
-        // " Antenna2 location: " + antenna2.getLocation().getY() + "," + antenna2.getLocation().getX() + 
-        // " yDistance: " + yDistance + " xDistance " + xDistance);
-        // System.out.println("Antinodes generated: " + antinode1.getY() + "," + antinode1.getX() + " + " + antinode2.getY() + "," + antinode2.getX());
-        Coordinate[] antinodes = {antinode1, antinode2};
+        int currentX = antenna1.getLocation().getX();
+        int currentY = antenna1.getLocation().getY();
+        while(checkIfCoordinateInGrid(currentX, currentY)){
+
+        }
         return antinodes;
     }
 }
