@@ -11,10 +11,17 @@ public class DayNine2024 {
         System.out.println("Generated Blocks: " + generatedBlocks); 
         sortBlocks(generatedBlocks);
         System.out.println("Sorted file blocks: " + generatedBlocks);
+        long checkSum = 0;
+        for(int i = 0; i < generatedBlocks.size(); i++){
+            if(!generatedBlocks.get(i).equals(".")){
+                checkSum += i * Integer.parseInt(generatedBlocks.get(i));
+            }
+        }
+        System.out.println("checkSum: " + checkSum);
     }
     private static ArrayList<FileBlock> loadData(){
         ArrayList<FileBlock> returnFiles = new ArrayList<>();
-        try (Scanner sc = new Scanner(new File("DataFiles\\DayNineTestData.txt"))) {
+        try (Scanner sc = new Scanner(new File("DataFiles\\DayNineData.txt"))) {
             sc.useDelimiter("");
             int ID = 0;
             while(sc.hasNextInt()){
@@ -43,7 +50,7 @@ public class DayNine2024 {
                 if(lastFileBlock > i){
                     Collections.swap(inputBlock, i, lastFileBlock);
                 }
-                System.out.println(inputBlock);
+                // System.out.println(inputBlock);
             }
         }
     }
