@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class DayNine2024 {
@@ -8,6 +9,8 @@ public class DayNine2024 {
     public static void main(String[] args) {
         ArrayList<String> generatedBlocks = generateIndividualBlocks();
         System.out.println("Generated Blocks: " + generatedBlocks); 
+        sortBlocks(generatedBlocks);
+        System.out.println("Sorted file blocks: " + generatedBlocks);
     }
     private static ArrayList<FileBlock> loadData(){
         ArrayList<FileBlock> returnFiles = new ArrayList<>();
@@ -29,6 +32,20 @@ public class DayNine2024 {
         }
         catch(FileNotFoundException e){}
         return returnFiles;
+    }
+    private static void sortBlocks(ArrayList<String> inputBlock){
+        for(int i = 0; i < inputBlock.size(); i++){
+            if(inputBlock.get(i).equals(".")){
+                int lastFileBlock = inputBlock.size()-1;
+                while(inputBlock.get(lastFileBlock).equals(".")){
+                    lastFileBlock--;
+                }
+                if(lastFileBlock > i){
+                    Collections.swap(inputBlock, i, lastFileBlock);
+                }
+                System.out.println(inputBlock);
+            }
+        }
     }
     private static ArrayList<String> generateIndividualBlocks(){
         ArrayList<String> returnList = new ArrayList<>();
