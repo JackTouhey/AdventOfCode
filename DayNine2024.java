@@ -8,9 +8,7 @@ public class DayNine2024 {
     private static final ArrayList<FileBlock> files = loadData();
     public static void main(String[] args) {
         ArrayList<String> generatedBlocks = generateIndividualBlocks();
-        System.out.println("Generated Blocks: " + generatedBlocks); 
-        sortBlocks(generatedBlocks);
-        System.out.println("Sorted file blocks: " + generatedBlocks);
+        sortWholeBlocks(generatedBlocks);
         long checkSum = 0;
         for(int i = 0; i < generatedBlocks.size(); i++){
             if(!generatedBlocks.get(i).equals(".")){
@@ -54,6 +52,24 @@ public class DayNine2024 {
             }
         }
     }
+    private static void sortWholeBlocks(ArrayList<String> inputBlock){
+        Boolean firstFileBlock = true;
+        int freeSpaceSize = 0;
+        for(int i = 0; i < inputBlock.size(); i++){
+            if(inputBlock.get(i).equals(".")){
+                firstFileBlock = false;
+                freeSpaceSize++;
+            }
+            else{
+                if(!firstFileBlock){
+                    int lastFileBlock = inputBlock.size()-1;
+                    while(inputBlock.get(lastFileBlock).equals(".")){
+                        lastFileBlock--;
+                    }
+                }
+            }
+        }
+    }
     private static ArrayList<String> generateIndividualBlocks(){
         ArrayList<String> returnList = new ArrayList<>();
         for(FileBlock fb : files){
@@ -65,6 +81,14 @@ public class DayNine2024 {
             }
         }
         return returnList;
+    }
+    private static FileBlock getFileBlockByID(int ID){
+        for(FileBlock fb : files){
+            if(fb.getID() == ID){
+                return fb;
+            }
+        }
+        return null;
     }
 }
 class FileBlock{
