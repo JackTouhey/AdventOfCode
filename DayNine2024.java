@@ -1,5 +1,38 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class DayNine2024 {
-    
+    private static final ArrayList<FileBlock> files = loadData();
+    public static void main(String[] args) {
+        for(FileBlock fb : files){
+            fb.printSelf();
+        }
+    }
+    private static ArrayList<FileBlock> loadData(){
+        ArrayList<FileBlock> returnFiles = new ArrayList<>();
+        try (Scanner sc = new Scanner(new File("DataFiles\\DayNineTestData.txt"))) {
+            sc.useDelimiter("");
+            int ID = 0;
+            while(sc.hasNextInt()){
+                int fileSize = sc.nextInt();
+                int freeSpace;
+                if(sc.hasNextInt()){
+                    freeSpace = sc.nextInt();
+                }
+                else{
+                    freeSpace = 0;
+                }
+                returnFiles.add(new FileBlock(ID, fileSize, freeSpace));
+                ID++;
+            }
+        }
+        catch(FileNotFoundException e){
+            e.printStackTrace();
+        }
+        return returnFiles;
+    }
 }
 class FileBlock{
     private final int ID;
@@ -13,4 +46,7 @@ class FileBlock{
     public int getID(){return this.ID;}
     public int getSize(){return this.size;}
     public int getFollowingFreeSpace(){return this.followingFreeSpace;}
+    public void printSelf(){
+        System.out.println("ID: " + ID + " size: " + size + " following free space: " + followingFreeSpace);
+    }
 }
