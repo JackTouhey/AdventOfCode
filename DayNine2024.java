@@ -6,9 +6,8 @@ import java.util.Scanner;
 public class DayNine2024 {
     private static final ArrayList<FileBlock> files = loadData();
     public static void main(String[] args) {
-        for(FileBlock fb : files){
-            fb.printSelf();
-        }
+        ArrayList<String> generatedBlocks = generateIndividualBlocks();
+        System.out.println("Generated Blocks: " + generatedBlocks); 
     }
     private static ArrayList<FileBlock> loadData(){
         ArrayList<FileBlock> returnFiles = new ArrayList<>();
@@ -28,10 +27,20 @@ public class DayNine2024 {
                 ID++;
             }
         }
-        catch(FileNotFoundException e){
-            e.printStackTrace();
-        }
+        catch(FileNotFoundException e){}
         return returnFiles;
+    }
+    private static ArrayList<String> generateIndividualBlocks(){
+        ArrayList<String> returnList = new ArrayList<>();
+        for(FileBlock fb : files){
+            for(int i = 0; i < fb.getSize(); i++){
+                returnList.add(String.valueOf(fb.getID()));
+            }
+            for(int i = 0; i < fb.getFollowingFreeSpace(); i++){
+                returnList.add(".");
+            }
+        }
+        return returnList;
     }
 }
 class FileBlock{
