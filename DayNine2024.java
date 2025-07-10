@@ -66,7 +66,7 @@ public class DayNine2024 {
                     Boolean foundFittingFileBlock = false;
                     int lastFileBlock = inputBlock.size()-1;
                     FileBlock currentFB = null;
-                    while(!foundFittingFileBlock){
+                    while(!foundFittingFileBlock && lastFileBlock > 0){
                         while(inputBlock.get(lastFileBlock).equals(".")){
                             System.out.println("lastFileBlock: " + lastFileBlock + " returns: " + inputBlock.get(lastFileBlock));
                             lastFileBlock--;
@@ -82,9 +82,14 @@ public class DayNine2024 {
                         Collections.swap(inputBlock, i - (freeSpaceSize - ii), lastFileBlock - ii);
                         System.out.println("MidSwap: " + inputBlock + " i " + i + " ii: " + ii + " freeSpaceSize: " + freeSpaceSize + " lastFileBlock: " + lastFileBlock);
                     }
-                    freeSpaceSize = 0;
-                    i += getFileBlockByID(Integer.parseInt(inputBlock.get(i))).getSize() -1;
-                    System.out.println("PostSwap: " + inputBlock);
+                    freeSpaceSize -= currentFB.getSize();
+                    if(freeSpaceSize > 0){
+                        i -= freeSpaceSize;
+                    }
+                    else{
+                        i += getFileBlockByID(Integer.parseInt(inputBlock.get(i))).getSize() -1;
+                    }
+                    System.out.println("PostSwap: " + inputBlock + " i " + i + " freeSpaceSize: " + freeSpaceSize + " lastFileBlock: " + lastFileBlock);
                 }
             }
         }
