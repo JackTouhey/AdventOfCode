@@ -15,11 +15,12 @@ public class DayNine2024 {
                 checkSum += i * Integer.parseInt(generatedBlocks.get(i));
             }
         }
+        System.out.println("Sorted blocks: " + generatedBlocks);
         System.out.println("checkSum: " + checkSum);
     }
     private static ArrayList<FileBlock> loadData(){
         ArrayList<FileBlock> returnFiles = new ArrayList<>();
-        try (Scanner sc = new Scanner(new File("DataFiles\\DayNineTestData.txt"))) {
+        try (Scanner sc = new Scanner(new File("DataFiles\\DayNineData.txt"))) {
             sc.useDelimiter("");
             int ID = 0;
             while(sc.hasNextInt()){
@@ -48,48 +49,42 @@ public class DayNine2024 {
                 if(lastFileBlock > i){
                     Collections.swap(inputBlock, i, lastFileBlock);
                 }
-                // System.out.println(inputBlock);
             }
         }
     }
     private static void sortWholeBlocks(ArrayList<String> inputBlock){
-        Boolean firstFileBlock = true;
-        int freeSpaceSize = 0;
-        for(int i = 0; i < inputBlock.size(); i++){
-            if(inputBlock.get(i).equals(".")){
-                firstFileBlock = false;
-                freeSpaceSize++;
-            }
-            else{
-                if(!firstFileBlock){
-                    System.out.println("PreSwap: " + inputBlock + "i: " + i + " freeSpaceSize: " + freeSpaceSize);
-                    Boolean foundFittingFileBlock = false;
-                    int lastFileBlock = inputBlock.size()-1;
-                    FileBlock currentFB = null;
-                    while(!foundFittingFileBlock && lastFileBlock > 0){
-                        while(inputBlock.get(lastFileBlock).equals(".")){
-                            System.out.println("lastFileBlock: " + lastFileBlock + " returns: " + inputBlock.get(lastFileBlock));
-                            lastFileBlock--;
+        //Moves down the block right to left
+        for(int i = inputBlock.size()-1; i >= 0; i--){
+            //Checks if current position is a block
+            if(!inputBlock.get(i).equals(".")){
+                FileBlock currentBlock = getFileBlockByID(Integer.parseInt(inputBlock.get(i)));
+                int blockSize = currentBlock.getSize();
+                int startOfFreeSpace = 0;
+                int freeSpaceIndex = 0;
+                int freeSpaceSize = 0;
+                //Finds leftmost free space that can accommodate current block
+                while(freeSpaceSize < blockSize && freeSpaceIndex < inputBlock.size()-1){
+                    freeSpaceSize = 0;
+                    if(inputBlock.get(freeSpaceIndex).equals(".")){
+                        startOfFreeSpace = freeSpaceIndex;
+                        while(inputBlock.get(freeSpaceIndex).equals(".") && freeSpaceIndex < inputBlock.size()-1){
+                            freeSpaceIndex++;
+                            freeSpaceSize++;
                         }
-                        System.out.println("Found file: " + inputBlock.get(lastFileBlock));
-                        currentFB = getFileBlockByID(Integer.parseInt(inputBlock.get(lastFileBlock)));
-                        foundFittingFileBlock = checkIfFileBlockWillFit(currentFB, freeSpaceSize);
-                        if(!foundFittingFileBlock){
-                            lastFileBlock -= currentFB.getSize();
-                        }
-                    }
-                    for(int ii = 0; ii < currentFB.getSize(); ii++) {
-                        Collections.swap(inputBlock, i - (freeSpaceSize - ii), lastFileBlock - ii);
-                        System.out.println("MidSwap: " + inputBlock + " i " + i + " ii: " + ii + " freeSpaceSize: " + freeSpaceSize + " lastFileBlock: " + lastFileBlock);
-                    }
-                    freeSpaceSize -= currentFB.getSize();
-                    if(freeSpaceSize > 0){
-                        i -= freeSpaceSize;
                     }
                     else{
-                        i += getFileBlockByID(Integer.parseInt(inputBlock.get(i))).getSize() -1;
+                        freeSpaceIndex++;
                     }
-                    System.out.println("PostSwap: " + inputBlock + " i " + i + " freeSpaceSize: " + freeSpaceSize + " lastFileBlock: " + lastFileBlock);
+                }
+                //If free space found, move the block into the free space
+                if(freeSpaceSize >= blockSize  && startOfFreeSpace < i){
+                     for(int ii = 0; ii < currentBlock.getSize(); ii++) {
+                        Collections.swap(inputBlock, startOfFreeSpace + ii, i - ii);
+                    }
+                }
+                //Otherwise move past that block
+                else{
+                    i -= currentBlock.getSize()-1;
                 }
             }
         }
