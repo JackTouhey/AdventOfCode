@@ -69,7 +69,7 @@ public class DayNine2024 {
                     System.out.println("In while loop going left to right to find free space. freeSpaceIndex: " + freeSpaceIndex);
                     if(inputBlock.get(freeSpaceIndex).equals(".")){
                         startOfFreeSpace = freeSpaceIndex;
-                        while(inputBlock.get(freeSpaceIndex).equals(".")){
+                        while(inputBlock.get(freeSpaceIndex).equals(".") && freeSpaceIndex < inputBlock.size()-1){
                             System.out.println("Found free space at index: " + startOfFreeSpace + " current size: " + freeSpaceSize + " at index: " + freeSpaceIndex);
                             freeSpaceIndex++;
                             freeSpaceSize++;
@@ -80,7 +80,7 @@ public class DayNine2024 {
                     }
                 }
                 //If free space found, move the block in
-                if(freeSpaceSize >= blockSize){
+                if(freeSpaceSize >= blockSize  && startOfFreeSpace < i){
                     System.out.println("Moving block w/ ID: " + currentBlock.getID() + " to free space starting: " + startOfFreeSpace + " array before swap: " + inputBlock);
                      for(int ii = 0; ii < currentBlock.getSize(); ii++) {
                         Collections.swap(inputBlock, startOfFreeSpace + ii, i - ii);
@@ -88,7 +88,9 @@ public class DayNine2024 {
                     System.out.println("Array after swap: " + inputBlock);
                 }
                 else{
-                    System.out.println("Unable to find free space for block ID: " + currentBlock.getID());
+                    i -= currentBlock.getSize()-1;
+                    System.out.println("Unable to find free space for block ID: " + currentBlock.getID() + " index after moving past block: " + i);
+
                 }
             }
         }
