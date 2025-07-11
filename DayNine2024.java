@@ -53,43 +53,27 @@ public class DayNine2024 {
         }
     }
     private static void sortWholeBlocks(ArrayList<String> inputBlock){
-        Boolean firstFileBlock = true;
-        int freeSpaceSize = 0;
-        for(int i = 0; i < inputBlock.size(); i++){
-            if(inputBlock.get(i).equals(".")){
-                firstFileBlock = false;
-                freeSpaceSize++;
-            }
-            else{
-                if(!firstFileBlock){
-                    System.out.println("PreSwap: " + inputBlock + "i: " + i + " freeSpaceSize: " + freeSpaceSize);
-                    Boolean foundFittingFileBlock = false;
-                    int lastFileBlock = inputBlock.size()-1;
-                    FileBlock currentFB = null;
-                    while(!foundFittingFileBlock && lastFileBlock > 0){
-                        while(inputBlock.get(lastFileBlock).equals(".")){
-                            System.out.println("lastFileBlock: " + lastFileBlock + " returns: " + inputBlock.get(lastFileBlock));
-                            lastFileBlock--;
-                        }
-                        System.out.println("Found file: " + inputBlock.get(lastFileBlock));
-                        currentFB = getFileBlockByID(Integer.parseInt(inputBlock.get(lastFileBlock)));
-                        foundFittingFileBlock = checkIfFileBlockWillFit(currentFB, freeSpaceSize);
-                        if(!foundFittingFileBlock){
-                            lastFileBlock -= currentFB.getSize();
+        for(int i = inputBlock.size()-1; i >= 0; i--){
+            if(!inputBlock.get(i).equals(".")){
+                FileBlock currentBlock = getFileBlockByID(Integer.parseInt(inputBlock.get(i)));
+                int blockSize = currentBlock.getSize();
+                int startOfFreeSpace = 0;
+                int freeSpaceIndex = 0;
+                int freeSpaceSize = 0;
+                while(freeSpaceSize < blockSize && freeSpaceIndex < inputBlock.size()){
+                    freeSpaceSize = 0;
+                    if(inputBlock.get(freeSpaceIndex).equals(".")){
+                        startOfFreeSpace = freeSpaceIndex;
+                        while(inputBlock.get(freeSpaceIndex).equals(".")){
+                            freeSpaceIndex++;
+                            freeSpaceSize++;
                         }
                     }
-                    for(int ii = 0; ii < currentFB.getSize(); ii++) {
-                        Collections.swap(inputBlock, i - (freeSpaceSize - ii), lastFileBlock - ii);
-                        System.out.println("MidSwap: " + inputBlock + " i " + i + " ii: " + ii + " freeSpaceSize: " + freeSpaceSize + " lastFileBlock: " + lastFileBlock);
+                }
+                if(freeSpaceSize >= blockSize){
+                     for(int ii = 0; ii < currentBlock.getSize(); ii++) {
+                        Collections.swap(inputBlock, startOfFreeSpace + ii, i - ii);
                     }
-                    freeSpaceSize -= currentFB.getSize();
-                    if(freeSpaceSize > 0){
-                        i -= freeSpaceSize;
-                    }
-                    else{
-                        i += getFileBlockByID(Integer.parseInt(inputBlock.get(i))).getSize() -1;
-                    }
-                    System.out.println("PostSwap: " + inputBlock + " i " + i + " freeSpaceSize: " + freeSpaceSize + " lastFileBlock: " + lastFileBlock);
                 }
             }
         }
