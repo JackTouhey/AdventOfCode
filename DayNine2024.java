@@ -39,19 +39,6 @@ public class DayNine2024 {
         catch(FileNotFoundException e){}
         return returnFiles;
     }
-    private static void sortBlocks(ArrayList<String> inputBlock){
-        for(int i = 0; i < inputBlock.size(); i++){
-            if(inputBlock.get(i).equals(".")){
-                int lastFileBlock = inputBlock.size()-1;
-                while(inputBlock.get(lastFileBlock).equals(".")){
-                    lastFileBlock--;
-                }
-                if(lastFileBlock > i){
-                    Collections.swap(inputBlock, i, lastFileBlock);
-                }
-            }
-        }
-    }
     private static void sortWholeBlocks(ArrayList<String> inputBlock){
         //Moves down the block right to left
         for(int i = inputBlock.size()-1; i >= 0; i--){
@@ -100,10 +87,6 @@ public class DayNine2024 {
             }
         }
         return returnList;
-    }
-    private static Boolean checkIfFileBlockWillFit(FileBlock fb, int freeSpaceSize){
-        System.out.println("Checking if " + fb.getSize() + " fits in free space: " + freeSpaceSize);
-        return fb.getSize() <= freeSpaceSize;
     }
     private static FileBlock getFileBlockByID(int ID){
         for(FileBlock fb : files){
