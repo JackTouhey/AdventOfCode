@@ -23,10 +23,28 @@ public class DayTen2024 {
         if(topographicMap[currentTrail.getCurrentPosition().getY()][currentTrail.getCurrentPosition().getX()] == 9){
             head.addRoute(currentTrail);
         }
-        else if(!checkIfNextStep(currentTrail)){
-        }
+        else if(!checkIfNextStep(currentTrail)){}
         else{
-            
+            if(checkIfNorthStep(currentTrail)){
+                Coordinate nextStep = new Coordinate(currentTrail.getCurrentPosition().getX(), currentTrail.getCurrentPosition().getY()-1);
+                currentTrail.addCoordinate(nextStep);
+                populateRoutes(head, currentTrail);
+            }
+            if(checkIfEastStep(currentTrail)){
+                Coordinate nextStep = new Coordinate(currentTrail.getCurrentPosition().getX() + 1, currentTrail.getCurrentPosition().getY());
+                currentTrail.addCoordinate(nextStep);
+                populateRoutes(head, currentTrail);
+            }
+            if(checkIfSouthStep(currentTrail)){
+                Coordinate nextStep = new Coordinate(currentTrail.getCurrentPosition().getX(), currentTrail.getCurrentPosition().getY()+1);
+                currentTrail.addCoordinate(nextStep);
+                populateRoutes(head, currentTrail);
+            }
+            if(checkIfWestStep(currentTrail)){
+                Coordinate nextStep = new Coordinate(currentTrail.getCurrentPosition().getX() - 1, currentTrail.getCurrentPosition().getY());
+                currentTrail.addCoordinate(nextStep);
+                populateRoutes(head, currentTrail);
+            }
         }
     }
     private static Boolean checkIfNextStep(Trail currentTrail){
