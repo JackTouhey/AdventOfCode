@@ -34,23 +34,27 @@ public class DayTen2024 {
         else{
             if(checkIfNorthStep(currentTrail)){
                 Coordinate nextStep = new Coordinate(currentTrail.getCurrentPosition().getX(), currentTrail.getCurrentPosition().getY()-1);
-                currentTrail.addCoordinate(nextStep);
-                populateRoutes(head, currentTrail);
+                Trail continuedTrail = cloneTrail(currentTrail);
+                continuedTrail.addCoordinate(nextStep);
+                populateRoutes(head, continuedTrail);
             }
             if(checkIfEastStep(currentTrail)){
                 Coordinate nextStep = new Coordinate(currentTrail.getCurrentPosition().getX() + 1, currentTrail.getCurrentPosition().getY());
-                currentTrail.addCoordinate(nextStep);
-                populateRoutes(head, currentTrail);
+                Trail continuedTrail = cloneTrail(currentTrail);
+                continuedTrail.addCoordinate(nextStep);
+                populateRoutes(head, continuedTrail);
             }
             if(checkIfSouthStep(currentTrail)){
                 Coordinate nextStep = new Coordinate(currentTrail.getCurrentPosition().getX(), currentTrail.getCurrentPosition().getY()+1);
-                currentTrail.addCoordinate(nextStep);
-                populateRoutes(head, currentTrail);
+                Trail continuedTrail = cloneTrail(currentTrail);
+                continuedTrail.addCoordinate(nextStep);
+                populateRoutes(head, continuedTrail);
             }
             if(checkIfWestStep(currentTrail)){
                 Coordinate nextStep = new Coordinate(currentTrail.getCurrentPosition().getX() - 1, currentTrail.getCurrentPosition().getY());
-                currentTrail.addCoordinate(nextStep);
-                populateRoutes(head, currentTrail);
+                Trail continuedTrail = cloneTrail(currentTrail);
+                continuedTrail.addCoordinate(nextStep);
+                populateRoutes(head, continuedTrail);
             }
         }
     }
