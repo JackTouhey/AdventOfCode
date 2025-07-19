@@ -23,13 +23,14 @@ public class DayTen2024 {
         if(topographicMap[currentTrail.getCurrentPosition().getY()][currentTrail.getCurrentPosition().getX()] == 9){
             head.addRoute(currentTrail);
         }
+        else if(!checkIfNextStep(currentTrail)){
+        }
         else{
-            if()
+            
         }
     }
     private static Boolean checkIfNextStep(Trail currentTrail){
-        Boolean isNextStep = false;
-        
+        return checkIfNorthStep(currentTrail) || checkIfEastStep(currentTrail) || checkIfSouthStep(currentTrail) || checkIfWestStep(currentTrail);
     }
     private static Boolean checkIfNorthStep(Trail currentTrail){
         Boolean isNextStep = false;
@@ -67,7 +68,7 @@ public class DayTen2024 {
         }
         return isNextStep;
     }
-    private static Boolean checkIfWestSteo(Trail currentTrail){
+    private static Boolean checkIfWestStep(Trail currentTrail){
         Boolean isNextStep = false;
         int currentX = currentTrail.getCurrentPosition().getX();
         int currentY = currentTrail.getCurrentPosition().getY();
