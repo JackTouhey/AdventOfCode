@@ -5,7 +5,14 @@ public class DayTen2024 {
     private static final ArrayList<Trailhead> trailheads = findTrailheads();
     public static void main(String[] args) {
         for(Trailhead head : trailheads){
-            head.printSelf();
+            Trail startTrail = new Trail(head);
+            populateRoutes(head, startTrail);
+        }
+        int count = 0;
+        for(Trailhead head : trailheads){
+            int numRoutes = head.getRoutes().size();
+            count += numRoutes;
+            System.out.println("Trailhead at y: " + head.getStart().getY() + " x: " + head.getStart().getX() + " had numRoutes: " + numRoutes + " currentCount: " + count);
         }
     }
     private static ArrayList<Trailhead> findTrailheads(){
@@ -78,7 +85,7 @@ public class DayTen2024 {
         int currentX = currentTrail.getCurrentPosition().getX();
         int currentY = currentTrail.getCurrentPosition().getY();
         Integer nextElevation = topographicMap[currentY][currentX] + 1;
-        if(currentY < topographicMap.length){
+        if(currentY < topographicMap.length-1){
             if(topographicMap[currentY + 1][currentX].equals(nextElevation)){
                 isNextStep = true;
             }
@@ -90,7 +97,7 @@ public class DayTen2024 {
         int currentX = currentTrail.getCurrentPosition().getX();
         int currentY = currentTrail.getCurrentPosition().getY();
         Integer nextElevation = topographicMap[currentY][currentX] + 1;
-        if(currentX < topographicMap[currentY].length){
+        if(currentX < topographicMap[currentY].length-1){
             if(topographicMap[currentY][currentX + 1].equals(nextElevation)){
                 isNextStep = true;
             }
@@ -121,6 +128,7 @@ class Trailhead {
     public void printSelf(){
         System.out.println("Trailhead coordinate x: " + start.getX() + " y: " + start.getY());
     }
+    public ArrayList<Trail> getRoutes(){return this.routes;}
 }
 class Trail {
     Trailhead trailhead;
