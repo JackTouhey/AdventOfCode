@@ -19,14 +19,6 @@ public class DayTen2024 {
         }
         return returnList;
     }
-    private static void printMap(){
-        for(Integer[] row : topographicMap){
-            for(Integer i : row){
-                System.out.print(i);
-            }
-            System.out.println();
-        }
-    }
 }
 class Trailhead {
     private final Coordinate start;

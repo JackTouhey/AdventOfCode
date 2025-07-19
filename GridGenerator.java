@@ -77,4 +77,20 @@ public class GridGenerator {
         }
         return grid;
     }
+    public static void printIntegerGrid(Integer[][] grid){
+        for(Integer[] row : grid){
+            for(Integer i : row){
+                System.out.print(i);
+            }
+            System.out.println();
+        }
+    }
+    public static void printStringGrid(String[][] grid){
+        for(String[] row : grid){
+            for(String s : row){
+                System.out.print(s);
+            }
+            System.out.println();
+        }
+    }
 }
