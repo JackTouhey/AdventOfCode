@@ -19,6 +19,13 @@ public class DayTen2024 {
         }
         return returnList;
     }
+    private static Trail cloneTrail(Trail trailToClone){
+        Trail returnTrail = new Trail(trailToClone.getTrailhead());
+        for(Coordinate c : trailToClone.getRoute()){
+            returnTrail.addCoordinate(c);
+        }
+        return returnTrail;
+    }
     private static void populateRoutes(Trailhead head, Trail currentTrail){
         if(topographicMap[currentTrail.getCurrentPosition().getY()][currentTrail.getCurrentPosition().getX()] == 9){
             head.addRoute(currentTrail);
@@ -112,8 +119,10 @@ class Trailhead {
     }
 }
 class Trail {
+    Trailhead trailhead;
     ArrayList<Coordinate> route = new ArrayList<>();
     public Trail(Trailhead trailhead){
+        this.trailhead = trailhead;
         route.add(trailhead.getStart());
     }
     public void addCoordinate(Coordinate c){
@@ -122,4 +131,6 @@ class Trail {
     public Coordinate getCurrentPosition(){
         return route.get(route.size()-1);
     }
+    public ArrayList<Coordinate> getRoute(){return this.route;}
+    public Trailhead getTrailhead(){return this.trailhead;}
 }
