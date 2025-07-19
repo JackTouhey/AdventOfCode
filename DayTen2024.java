@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class DayTen2024 {
-    private static final Integer[][] topographicMap = GridGenerator.generateIntegerGrid("DataFiles\\DayTenTestData.txt");
+    private static final Integer[][] topographicMap = GridGenerator.generateIntegerGrid("DataFiles\\DayTenData.txt");
     private static final ArrayList<Trailhead> trailheads = findTrailheads();
     public static void main(String[] args) {
         for(Trailhead head : trailheads){
@@ -11,11 +11,15 @@ public class DayTen2024 {
             Trail startTrail = new Trail(head);
             populateRoutes(head, startTrail);
         }
-        int count = 0;
+        int peakCount = 0;
+        int routeCount = 0;
         for(Trailhead head : trailheads){
             int numPeaks = head.getNumberOfReachablePeaks();
-            count += numPeaks;
-            System.out.println("Trailhead at y: " + head.getStart().getY() + " x: " + head.getStart().getX() + " had numPeaks: " + numPeaks + " currentCount: " + count);
+            int numRoutes = head.getRoutes().size();
+            peakCount += numPeaks;
+            routeCount += numRoutes;
+            System.out.println("Trailhead at y: " + head.getStart().getY() + " x: " + head.getStart().getX() + " had numPeaks: " 
+            + numPeaks + " currentPeakCount: " + peakCount + " and numRoutes: " + numRoutes + " currentRouteCount: " + routeCount);
         }
     }
     private static ArrayList<Trailhead> findTrailheads(){
