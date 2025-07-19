@@ -2,8 +2,22 @@ import java.util.ArrayList;
 
 public class DayTen2024 {
     private static final Integer[][] topographicMap = GridGenerator.generateIntegerGrid("DataFiles\\DayTenTestData.txt");
+    private static final ArrayList<Trailhead> trailheads = findTrailheads();
     public static void main(String[] args) {
-        printMap();
+        for(Trailhead head : trailheads){
+            head.printSelf();
+        }
+    }
+    private static ArrayList<Trailhead> findTrailheads(){
+        ArrayList<Trailhead> returnList = new ArrayList<>();
+        for(int y = 0; y < topographicMap.length; y++){
+            for(int x = 0; x < topographicMap[y].length; x++){
+                if(topographicMap[y][x] == 0){
+                    returnList.add(new Trailhead(new Coordinate(x, y)));
+                }
+            }
+        }
+        return returnList;
     }
     private static void printMap(){
         for(Integer[] row : topographicMap){
@@ -15,12 +29,15 @@ public class DayTen2024 {
     }
 }
 class Trailhead {
-    private Coordinate start;
+    private final Coordinate start;
     ArrayList<Trail> potentialRoutes = new ArrayList<>();
     public Trailhead(Coordinate startCoordinate){
         this.start = startCoordinate;
     }
     public Coordinate getStart(){return this.start;}
+    public void printSelf(){
+        System.out.println("Trailhead coordinate x: " + start.getX() + " y: " + start.getY());
+    }
 }
 class Trail {
     ArrayList<Coordinate> route = new ArrayList<>();
