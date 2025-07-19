@@ -5,6 +5,8 @@ public class DayTen2024 {
     private static final ArrayList<Trailhead> trailheads = findTrailheads();
     public static void main(String[] args) {
         for(Trailhead head : trailheads){
+            System.out.print("Beginning populate route of trailhead:");
+            head.printSelf();
             Trail startTrail = new Trail(head);
             populateRoutes(head, startTrail);
         }
@@ -29,12 +31,15 @@ public class DayTen2024 {
     private static Trail cloneTrail(Trail trailToClone){
         Trail returnTrail = new Trail(trailToClone.getTrailhead());
         for(Coordinate c : trailToClone.getRoute()){
-            returnTrail.addCoordinate(c);
+            if(!c.equals(trailToClone.getTrailhead().getStart())){
+                returnTrail.addCoordinate(c);
+            }
         }
         return returnTrail;
     }
     private static void populateRoutes(Trailhead head, Trail currentTrail){
         if(topographicMap[currentTrail.getCurrentPosition().getY()][currentTrail.getCurrentPosition().getX()] == 9){
+            
             head.addRoute(currentTrail);
         }
         else if(!checkIfNextStep(currentTrail)){}
@@ -43,24 +48,32 @@ public class DayTen2024 {
                 Coordinate nextStep = new Coordinate(currentTrail.getCurrentPosition().getX(), currentTrail.getCurrentPosition().getY()-1);
                 Trail continuedTrail = cloneTrail(currentTrail);
                 continuedTrail.addCoordinate(nextStep);
+                System.out.println("Added north step, trail now:");
+                continuedTrail.printSelf();
                 populateRoutes(head, continuedTrail);
             }
             if(checkIfEastStep(currentTrail)){
                 Coordinate nextStep = new Coordinate(currentTrail.getCurrentPosition().getX() + 1, currentTrail.getCurrentPosition().getY());
                 Trail continuedTrail = cloneTrail(currentTrail);
                 continuedTrail.addCoordinate(nextStep);
+                System.out.println("Added east step, trail now:");
+                continuedTrail.printSelf();
                 populateRoutes(head, continuedTrail);
             }
             if(checkIfSouthStep(currentTrail)){
                 Coordinate nextStep = new Coordinate(currentTrail.getCurrentPosition().getX(), currentTrail.getCurrentPosition().getY()+1);
                 Trail continuedTrail = cloneTrail(currentTrail);
                 continuedTrail.addCoordinate(nextStep);
+                System.out.println("Added south step, trail now:");
+                continuedTrail.printSelf();
                 populateRoutes(head, continuedTrail);
             }
             if(checkIfWestStep(currentTrail)){
                 Coordinate nextStep = new Coordinate(currentTrail.getCurrentPosition().getX() - 1, currentTrail.getCurrentPosition().getY());
                 Trail continuedTrail = cloneTrail(currentTrail);
                 continuedTrail.addCoordinate(nextStep);
+                System.out.println("Added west step, trail now:");
+                continuedTrail.printSelf();
                 populateRoutes(head, continuedTrail);
             }
         }
@@ -145,4 +158,10 @@ class Trail {
     }
     public ArrayList<Coordinate> getRoute(){return this.route;}
     public Trailhead getTrailhead(){return this.trailhead;}
+    public void printSelf(){
+        for(Coordinate c : route){
+            System.out.print(c.getY()+","+ c.getX()+" ");
+        }
+        System.out.println();
+    }
 }
