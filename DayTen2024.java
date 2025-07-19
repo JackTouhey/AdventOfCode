@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class DayTen2024 {
     private static final Integer[][] topographicMap = GridGenerator.generateIntegerGrid("DataFiles\\DayTenTestData.txt");
@@ -12,9 +13,9 @@ public class DayTen2024 {
         }
         int count = 0;
         for(Trailhead head : trailheads){
-            int numRoutes = head.getRoutes().size();
-            count += numRoutes;
-            System.out.println("Trailhead at y: " + head.getStart().getY() + " x: " + head.getStart().getX() + " had numRoutes: " + numRoutes + " currentCount: " + count);
+            int numPeaks = head.getNumberOfReachablePeaks();
+            count += numPeaks;
+            System.out.println("Trailhead at y: " + head.getStart().getY() + " x: " + head.getStart().getX() + " had numPeaks: " + numPeaks + " currentCount: " + count);
         }
     }
     private static ArrayList<Trailhead> findTrailheads(){
@@ -39,8 +40,11 @@ public class DayTen2024 {
     }
     private static void populateRoutes(Trailhead head, Trail currentTrail){
         if(topographicMap[currentTrail.getCurrentPosition().getY()][currentTrail.getCurrentPosition().getX()] == 9){
-            
+            System.out.print("Adding following trail to trailhead: ");
+            head.printSelf();
+            currentTrail.printSelf();
             head.addRoute(currentTrail);
+            head.addPeak(new Coordinate(currentTrail.getCurrentPosition().getX(), currentTrail.getCurrentPosition().getY()));
         }
         else if(!checkIfNextStep(currentTrail)){}
         else{
@@ -132,6 +136,7 @@ public class DayTen2024 {
 }
 class Trailhead {
     private final Coordinate start;
+    private final HashSet<Coordinate> reachablePeaks = new HashSet<>();
     ArrayList<Trail> routes = new ArrayList<>();
     public Trailhead(Coordinate startCoordinate){
         this.start = startCoordinate;
@@ -139,9 +144,21 @@ class Trailhead {
     public void addRoute(Trail r){routes.add(r);}
     public Coordinate getStart(){return this.start;}
     public void printSelf(){
-        System.out.println("Trailhead coordinate x: " + start.getX() + " y: " + start.getY());
+        System.out.println("Trailhead coordinate y: " + start.getY() + " x: " + start.getX());
     }
     public ArrayList<Trail> getRoutes(){return this.routes;}
+    public void addPeak(Coordinate c){
+        Boolean contained = false;
+        for(Coordinate peak : reachablePeaks){
+            if(c.getX() == peak.getX() && c.getY() == peak.getY()){
+                contained = true;
+            }
+        }
+        if(!contained){
+            reachablePeaks.add(c);
+        }
+    }
+    public Integer getNumberOfReachablePeaks(){return reachablePeaks.size();}
 }
 class Trail {
     Trailhead trailhead;
