@@ -20,12 +20,64 @@ public class DayTen2024 {
         return returnList;
     }
     private static void populateRoutes(Trailhead head, Trail currentTrail){
-        if(topographicMap[currentTrail.getFinalCoordinate().getY()][currentTrail.getFinalCoordinate().getX()] == 9){
+        if(topographicMap[currentTrail.getCurrentPosition().getY()][currentTrail.getCurrentPosition().getX()] == 9){
             head.addRoute(currentTrail);
         }
         else{
-
+            if()
         }
+    }
+    private static Boolean checkIfNextStep(Trail currentTrail){
+        Boolean isNextStep = false;
+        
+    }
+    private static Boolean checkIfNorthStep(Trail currentTrail){
+        Boolean isNextStep = false;
+        int currentX = currentTrail.getCurrentPosition().getX();
+        int currentY = currentTrail.getCurrentPosition().getY();
+        Integer nextElevation = topographicMap[currentY][currentX] + 1;
+        if(currentY > 0){
+            if(topographicMap[currentY - 1][currentX].equals(nextElevation)){
+                isNextStep = true;
+            }
+        }
+        return isNextStep;
+    }
+    private static Boolean checkIfSouthStep(Trail currentTrail){
+        Boolean isNextStep = false;
+        int currentX = currentTrail.getCurrentPosition().getX();
+        int currentY = currentTrail.getCurrentPosition().getY();
+        Integer nextElevation = topographicMap[currentY][currentX] + 1;
+        if(currentY < topographicMap.length){
+            if(topographicMap[currentY + 1][currentX].equals(nextElevation)){
+                isNextStep = true;
+            }
+        }
+        return isNextStep;
+    }
+    private static Boolean checkIfEastStep(Trail currentTrail){
+        Boolean isNextStep = false;
+        int currentX = currentTrail.getCurrentPosition().getX();
+        int currentY = currentTrail.getCurrentPosition().getY();
+        Integer nextElevation = topographicMap[currentY][currentX] + 1;
+        if(currentX < topographicMap[currentY].length){
+            if(topographicMap[currentY][currentX + 1].equals(nextElevation)){
+                isNextStep = true;
+            }
+        }
+        return isNextStep;
+    }
+    private static Boolean checkIfWestSteo(Trail currentTrail){
+        Boolean isNextStep = false;
+        int currentX = currentTrail.getCurrentPosition().getX();
+        int currentY = currentTrail.getCurrentPosition().getY();
+        Integer nextElevation = topographicMap[currentY][currentX] + 1;
+        if(currentX > 0){
+            if(topographicMap[currentY][currentX - 1].equals(nextElevation)){
+                isNextStep = true;
+            }
+        }
+        return isNextStep;
     }
 }
 class Trailhead {
@@ -48,7 +100,7 @@ class Trail {
     public void addCoordinate(Coordinate c){
         route.add(c);
     }
-    public Coordinate getFinalCoordinate(){
+    public Coordinate getCurrentPosition(){
         return route.get(route.size()-1);
     }
 }
