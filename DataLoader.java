@@ -105,4 +105,15 @@ public class DataLoader {
         }catch(FileNotFoundException e){}
         return returnList;
     }
+    public static ArrayList<Long> loadLineOfLongs(String filePath){
+        ArrayList<Long> returnList = new ArrayList<>();
+        try(Scanner sc = new Scanner(new File(filePath))) {
+            sc.useDelimiter(" ");
+            while(sc.hasNextLong()){
+                returnList.add(sc.nextLong());
+            }
+            sc.close();
+        }catch(FileNotFoundException e){}
+        return returnList;
+    }
 }
