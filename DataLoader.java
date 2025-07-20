@@ -1,8 +1,9 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
-public class GridGenerator {
+public class DataLoader {
     public static Integer[][] generateIntegerGrid(String filePath){
         Integer[][] returnGrid = new Integer[0][0];
         try {
@@ -92,5 +93,16 @@ public class GridGenerator {
             }
             System.out.println();
         }
+    }
+    public static ArrayList<Integer> loadLineOfIntegers(String filePath){
+        ArrayList<Integer> returnList = new ArrayList<>();
+        try(Scanner sc = new Scanner(new File(filePath))) {
+            sc.useDelimiter(" ");
+            while(sc.hasNextInt()){
+                returnList.add(sc.nextInt());
+            }
+            sc.close();
+        }catch(FileNotFoundException e){}
+        return returnList;
     }
 }
