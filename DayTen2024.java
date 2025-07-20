@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class DayTen2024 {
-    private static final Integer[][] topographicMap = GridGenerator.generateIntegerGrid("DataFiles\\DayTenData.txt");
+    private static final Integer[][] topographicMap = DataLoader.generateIntegerGrid("DataFiles\\DayTenData.txt");
     private static final ArrayList<Trailhead> trailheads = findTrailheads();
     public static void main(String[] args) {
         for(Trailhead head : trailheads){
