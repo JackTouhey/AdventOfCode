@@ -26,8 +26,10 @@
 
 
 ## AI use disclosure:
-[2024 Day 5](https://github.com/JackTouhey/AdventOfCode/blob/main/DayFive2024.java) 
+[2024 Day 5](https://github.com/JackTouhey/AdventOfCode/blob/main/DayFive2024.java) - Implementation of permutation generator for a given ArrayList of Integers
 
-[2024 Day 9](https://github.com/JackTouhey/AdventOfCode/blob/main/DayNine2024.java)
+[2024 Day 9](https://github.com/JackTouhey/AdventOfCode/blob/main/DayNine2024.java) - Implementation of Kahn's topographical sorting algorithm
 
-[2024 day 11](https://github.com/JackTouhey/AdventOfCode/blob/main/DayEleven2024.java)
+[2024 day 11](https://github.com/JackTouhey/AdventOfCode/blob/main/DayEleven2024.java) - Optimisation of problem 1 solution to allow handling of large data sets
+
+[Coordinate](https://github.com/JackTouhey/AdventOfCode/blob/main/Coordinate.java) - Overrides to allow proper functionality in sets
