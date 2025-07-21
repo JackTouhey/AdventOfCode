@@ -116,4 +116,41 @@ public class DataLoader {
         }catch(FileNotFoundException e){}
         return returnList;
     }
+    public static char[][] generateCharGrid(String filePath){
+        char[][] returnGrid = new char[0][0];
+        try {
+            File dataFile= new File(filePath);
+            Scanner sc = new Scanner(dataFile);
+            sc.useDelimiter("");
+            char[][] grid = createCharArray(sc);
+            Scanner sc2 = new Scanner(dataFile);
+            sc2.useDelimiter("");
+            returnGrid = populateCharArray(sc2, grid);
+        } catch (FileNotFoundException e) {
+        }
+        return returnGrid;
+    }
+    private static char[][] createCharArray(Scanner sc){
+        int height = 1;
+        String rowOne = sc.nextLine();
+        int width = rowOne.length();
+        while(sc.hasNext()){
+            height++;
+            sc.nextLine();
+        }
+        char[][] grid = new char[height][width];
+        return grid;
+    }
+    private static char[][] populateCharArray(Scanner sc, char[][] grid){
+        for (char[] row : grid) {
+            try (Scanner sc2 = new Scanner(sc.nextLine())) {
+                for (int ii = 0; ii < row.length; ii++) {
+                    sc2.useDelimiter("");
+                    char next = sc2.next().charAt(0);
+                    row[ii] = next;
+                }
+            } catch (Exception e) {}
+        }
+        return grid;
+    }
 }
