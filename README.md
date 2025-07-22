@@ -1,3 +1,6 @@
+# To allow unit testing from Day 12 2024 onwards everything has migrated to a new Maven managed project in the below repository
+[https://github.com/JackTouhey/AdventOfCodeUT](https://github.com/JackTouhey/AdventOfCodeUT)
+
 ## Examples of specific skills
 ### Use of model classes
 [2024 Day 2](https://github.com/JackTouhey/AdventOfCode/blob/main/DayEleven2024.java)
